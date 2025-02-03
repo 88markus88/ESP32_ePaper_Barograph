@@ -1,0 +1,1035 @@
+16:36:53.702 > ESP-ROM:esp32s3-20210327
+16:36:53.707 > Build:Mar 27 2021
+16:36:53.707 > rst:0x1 (POWERON),boot:0x2b (SPI_FAST_FLASH_BOOT)
+16:36:53.713 > SPIWP:0xee
+16:36:53.713 > mode:DIO, clock div:1
+16:36:53.715 > load:0x3fce3808,len:0x4bc
+16:36:53.718 > load:0x403c9700,len:0xbd8
+16:36:53.718 > load:0x403cc700,len:0x2a0c
+16:36:53.721 > entry 0x403c98d0
+16:36:53.845 > **********************************************************
+16:36:53.848 > * ePaperBarograf V0.20 - 2025-02-03 
+16:36:53.854 > **********************************************************
+16:36:53.856 > [   156][E][Preferences.cpp:503] getBytesLength(): nvs_get_blob len fail: prefs NOT_FOUND
+16:36:53.872 > Read Preferences: pcorr: 0 pval: 0.0 Inv: 0 measInt:225 TRange:21 Graph: 7
+16:36:53.878 > Read Preferences: bytes: 0 startCounter: 0 dischgCnt 0 prevVoltage 0.000, prevMicrovolt 0 
+16:36:53.887 > Filling test data
+16:36:56.384 > ************** fill test data 0 ********************
+16:36:56.387 > Min/Max Tstdata: P: 994.0-1034.0 T:  18.0-22.0 H: 326-534
+16:36:56.392 > Tstdata: Time: 2.073069 sec
+16:36:56.394 > Wrote Counter Preferences: ret: 16 ctrM:0 ctrD:0 prevMV:0 [3]:0
+16:36:56.400 > Wrote Preferences: pcorr: 0 pval: 0.0 Inv: 0 measInt:225 TRange:21
+16:36:56.405 > Wrote Preferences: ret values: 16 1 4 1 4 4
+16:36:56.409 > 
+16:36:56.411 > before initDisplay()
+16:36:56.519 > Testing panel
+16:36:59.525 > +++++++ Full window clearing
+16:36:59.670 > -- Weather Station Scenario --
+16:36:59.673 > forced mode, 1x temperature / 1x humidity / 1x pressure oversampling,
+16:36:59.679 > filter off
+16:36:59.679 > Wakeup was not caused by deep sleep: 0
+16:36:59.681 > DoWork. nowSec: 5 nowUsec: 872258 measSec: 2 measUsec:73069 lastSleepAftM: 0
+16:36:59.691 > DoWork. now: 5.872258 lastMeas: 2.073069 elapsed s:3 usec:3799189 ReadytoMeas: 1
+16:36:59.774 > Pressure: 1013.9 mBar Humidity: 40.0 % Temperature: 20.2 °C 
+16:36:59.777 > After Measurement. now: 5.965111 lastMeas: 2.073069 elapsedUsec 3892042
+16:36:59.785 > Timestamps before assignment.last: 2.073069 last2: 0.072920
+16:36:59.790 > Timestamps after assignment. last: 5.975453 last2: 2.073069
+16:36:59.796 > [  6086][E][esp32-hal-adc.c:158] __analogReadRaw(): Pin 35 is not ADC pin!
+16:36:59.801 >  readval: 0 Voltage: 0.00 Percent: 0.0
+16:36:59.804 > Voltage: 0.000 prevVoltage: 0.000 Percent: 0.0
+16:36:59.810 > target sleep time: 225000000 WData.mIS: 225, SEC: 1000000
+16:36:59.812 > Min/Max StorMeasedata: P: 994.0-1014.0 T:  18.0-22.0 H:  326-534
+16:36:59.820 > 3h:288 t:10800 Pold:994.00 Pnew:1013.91 3hC:19.912 Told:21.90, Tnew:20.16 3hC:-1.741 Hold:511.00 Hnew:400.00 3hC:-11.100
+16:36:59.829 > Pressure, Temperature and Humidity graphics. graphicsType: 7
+16:36:59.851 > PrepGraphParam: Min/Max: P: 994.0-1013.9 T:  18.0-22.0 H: 355-534
+16:36:59.857 > oldest: 64800 youngest: 0 timerange_sec: 64800 timerange_hours: 18
+16:36:59.862 > lowestTimeHours: -18 highestTimeHours: 0
+16:36:59.865 > time[0] -15: time[1] -12: time[2] -9: time[3] -6: time[4] -3: 
+16:36:59.870 > PressHistoryMax: 1013.9 pressHistoryMin: 994.0 displayRange:40.000000
+16:36:59.876 > cvTop: 87 cvHeight:200 lowestP: 980 displayRange:40.000000
+16:36:59.882 > i: 48 x0: 58 y0: 217 x1: 59 y1: 217 age: 64800 64575 p: 994.000000 994.000000
+16:36:59.887 > i: 49 x0: 59 y0: 217 x1: 60 y1: 217 age: 64575 64350 p: 994.000000 994.000000
+16:36:59.896 > i: 333 x0: 343 y0: 217 x1: 344 y1: 217 age: 675 450 p: 994.000000 994.000000
+16:36:59.901 > i: 334 x0: 344 y0: 217 x1: 345 y1: 117 age: 450 0 p: 994.000000 1013.911926
+16:36:59.910 > tempHistoryMax: 21.999985 tempHistoryMin:18.000019
+16:36:59.912 > cvTop: 87 cvHeight:200 lowestT: 16 highestT: 24 displayRange:8.000000
+16:36:59.918 > i: 48 x0: 58 y0: 155 x1: 59 y1: 157 age: 64800 64575 p: 21.275530 21.196945
+16:36:59.927 > i: 49 x0: 59 y0: 157 x1: 60 y1: 159 age: 64575 64350 p: 21.196945 21.115368
+16:36:59.932 > i: 333 x0: 343 y0: 228 x1: 344 y1: 230 age: 675 450 p: 18.325716 18.273132
+16:36:59.940 > i: 334 x0: 344 y0: 230 x1: 345 y1: 183 age: 450 0 p: 18.273132 20.160000
+16:36:59.946 > humiHMax: 534 humiHMin:355 (‰) humidityRangePercent: 17.900000
+16:36:59.952 > cvTop: 87 cvHeight:200 lowestH[‰]: 200 highestH[‰]: 600 displayRange:40.000000
+16:36:59.958 > WData.lHP: 200 wData.hHP 600 wData.ydR: 40.000000
+16:36:59.963 > i: 48 x0: 58 y0: 209 x1: 59 y1: 206 h: 35.500000 36.200001 wData.lH%: 20.000000 promille: 200
+16:36:59.971 > i: 49 x0: 59 y0: 206 x1: 60 y1: 205 h: 36.200001 36.400002 wData.lH%: 20.000000 promille: 200
+16:36:59.980 > i: 333 x0: 343 y0: 129 x1: 344 y1: 127 h: 51.599998 52.000000 wData.lH%: 20.000000 promille: 200
+16:36:59.988 > i: 334 x0: 344 y0: 127 x1: 345 y1: 187 h: 52.000000 40.000000 wData.lH%: 20.000000 promille: 200
+16:37:01.343 > _Update_Full : 1221000
+16:37:02.681 > _Update_Full : 1221000
+16:37:02.798 > measurement and display done
+16:37:02.801 > Wrote Counter Preferences: ret: 16 ctrM:1 ctrD:1 prevMV:0 [3]:0
+16:37:02.807 > Wrote Preferences: pcorr: 0 pval: 0.0 Inv: 0 measInt:225 TRange:18
+16:37:02.814 > Wrote Preferences: ret values: 16 1 4 1 4 4
+16:37:02.816 > 
+16:37:02.816 > simplified sleep calc. targetSlUSec: 225000000 startTM:145 measTM: 5993 actTM:9115 sleeptime: 216030000
+16:37:02.824 > Hibernating for target 225 sec: 216030000 usec (act millis: 9125 start millis: 145)
+16:40:38.139 > ESP-ROM:esp32s3-20210327
+16:40:38.144 > Build:Mar 27 2021
+16:40:38.144 > rst:0x5 (DSLEEP),boot:0x2b (SPI_FAST_FLASH_BOOT)
+16:40:38.150 > pro cpu reset by JTAG
+16:40:38.150 > SPIWP:0xee
+16:40:38.152 > mode:DIO, clock div:1
+16:40:38.152 > load:0x3fce3808,len:0x4bc
+16:40:38.155 > load:0x403c9700,len:0xbd8
+16:40:38.158 > load:0x403cc700,len:0x2a0c
+16:40:38.160 > entry 0x403c98d0
+16:40:38.211 > **********************************************************
+16:40:38.215 > * ePaperBarograf V0.20 - 2025-02-03 
+16:40:38.220 > **********************************************************
+16:40:38.223 > [    84][E][Preferences.cpp:503] getBytesLength(): nvs_get_blob len fail: prefs NOT_FOUND
+16:40:38.238 > Read Preferences: pcorr: 0 pval: 0.0 Inv: 0 measInt:225 TRange:18 Graph: 7
+16:40:38.244 > Read Preferences: bytes: 0 startCounter: 1 dischgCnt 1 prevVoltage 0.000, prevMicrovolt 0 
+16:40:38.253 > before initDisplay()
+16:40:38.358 > Testing panel
+16:40:41.364 > ------- Partial window clearing
+16:40:41.510 > -- Weather Station Scenario --
+16:40:41.513 > forced mode, 1x temperature / 1x humidity / 1x pressure oversampling,
+16:40:41.519 > filter off
+16:40:41.519 > Wakeup caused by timer
+16:40:41.522 > DoWork. nowSec: 228 nowUsec: 420367 measSec: 5 measUsec:975453 lastSleepAftM: 216030000
+16:40:41.530 > DoWork. now: 228.420367 lastMeas: 5.975453 elapsed s:223 usec:222444914 ReadytoMeas: 1
+16:40:41.612 > Pressure: 1014.0 mBar Humidity: 40.1 % Temperature: 20.0 °C 
+16:40:41.616 > After Measurement. now: 228.523536 lastMeas: 5.975453 elapsedUsec 222548083
+16:40:41.625 > Timestamps before assignment.last: 5.975453 last2: 2.073069
+16:40:41.630 > Timestamps after assignment. last: 228.533968 last2: 5.975453
+16:40:41.635 > [  3488][E][esp32-hal-adc.c:158] __analogReadRaw(): Pin 35 is not ADC pin!
+16:40:41.641 >  readval: 0 Voltage: 0.00 Percent: 0.0
+16:40:41.644 > Voltage: 0.000 prevVoltage: 0.000 Percent: 0.0
+16:40:41.649 > target sleep time: 225000000 WData.mIS: 225, SEC: 1000000
+16:40:41.654 > Min/Max StorMeasedata: P: 994.0-1014.0 T:  18.0-22.0 H:  326-534
+16:40:41.661 > 3h:288 t:10800 Pold:994.00 Pnew:1014.01 3hC:20.015 Told:21.87, Tnew:19.99 3hC:-1.878 Hold:506.00 Hnew:401.00 3hC:-10.500
+16:40:41.668 > Pressure, Temperature and Humidity graphics. graphicsType: 7
+16:40:41.691 > PrepGraphParam: Min/Max: P: 994.0-1014.0 T:  18.0-22.0 H: 355-534
+16:40:41.698 > oldest: 64800 youngest: 0 timerange_sec: 64800 timerange_hours: 18
+16:40:41.703 > lowestTimeHours: -18 highestTimeHours: 0
+16:40:41.706 > time[0] -15: time[1] -12: time[2] -9: time[3] -6: time[4] -3: 
+16:40:41.711 > PressHistoryMax: 1014.0 pressHistoryMin: 994.0 displayRange:100.000000
+16:40:41.716 > cvTop: 87 cvHeight:200 lowestP: 950 displayRange:100.000000
+16:40:41.722 > i: 48 x0: 58 y0: 199 x1: 59 y1: 199 age: 64800 64575 p: 994.000000 994.000000
+16:40:41.728 > i: 49 x0: 59 y0: 199 x1: 60 y1: 199 age: 64575 64350 p: 994.000000 994.000000
+16:40:41.739 > i: 333 x0: 343 y0: 199 x1: 344 y1: 159 age: 675 225 p: 994.000000 1013.911926
+16:40:41.745 > i: 334 x0: 344 y0: 159 x1: 345 y1: 158 age: 225 0 p: 1013.911926 1014.014526
+16:40:41.751 > tempHistoryMax: 21.999985 tempHistoryMin:18.000019
+16:40:41.756 > cvTop: 87 cvHeight:200 lowestT: 16 highestT: 24 displayRange:8.000000
+16:40:41.761 > i: 48 x0: 58 y0: 157 x1: 59 y1: 159 age: 64800 64575 p: 21.196945 21.115368
+16:40:41.769 > i: 49 x0: 59 y0: 159 x1: 60 y1: 161 age: 64575 64350 p: 21.115368 21.031002
+16:40:41.776 > i: 333 x0: 343 y0: 230 x1: 344 y1: 183 age: 675 225 p: 18.273132 20.160000
+16:40:41.781 > i: 334 x0: 344 y0: 183 x1: 345 y1: 187 age: 225 0 p: 20.160000 19.990000
+16:40:41.789 > humiHMax: 534 humiHMin:355 (‰) humidityRangePercent: 17.900000
+16:40:41.795 > cvTop: 87 cvHeight:200 lowestH[‰]: 200 highestH[‰]: 600 displayRange:40.000000
+16:40:41.801 > WData.lHP: 200 wData.hHP 600 wData.ydR: 40.000000
+16:40:41.806 > i: 48 x0: 58 y0: 206 x1: 59 y1: 205 h: 36.200001 36.400002 wData.lH%: 20.000000 promille: 200
+16:40:41.814 > i: 49 x0: 59 y0: 205 x1: 60 y1: 201 h: 36.400002 37.099998 wData.lH%: 20.000000 promille: 200
+16:40:41.822 > i: 333 x0: 343 y0: 127 x1: 344 y1: 187 h: 52.000000 40.000000 wData.lH%: 20.000000 promille: 200
+16:40:41.831 > i: 334 x0: 344 y0: 187 x1: 345 y1: 186 h: 40.000000 40.099998 wData.lH%: 20.000000 promille: 200
+16:40:42.269 > _Update_Part : 357999
+16:40:42.384 > measurement and display done
+16:40:42.385 > simplified sleep calc. targetSlUSec: 225000000 startTM:73 measTM: 3395 actTM:4247 sleeptime: 220826000
+16:40:42.396 > Hibernating for target 225 sec: 220826000 usec (act millis: 4257 start millis: 73)
+16:40:42.476 > _PowerOff : 81001
+16:44:23.090 > ESP-ROM:esp32s3-20210327
+16:44:23.094 > Build:Mar 27 2021
+16:44:23.094 > rst:0x5 (DSLEEP),boot:0x2b (SPI_FAST_FLASH_BOOT)
+16:44:23.100 > pro cpu reset by JTAG
+16:44:23.100 > SPIWP:0xee
+16:44:23.103 > mode:DIO, clock div:1
+16:44:23.103 > load:0x3fce3808,len:0x4bc
+16:44:23.106 > load:0x403c9700,len:0xbd8
+16:44:23.108 > load:0x403cc700,len:0x2a0c
+16:44:23.111 > entry 0x403c98d0
+16:44:23.161 > **********************************************************
+16:44:23.164 > * ePaperBarograf V0.20 - 2025-02-03 
+16:44:23.170 > **********************************************************
+16:44:23.172 > [    84][E][Preferences.cpp:503] getBytesLength(): nvs_get_blob len fail: prefs NOT_FOUND
+16:44:23.189 > Read Preferences: pcorr: 0 pval: 0.0 Inv: 0 measInt:225 TRange:18 Graph: 7
+16:44:23.195 > Read Preferences: bytes: 0 startCounter: 2 dischgCnt 2 prevVoltage 0.000, prevMicrovolt 0 
+16:44:23.204 > before initDisplay()
+16:44:23.310 > Testing panel
+16:44:26.316 > +++++++ Full window clearing
+16:44:26.461 > -- Weather Station Scenario --
+16:44:26.463 > forced mode, 1x temperature / 1x humidity / 1x pressure oversampling,
+16:44:26.469 > filter off
+16:44:26.469 > Wakeup caused by timer
+16:44:26.472 > DoWork. nowSec: 453 nowUsec: 585903 measSec: 228 measUsec:533968 lastSleepAftM: 220826000
+16:44:26.480 > DoWork. now: 453.585903 lastMeas: 228.533968 elapsed s:225 usec:225051935 ReadytoMeas: 1
+16:44:26.563 > Pressure: 1014.1 mBar Humidity: 40.2 % Temperature: 19.9 °C 
+16:44:26.567 > After Measurement. now: 453.689070 lastMeas: 228.533968 elapsedUsec 225155102
+16:44:26.575 > Timestamps before assignment.last: 228.533968 last2: 5.975453
+16:44:26.580 > Timestamps after assignment. last: 453.699504 last2: 228.533968
+16:44:26.586 > [  3488][E][esp32-hal-adc.c:158] __analogReadRaw(): Pin 35 is not ADC pin!
+16:44:26.591 >  readval: 0 Voltage: 0.00 Percent: 0.0
+16:44:26.597 > Voltage: 0.000 prevVoltage: 0.000 Percent: 0.0
+16:44:26.600 > target sleep time: 225000000 WData.mIS: 225, SEC: 1000000
+16:44:26.605 > Min/Max StorMeasedata: P: 994.0-1014.1 T:  18.0-22.0 H:  326-534
+16:44:26.611 > 3h:288 t:10800 Pold:994.00 Pnew:1014.05 3hC:20.053 Told:21.83, Tnew:19.90 3hC:-1.930 Hold:503.00 Hnew:402.00 3hC:-10.100
+16:44:26.621 > Pressure, Temperature and Humidity graphics. graphicsType: 7
+16:44:26.642 > PrepGraphParam: Min/Max: P: 994.0-1014.1 T:  18.0-22.0 H: 355-534
+16:44:26.647 > oldest: 64800 youngest: 0 timerange_sec: 64800 timerange_hours: 18
+16:44:26.654 > lowestTimeHours: -18 highestTimeHours: 0
+16:44:26.657 > time[0] -15: time[1] -12: time[2] -9: time[3] -6: time[4] -3: 
+16:44:26.662 > PressHistoryMax: 1014.1 pressHistoryMin: 994.0 displayRange:100.000000
+16:44:26.667 > cvTop: 87 cvHeight:200 lowestP: 950 displayRange:100.000000
+16:44:26.673 > i: 48 x0: 58 y0: 199 x1: 59 y1: 199 age: 64800 64575 p: 994.000000 994.000000
+16:44:26.678 > i: 49 x0: 59 y0: 199 x1: 60 y1: 199 age: 64575 64350 p: 994.000000 994.000000
+16:44:26.690 > i: 333 x0: 343 y0: 159 x1: 344 y1: 158 age: 450 225 p: 1013.911926 1014.014526
+16:44:26.696 > i: 334 x0: 344 y0: 158 x1: 345 y1: 158 age: 225 0 p: 1014.014526 1014.053284
+16:44:26.701 > tempHistoryMax: 21.999985 tempHistoryMin:18.000019
+16:44:26.707 > cvTop: 87 cvHeight:200 lowestT: 16 highestT: 24 displayRange:8.000000
+16:44:26.712 > i: 48 x0: 58 y0: 159 x1: 59 y1: 161 age: 64800 64575 p: 21.115368 21.031002
+16:44:26.720 > i: 49 x0: 59 y0: 161 x1: 60 y1: 163 age: 64575 64350 p: 21.031002 20.944061
+16:44:26.726 > i: 333 x0: 343 y0: 183 x1: 344 y1: 187 age: 450 225 p: 20.160000 19.990000
+16:44:26.732 > i: 334 x0: 344 y0: 187 x1: 345 y1: 189 age: 225 0 p: 19.990000 19.900000
+16:44:26.740 > humiHMax: 534 humiHMin:355 (‰) humidityRangePercent: 17.900000
+16:44:26.746 > cvTop: 87 cvHeight:200 lowestH[‰]: 200 highestH[‰]: 600 displayRange:40.000000
+16:44:26.750 > WData.lHP: 200 wData.hHP 600 wData.ydR: 40.000000
+16:44:26.756 > i: 48 x0: 58 y0: 205 x1: 59 y1: 201 h: 36.400002 37.099998 wData.lH%: 20.000000 promille: 200
+16:44:26.765 > i: 49 x0: 59 y0: 201 x1: 60 y1: 201 h: 37.099998 37.200001 wData.lH%: 20.000000 promille: 200
+16:44:26.773 > i: 333 x0: 343 y0: 187 x1: 344 y1: 186 h: 40.000000 40.099998 wData.lH%: 20.000000 promille: 200
+16:44:26.782 > i: 334 x0: 344 y0: 186 x1: 345 y1: 186 h: 40.099998 40.200001 wData.lH%: 20.000000 promille: 200
+16:44:28.134 > _Update_Full : 1220999
+16:44:29.472 > _Update_Full : 1221000
+16:44:29.588 > measurement and display done
+16:44:29.588 > simplified sleep calc. targetSlUSec: 225000000 startTM:73 measTM: 3395 actTM:6500 sleeptime: 218573000
+16:44:29.599 > Hibernating for target 225 sec: 218573000 usec (act millis: 6510 start millis: 73)
+16:48:08.078 > ESP-ROM:esp32s3-20210327
+16:48:08.082 > Build:Mar 27 2021
+16:48:08.082 > rst:0x5 (DSLEEP),boot:0x2b (SPI_FAST_FLASH_BOOT)
+16:48:08.088 > pro cpu reset by JTAG
+16:48:08.088 > SPIWP:0xee
+16:48:08.090 > mode:DIO, clock div:1
+16:48:08.090 > load:0x3fce3808,len:0x4bc
+16:48:08.093 > load:0x403c9700,len:0xbd8
+16:48:08.096 > load:0x403cc700,len:0x2a0c
+16:48:08.098 > entry 0x403c98d0
+16:48:08.150 > **********************************************************
+16:48:08.152 > * ePaperBarograf V0.20 - 2025-02-03 
+16:48:08.157 > **********************************************************
+16:48:08.161 > [    84][E][Preferences.cpp:503] getBytesLength(): nvs_get_blob len fail: prefs NOT_FOUND
+16:48:08.177 > Read Preferences: pcorr: 0 pval: 0.0 Inv: 0 measInt:225 TRange:18 Graph: 7
+16:48:08.183 > Read Preferences: bytes: 0 startCounter: 3 dischgCnt 3 prevVoltage 0.000, prevMicrovolt 0 
+16:48:08.192 > before initDisplay()
+16:48:08.297 > Testing panel
+16:48:11.303 > ------- Partial window clearing
+16:48:11.448 > -- Weather Station Scenario --
+16:48:11.450 > forced mode, 1x temperature / 1x humidity / 1x pressure oversampling,
+16:48:11.457 > filter off
+16:48:11.457 > Wakeup caused by timer
+16:48:11.460 > DoWork. nowSec: 678 nowUsec: 669761 measSec: 453 measUsec:699504 lastSleepAftM: 218573000
+16:48:11.467 > DoWork. now: 678.669761 lastMeas: 453.699504 elapsed s:225 usec:224970257 ReadytoMeas: 1
+16:48:11.551 > Pressure: 1014.0 mBar Humidity: 40.3 % Temperature: 19.9 °C 
+16:48:11.555 > After Measurement. now: 678.772929 lastMeas: 453.699504 elapsedUsec 225073425
+16:48:11.563 > Timestamps before assignment.last: 453.699504 last2: 228.533968
+16:48:11.568 > Timestamps after assignment. last: 678.783367 last2: 453.699504
+16:48:11.573 > [  3488][E][esp32-hal-adc.c:158] __analogReadRaw(): Pin 35 is not ADC pin!
+16:48:11.580 >  readval: 0 Voltage: 0.00 Percent: 0.0
+16:48:11.585 > Voltage: 0.000 prevVoltage: 0.000 Percent: 0.0
+16:48:11.588 > target sleep time: 225000000 WData.mIS: 225, SEC: 1000000
+16:48:11.592 > Min/Max StorMeasedata: P: 994.0-1014.1 T:  18.0-22.0 H:  326-534
+16:48:11.598 > 3h:288 t:10800 Pold:994.00 Pnew:1014.00 3hC:19.996 Told:21.79, Tnew:19.86 3hC:-1.928 Hold:498.00 Hnew:403.00 3hC:-9.500
+16:48:11.610 > Pressure, Temperature and Humidity graphics. graphicsType: 7
+16:48:11.631 > PrepGraphParam: Min/Max: P: 994.0-1014.1 T:  18.0-22.0 H: 355-534
+16:48:11.636 > oldest: 64800 youngest: 0 timerange_sec: 64800 timerange_hours: 18
+16:48:11.642 > lowestTimeHours: -18 highestTimeHours: 0
+16:48:11.645 > time[0] -15: time[1] -12: time[2] -9: time[3] -6: time[4] -3: 
+16:48:11.650 > PressHistoryMax: 1014.1 pressHistoryMin: 994.0 displayRange:100.000000
+16:48:11.655 > cvTop: 87 cvHeight:200 lowestP: 950 displayRange:100.000000
+16:48:11.661 > i: 48 x0: 58 y0: 199 x1: 59 y1: 199 age: 64800 64575 p: 994.000000 994.000000
+16:48:11.666 > i: 49 x0: 59 y0: 199 x1: 60 y1: 199 age: 64575 64350 p: 994.000000 994.000000
+16:48:11.678 > i: 333 x0: 343 y0: 158 x1: 344 y1: 158 age: 450 225 p: 1014.014526 1014.053284
+16:48:11.684 > i: 334 x0: 344 y0: 158 x1: 345 y1: 159 age: 225 0 p: 1014.053284 1013.995789
+16:48:11.689 > tempHistoryMax: 21.999985 tempHistoryMin:18.000019
+16:48:11.695 > cvTop: 87 cvHeight:200 lowestT: 16 highestT: 24 displayRange:8.000000
+16:48:11.700 > i: 48 x0: 58 y0: 161 x1: 59 y1: 163 age: 64800 64575 p: 21.031002 20.944061
+16:48:11.709 > i: 49 x0: 59 y0: 163 x1: 60 y1: 165 age: 64575 64350 p: 20.944061 20.854759
+16:48:11.714 > i: 333 x0: 343 y0: 187 x1: 344 y1: 189 age: 450 225 p: 19.990000 19.900000
+16:48:11.719 > i: 334 x0: 344 y0: 189 x1: 345 y1: 190 age: 225 0 p: 19.900000 19.860001
+16:48:11.728 > humiHMax: 534 humiHMin:355 (‰) humidityRangePercent: 17.900000
+16:48:11.734 > cvTop: 87 cvHeight:200 lowestH[‰]: 200 highestH[‰]: 600 displayRange:40.000000
+16:48:11.739 > WData.lHP: 200 wData.hHP 600 wData.ydR: 40.000000
+16:48:11.745 > i: 48 x0: 58 y0: 201 x1: 59 y1: 201 h: 37.099998 37.200001 wData.lH%: 20.000000 promille: 200
+16:48:11.753 > i: 49 x0: 59 y0: 201 x1: 60 y1: 201 h: 37.200001 37.099998 wData.lH%: 20.000000 promille: 200
+16:48:11.762 > i: 333 x0: 343 y0: 186 x1: 344 y1: 186 h: 40.099998 40.200001 wData.lH%: 20.000000 promille: 200
+16:48:11.770 > i: 334 x0: 344 y0: 186 x1: 345 y1: 185 h: 40.200001 40.299999 wData.lH%: 20.000000 promille: 200
+16:48:12.206 > _Update_Part : 357999
+16:48:12.323 > measurement and display done
+16:48:12.323 > simplified sleep calc. targetSlUSec: 225000000 startTM:73 measTM: 3395 actTM:4247 sleeptime: 220826000
+16:48:12.333 > Hibernating for target 225 sec: 220826000 usec (act millis: 4257 start millis: 73)
+16:48:12.415 > _PowerOff : 81001
+16:51:53.153 > ESP-ROM:esp32s3-20210327
+16:51:53.157 > Build:Mar 27 2021
+16:51:53.158 > rst:0x5 (DSLEEP),boot:0x2b (SPI_FAST_FLASH_BOOT)
+16:51:53.163 > pro cpu reset by JTAG
+16:51:53.163 > SPIWP:0xee
+16:51:53.166 > mode:DIO, clock div:1
+16:51:53.166 > load:0x3fce3808,len:0x4bc
+16:51:53.168 > load:0x403c9700,len:0xbd8
+16:51:53.171 > load:0x403cc700,len:0x2a0c
+16:51:53.174 > entry 0x403c98d0
+16:51:53.225 > **********************************************************
+16:51:53.228 > * ePaperBarograf V0.20 - 2025-02-03 
+16:51:53.233 > **********************************************************
+16:51:53.236 > [    84][E][Preferences.cpp:503] getBytesLength(): nvs_get_blob len fail: prefs NOT_FOUND
+16:51:53.252 > Read Preferences: pcorr: 0 pval: 0.0 Inv: 0 measInt:225 TRange:18 Graph: 7
+16:51:53.258 > Read Preferences: bytes: 0 startCounter: 4 dischgCnt 4 prevVoltage 0.000, prevMicrovolt 0 
+16:51:53.268 > before initDisplay()
+16:51:53.373 > Testing panel
+16:51:56.379 > +++++++ Full window clearing
+16:51:56.524 > -- Weather Station Scenario --
+16:51:56.527 > forced mode, 1x temperature / 1x humidity / 1x pressure oversampling,
+16:51:56.533 > filter off
+16:51:56.533 > Wakeup caused by timer
+16:51:56.535 > DoWork. nowSec: 903 nowUsec: 835251 measSec: 678 measUsec:783367 lastSleepAftM: 220826000
+16:51:56.543 > DoWork. now: 903.835251 lastMeas: 678.783367 elapsed s:225 usec:225051884 ReadytoMeas: 1
+16:51:56.627 > Pressure: 1014.0 mBar Humidity: 40.2 % Temperature: 19.8 °C 
+16:51:56.630 > After Measurement. now: 903.938420 lastMeas: 678.783367 elapsedUsec 225155053
+16:51:56.638 > Timestamps before assignment.last: 678.783367 last2: 453.699504
+16:51:56.644 > Timestamps after assignment. last: 903.948851 last2: 678.783367
+16:51:56.649 > [  3488][E][esp32-hal-adc.c:158] __analogReadRaw(): Pin 35 is not ADC pin!
+16:51:56.654 >  readval: 0 Voltage: 0.00 Percent: 0.0
+16:51:56.660 > Voltage: 0.000 prevVoltage: 0.000 Percent: 0.0
+16:51:56.663 > target sleep time: 225000000 WData.mIS: 225, SEC: 1000000
+16:51:56.668 > Min/Max StorMeasedata: P: 994.0-1014.1 T:  18.0-22.0 H:  326-534
+16:51:56.674 > 3h:288 t:10800 Pold:994.00 Pnew:1013.96 3hC:19.959 Told:21.74, Tnew:19.81 3hC:-1.931 Hold:501.00 Hnew:402.00 3hC:-9.900
+16:51:56.684 > Pressure, Temperature and Humidity graphics. graphicsType: 7
+16:51:56.706 > PrepGraphParam: Min/Max: P: 994.0-1014.1 T:  18.0-22.0 H: 355-534
+16:51:56.712 > oldest: 64800 youngest: 0 timerange_sec: 64800 timerange_hours: 18
+16:51:56.717 > lowestTimeHours: -18 highestTimeHours: 0
+16:51:56.720 > time[0] -15: time[1] -12: time[2] -9: time[3] -6: time[4] -3: 
+16:51:56.725 > PressHistoryMax: 1014.1 pressHistoryMin: 994.0 displayRange:100.000000
+16:51:56.732 > cvTop: 87 cvHeight:200 lowestP: 950 displayRange:100.000000
+16:51:56.736 > i: 48 x0: 58 y0: 199 x1: 59 y1: 199 age: 64800 64575 p: 994.000000 994.000000
+16:51:56.741 > i: 49 x0: 59 y0: 199 x1: 60 y1: 199 age: 64575 64350 p: 994.000000 994.000000
+16:51:56.753 > i: 333 x0: 343 y0: 158 x1: 344 y1: 159 age: 450 225 p: 1014.053284 1013.995789
+16:51:56.759 > i: 334 x0: 344 y0: 159 x1: 345 y1: 159 age: 225 0 p: 1013.995789 1013.958618
+16:51:56.765 > tempHistoryMax: 21.999985 tempHistoryMin:18.000019
+16:51:56.770 > cvTop: 87 cvHeight:200 lowestT: 16 highestT: 24 displayRange:8.000000
+16:51:56.775 > i: 48 x0: 58 y0: 163 x1: 59 y1: 165 age: 64800 64575 p: 20.944061 20.854759
+16:51:56.785 > i: 49 x0: 59 y0: 165 x1: 60 y1: 167 age: 64575 64350 p: 20.854759 20.763323
+16:51:56.790 > i: 333 x0: 343 y0: 189 x1: 344 y1: 190 age: 450 225 p: 19.900000 19.860001
+16:51:56.796 > i: 334 x0: 344 y0: 190 x1: 345 y1: 191 age: 225 0 p: 19.860001 19.809999
+16:51:56.804 > humiHMax: 534 humiHMin:355 (‰) humidityRangePercent: 17.900000
+16:51:56.809 > cvTop: 87 cvHeight:200 lowestH[‰]: 200 highestH[‰]: 600 displayRange:40.000000
+16:51:56.815 > WData.lHP: 200 wData.hHP 600 wData.ydR: 40.000000
+16:51:56.820 > i: 48 x0: 58 y0: 201 x1: 59 y1: 201 h: 37.200001 37.099998 wData.lH%: 20.000000 promille: 200
+16:51:56.829 > i: 49 x0: 59 y0: 201 x1: 60 y1: 208 h: 37.099998 35.799999 wData.lH%: 20.000000 promille: 200
+16:51:56.836 > i: 333 x0: 343 y0: 186 x1: 344 y1: 185 h: 40.200001 40.299999 wData.lH%: 20.000000 promille: 200
+16:51:56.845 > i: 334 x0: 344 y0: 185 x1: 345 y1: 186 h: 40.299999 40.200001 wData.lH%: 20.000000 promille: 200
+16:51:58.197 > _Update_Full : 1220999
+16:51:59.535 > _Update_Full : 1221000
+16:51:59.651 > measurement and display done
+16:51:59.651 > simplified sleep calc. targetSlUSec: 225000000 startTM:73 measTM: 3395 actTM:6500 sleeptime: 218573000
+16:51:59.662 > Hibernating for target 225 sec: 218573000 usec (act millis: 6510 start millis: 73)
+16:55:38.093 > ESP-ROM:esp32s3-20210327
+16:55:38.097 > Build:Mar 27 2021
+16:55:38.098 > rst:0x5 (DSLEEP),boot:0x2b (SPI_FAST_FLASH_BOOT)
+16:55:38.102 > pro cpu reset by JTAG
+16:55:38.102 > SPIWP:0xee
+16:55:38.105 > mode:DIO, clock div:1
+16:55:38.105 > load:0x3fce3808,len:0x4bc
+16:55:38.109 > load:0x403c9700,len:0xbd8
+16:55:38.111 > load:0x403cc700,len:0x2a0c
+16:55:38.114 > entry 0x403c98d0
+16:55:38.165 > **********************************************************
+16:55:38.168 > * ePaperBarograf V0.20 - 2025-02-03 
+16:55:38.173 > **********************************************************
+16:55:38.176 > [    84][E][Preferences.cpp:503] getBytesLength(): nvs_get_blob len fail: prefs NOT_FOUND
+16:55:38.191 > Read Preferences: pcorr: 0 pval: 0.0 Inv: 0 measInt:225 TRange:18 Graph: 7
+16:55:38.198 > Read Preferences: bytes: 0 startCounter: 5 dischgCnt 5 prevVoltage 0.000, prevMicrovolt 0 
+16:55:38.207 > before initDisplay()
+16:55:38.313 > Testing panel
+16:55:41.318 > ------- Partial window clearing
+16:55:41.464 > -- Weather Station Scenario --
+16:55:41.467 > forced mode, 1x temperature / 1x humidity / 1x pressure oversampling,
+16:55:41.472 > filter off
+16:55:41.472 > Wakeup caused by timer
+16:55:41.475 > DoWork. nowSec: 1128 nowUsec: 919149 measSec: 903 measUsec:948851 lastSleepAftM: 218573000
+16:55:41.483 > DoWork. now: 1128.919149 lastMeas: 903.948851 elapsed s:225 usec:224970298 ReadytoMeas: 1
+16:55:41.567 > Pressure: 1013.9 mBar Humidity: 40.2 % Temperature: 19.7 °C 
+16:55:41.569 > After Measurement. now: 1129.022317 lastMeas: 903.948851 elapsedUsec 225073466
+16:55:41.578 > Timestamps before assignment.last: 903.948851 last2: 678.783367
+16:55:41.584 > Timestamps after assignment. last: 1129.032750 last2: 903.948851
+16:55:41.588 > [  3488][E][esp32-hal-adc.c:158] __analogReadRaw(): Pin 35 is not ADC pin!
+16:55:41.594 >  readval: 0 Voltage: 0.00 Percent: 0.0
+16:55:41.601 > Voltage: 0.000 prevVoltage: 0.000 Percent: 0.0
+16:55:41.603 > target sleep time: 225000000 WData.mIS: 225, SEC: 1000000
+16:55:41.609 > Min/Max StorMeasedata: P: 994.0-1014.1 T:  18.0-22.0 H:  326-534
+16:55:41.614 > 3h:288 t:10800 Pold:994.00 Pnew:1013.90 3hC:19.897 Told:21.69, Tnew:19.73 3hC:-1.960 Hold:499.00 Hnew:402.00 3hC:-9.700
+16:55:41.626 > Pressure, Temperature and Humidity graphics. graphicsType: 7
+16:55:41.645 > PrepGraphParam: Min/Max: P: 994.0-1014.1 T:  18.0-22.0 H: 355-534
+16:55:41.651 > oldest: 64800 youngest: 0 timerange_sec: 64800 timerange_hours: 18
+16:55:41.657 > lowestTimeHours: -18 highestTimeHours: 0
+16:55:41.660 > time[0] -15: time[1] -12: time[2] -9: time[3] -6: time[4] -3: 
+16:55:41.665 > PressHistoryMax: 1014.1 pressHistoryMin: 994.0 displayRange:100.000000
+16:55:41.671 > cvTop: 87 cvHeight:200 lowestP: 950 displayRange:100.000000
+16:55:41.676 > i: 48 x0: 58 y0: 199 x1: 59 y1: 199 age: 64800 64575 p: 994.000000 994.000000
+16:55:41.682 > i: 49 x0: 59 y0: 199 x1: 60 y1: 199 age: 64575 64350 p: 994.000000 994.000000
+16:55:41.693 > i: 333 x0: 343 y0: 159 x1: 344 y1: 159 age: 450 225 p: 1013.995789 1013.958618
+16:55:41.700 > i: 334 x0: 344 y0: 159 x1: 345 y1: 159 age: 225 0 p: 1013.958618 1013.896851
+16:55:41.705 > tempHistoryMax: 21.999985 tempHistoryMin:18.000019
+16:55:41.710 > cvTop: 87 cvHeight:200 lowestT: 16 highestT: 24 displayRange:8.000000
+16:55:41.716 > i: 48 x0: 58 y0: 165 x1: 59 y1: 167 age: 64800 64575 p: 20.854759 20.763323
+16:55:41.724 > i: 49 x0: 59 y0: 167 x1: 60 y1: 170 age: 64575 64350 p: 20.763323 20.669977
+16:55:41.729 > i: 333 x0: 343 y0: 190 x1: 344 y1: 191 age: 450 225 p: 19.860001 19.809999
+16:55:41.735 > i: 334 x0: 344 y0: 191 x1: 345 y1: 193 age: 225 0 p: 19.809999 19.730000
+16:55:41.743 > humiHMax: 534 humiHMin:355 (‰) humidityRangePercent: 17.900000
+16:55:41.749 > cvTop: 87 cvHeight:200 lowestH[‰]: 200 highestH[‰]: 600 displayRange:40.000000
+16:55:41.755 > WData.lHP: 200 wData.hHP 600 wData.ydR: 40.000000
+16:55:41.760 > i: 48 x0: 58 y0: 201 x1: 59 y1: 208 h: 37.099998 35.799999 wData.lH%: 20.000000 promille: 200
+16:55:41.769 > i: 49 x0: 59 y0: 208 x1: 60 y1: 209 h: 35.799999 35.599998 wData.lH%: 20.000000 promille: 200
+16:55:41.777 > i: 333 x0: 343 y0: 185 x1: 344 y1: 186 h: 40.299999 40.200001 wData.lH%: 20.000000 promille: 200
+16:55:41.785 > i: 334 x0: 344 y0: 186 x1: 345 y1: 186 h: 40.200001 40.200001 wData.lH%: 20.000000 promille: 200
+16:55:42.223 > _Update_Part : 358000
+16:55:42.339 > measurement and display done
+16:55:42.339 > simplified sleep calc. targetSlUSec: 225000000 startTM:73 measTM: 3395 actTM:4248 sleeptime: 220825000
+16:55:42.349 > Hibernating for target 225 sec: 220825000 usec (act millis: 4258 start millis: 73)
+16:55:42.430 > _PowerOff : 81000
+16:59:23.328 > ESP-ROM:esp32s3-20210327
+16:59:23.332 > Build:Mar 27 2021
+16:59:23.333 > rst:0x5 (DSLEEP),boot:0x2b (SPI_FAST_FLASH_BOOT)
+16:59:23.337 > pro cpu reset by JTAG
+16:59:23.337 > SPIWP:0xee
+16:59:23.340 > mode:DIO, clock div:1
+16:59:23.340 > load:0x3fce3808,len:0x4bc
+16:59:23.343 > load:0x403c9700,len:0xbd8
+16:59:23.346 > load:0x403cc700,len:0x2a0c
+16:59:23.349 > entry 0x403c98d0
+16:59:23.400 > **********************************************************
+16:59:23.403 > * ePaperBarograf V0.20 - 2025-02-03 
+16:59:23.408 > **********************************************************
+16:59:23.411 > [    84][E][Preferences.cpp:503] getBytesLength(): nvs_get_blob len fail: prefs NOT_FOUND
+16:59:23.427 > Read Preferences: pcorr: 0 pval: 0.0 Inv: 0 measInt:225 TRange:18 Graph: 7
+16:59:23.433 > Read Preferences: bytes: 0 startCounter: 6 dischgCnt 6 prevVoltage 0.000, prevMicrovolt 0 
+16:59:23.442 > before initDisplay()
+16:59:23.547 > Testing panel
+16:59:26.554 > +++++++ Full window clearing
+16:59:26.699 > -- Weather Station Scenario --
+16:59:26.702 > forced mode, 1x temperature / 1x humidity / 1x pressure oversampling,
+16:59:26.707 > filter off
+16:59:26.707 > Wakeup caused by timer
+16:59:26.710 > DoWork. nowSec: 1354 nowUsec: 84618 measSec: 1129 measUsec:32750 lastSleepAftM: 220825000
+16:59:26.719 > DoWork. now: 1354.084618 lastMeas: 1129.032750 elapsed s:225 usec:225051868 ReadytoMeas: 1
+16:59:26.802 > Pressure: 1013.8 mBar Humidity: 40.3 % Temperature: 19.8 °C 
+16:59:26.804 > After Measurement. now: 1354.187786 lastMeas: 1129.032750 elapsedUsec 225155036
+16:59:26.813 > Timestamps before assignment.last: 1129.032750 last2: 903.948851
+16:59:26.819 > Timestamps after assignment. last: 1354.198220 last2: 1129.032750
+16:59:26.823 > [  3498][E][esp32-hal-adc.c:158] __analogReadRaw(): Pin 35 is not ADC pin!
+16:59:26.832 >  readval: 0 Voltage: 0.00 Percent: 0.0
+16:59:26.836 > Voltage: 0.000 prevVoltage: 0.000 Percent: 0.0
+16:59:26.838 > target sleep time: 225000000 WData.mIS: 225, SEC: 1000000
+16:59:26.844 > Min/Max StorMeasedata: P: 994.0-1014.1 T:  18.0-22.0 H:  326-534
+16:59:26.849 > 3h:288 t:10800 Pold:994.00 Pnew:1013.78 3hC:19.784 Told:21.63, Tnew:19.78 3hC:-1.855 Hold:502.00 Hnew:403.00 3hC:-9.900
+16:59:26.859 > Pressure, Temperature and Humidity graphics. graphicsType: 7
+16:59:26.881 > PrepGraphParam: Min/Max: P: 994.0-1014.1 T:  18.0-22.0 H: 355-534
+16:59:26.887 > oldest: 64800 youngest: 0 timerange_sec: 64800 timerange_hours: 18
+16:59:26.892 > lowestTimeHours: -18 highestTimeHours: 0
+16:59:26.895 > time[0] -15: time[1] -12: time[2] -9: time[3] -6: time[4] -3: 
+16:59:26.901 > PressHistoryMax: 1014.1 pressHistoryMin: 994.0 displayRange:100.000000
+16:59:26.907 > cvTop: 87 cvHeight:200 lowestP: 950 displayRange:100.000000
+16:59:26.912 > i: 48 x0: 58 y0: 199 x1: 59 y1: 199 age: 64800 64575 p: 994.000000 994.000000
+16:59:26.918 > i: 49 x0: 59 y0: 199 x1: 60 y1: 199 age: 64575 64350 p: 994.000000 994.000000
+16:59:26.928 > i: 333 x0: 343 y0: 159 x1: 344 y1: 159 age: 450 225 p: 1013.958618 1013.896851
+16:59:26.935 > i: 334 x0: 344 y0: 159 x1: 345 y1: 159 age: 225 0 p: 1013.896851 1013.783569
+16:59:26.940 > tempHistoryMax: 21.999985 tempHistoryMin:18.000019
+16:59:26.945 > cvTop: 87 cvHeight:200 lowestT: 16 highestT: 24 displayRange:8.000000
+16:59:26.951 > i: 48 x0: 58 y0: 167 x1: 59 y1: 170 age: 64800 64575 p: 20.763323 20.669977
+16:59:26.960 > i: 49 x0: 59 y0: 170 x1: 60 y1: 172 age: 64575 64350 p: 20.669977 20.574957
+16:59:26.965 > i: 333 x0: 343 y0: 191 x1: 344 y1: 193 age: 450 225 p: 19.809999 19.730000
+16:59:26.970 > i: 334 x0: 344 y0: 193 x1: 345 y1: 192 age: 225 0 p: 19.730000 19.780001
+16:59:26.978 > humiHMax: 534 humiHMin:355 (‰) humidityRangePercent: 17.900000
+16:59:26.984 > cvTop: 87 cvHeight:200 lowestH[‰]: 200 highestH[‰]: 600 displayRange:40.000000
+16:59:26.990 > WData.lHP: 200 wData.hHP 600 wData.ydR: 40.000000
+16:59:26.995 > i: 48 x0: 58 y0: 208 x1: 59 y1: 209 h: 35.799999 35.599998 wData.lH%: 20.000000 promille: 200
+16:59:27.004 > i: 49 x0: 59 y0: 209 x1: 60 y1: 203 h: 35.599998 36.700001 wData.lH%: 20.000000 promille: 200
+16:59:27.012 > i: 333 x0: 343 y0: 186 x1: 344 y1: 186 h: 40.200001 40.200001 wData.lH%: 20.000000 promille: 200
+16:59:27.020 > i: 334 x0: 344 y0: 186 x1: 345 y1: 185 h: 40.200001 40.299999 wData.lH%: 20.000000 promille: 200
+16:59:28.373 > _Update_Full : 1221000
+16:59:29.711 > _Update_Full : 1221000
+16:59:29.827 > measurement and display done
+16:59:29.827 > simplified sleep calc. targetSlUSec: 225000000 startTM:73 measTM: 3395 actTM:6501 sleeptime: 218572000
+16:59:29.838 > Hibernating for target 225 sec: 218572000 usec (act millis: 6511 start millis: 73)
+17:03:08.389 > ESP-ROM:esp32s3-20210327
+17:03:08.394 > Build:Mar 27 2021
+17:03:08.395 > rst:0x5 (DSLEEP),boot:0x2b (SPI_FAST_FLASH_BOOT)
+17:03:08.400 > pro cpu reset by JTAG
+17:03:08.400 > SPIWP:0xee
+17:03:08.403 > mode:DIO, clock div:1
+17:03:08.403 > load:0x3fce3808,len:0x4bc
+17:03:08.405 > load:0x403c9700,len:0xbd8
+17:03:08.408 > load:0x403cc700,len:0x2a0c
+17:03:08.411 > entry 0x403c98d0
+17:03:08.462 > **********************************************************
+17:03:08.465 > * ePaperBarograf V0.20 - 2025-02-03 
+17:03:08.471 > **********************************************************
+17:03:08.473 > [    84][E][Preferences.cpp:503] getBytesLength(): nvs_get_blob len fail: prefs NOT_FOUND
+17:03:08.489 > Read Preferences: pcorr: 0 pval: 0.0 Inv: 0 measInt:225 TRange:18 Graph: 7
+17:03:08.495 > Read Preferences: bytes: 0 startCounter: 7 dischgCnt 7 prevVoltage 0.000, prevMicrovolt 0 
+17:03:08.504 > before initDisplay()
+17:03:08.610 > Testing panel
+17:03:11.615 > ------- Partial window clearing
+17:03:11.761 > -- Weather Station Scenario --
+17:03:11.764 > forced mode, 1x temperature / 1x humidity / 1x pressure oversampling,
+17:03:11.769 > filter off
+17:03:11.769 > Wakeup caused by timer
+17:03:11.772 > DoWork. nowSec: 1579 nowUsec: 168431 measSec: 1354 measUsec:198220 lastSleepAftM: 218572000
+17:03:11.780 > DoWork. now: 1579.168431 lastMeas: 1354.198220 elapsed s:225 usec:224970211 ReadytoMeas: 1
+17:03:11.864 > Pressure: 1013.7 mBar Humidity: 40.0 % Temperature: 19.9 °C 
+17:03:11.867 > After Measurement. now: 1579.271598 lastMeas: 1354.198220 elapsedUsec 225073378
+17:03:11.874 > Timestamps before assignment.last: 1354.198220 last2: 1129.032750
+17:03:11.880 > Timestamps after assignment. last: 1579.282032 last2: 1354.198220
+17:03:11.886 > [  3498][E][esp32-hal-adc.c:158] __analogReadRaw(): Pin 35 is not ADC pin!
+17:03:11.895 >  readval: 0 Voltage: 0.00 Percent: 0.0
+17:03:11.897 > Voltage: 0.000 prevVoltage: 0.000 Percent: 0.0
+17:03:11.900 > target sleep time: 225000000 WData.mIS: 225, SEC: 1000000
+17:03:11.906 > Min/Max StorMeasedata: P: 994.0-1014.1 T:  18.0-22.0 H:  326-534
+17:03:11.911 > 3h:288 t:10800 Pold:994.00 Pnew:1013.69 3hC:19.691 Told:21.58, Tnew:19.87 3hC:-1.705 Hold:503.00 Hnew:400.00 3hC:-10.300
+17:03:11.922 > Pressure, Temperature and Humidity graphics. graphicsType: 7
+17:03:11.943 > PrepGraphParam: Min/Max: P: 994.0-1014.1 T:  18.0-22.0 H: 355-534
+17:03:11.949 > oldest: 64800 youngest: 0 timerange_sec: 64800 timerange_hours: 18
+17:03:11.955 > lowestTimeHours: -18 highestTimeHours: 0
+17:03:11.957 > time[0] -15: time[1] -12: time[2] -9: time[3] -6: time[4] -3: 
+17:03:11.962 > PressHistoryMax: 1014.1 pressHistoryMin: 994.0 displayRange:100.000000
+17:03:11.968 > cvTop: 87 cvHeight:200 lowestP: 950 displayRange:100.000000
+17:03:11.974 > i: 48 x0: 58 y0: 199 x1: 59 y1: 199 age: 64800 64575 p: 994.000000 994.000000
+17:03:11.979 > i: 49 x0: 59 y0: 199 x1: 60 y1: 199 age: 64575 64350 p: 994.000000 994.000000
+17:03:11.990 > i: 333 x0: 343 y0: 159 x1: 344 y1: 159 age: 450 225 p: 1013.896851 1013.783569
+17:03:11.997 > i: 334 x0: 344 y0: 159 x1: 345 y1: 159 age: 225 0 p: 1013.783569 1013.691406
+17:03:12.002 > tempHistoryMax: 21.999985 tempHistoryMin:18.000019
+17:03:12.008 > cvTop: 87 cvHeight:200 lowestT: 16 highestT: 24 displayRange:8.000000
+17:03:12.013 > i: 48 x0: 58 y0: 170 x1: 59 y1: 172 age: 64800 64575 p: 20.669977 20.574957
+17:03:12.022 > i: 49 x0: 59 y0: 172 x1: 60 y1: 175 age: 64575 64350 p: 20.574957 20.478498
+17:03:12.027 > i: 333 x0: 343 y0: 193 x1: 344 y1: 192 age: 450 225 p: 19.730000 19.780001
+17:03:12.033 > i: 334 x0: 344 y0: 192 x1: 345 y1: 190 age: 225 0 p: 19.780001 19.870001
+17:03:12.041 > humiHMax: 534 humiHMin:355 (‰) humidityRangePercent: 17.900000
+17:03:12.047 > cvTop: 87 cvHeight:200 lowestH[‰]: 200 highestH[‰]: 600 displayRange:40.000000
+17:03:12.053 > WData.lHP: 200 wData.hHP 600 wData.ydR: 40.000000
+17:03:12.058 > i: 48 x0: 58 y0: 209 x1: 59 y1: 203 h: 35.599998 36.700001 wData.lH%: 20.000000 promille: 200
+17:03:12.066 > i: 49 x0: 59 y0: 203 x1: 60 y1: 207 h: 36.700001 35.900002 wData.lH%: 20.000000 promille: 200
+17:03:12.074 > i: 333 x0: 343 y0: 186 x1: 344 y1: 185 h: 40.200001 40.299999 wData.lH%: 20.000000 promille: 200
+17:03:12.082 > i: 334 x0: 344 y0: 185 x1: 345 y1: 187 h: 40.299999 40.000000 wData.lH%: 20.000000 promille: 200
+17:03:12.520 > _Update_Part : 357999
+17:03:12.636 > measurement and display done
+17:03:12.636 > simplified sleep calc. targetSlUSec: 225000000 startTM:73 measTM: 3395 actTM:4248 sleeptime: 220825000
+17:03:12.647 > Hibernating for target 225 sec: 220825000 usec (act millis: 4258 start millis: 73)
+17:03:12.728 > _PowerOff : 81000
+17:06:53.389 > ESP-ROM:esp32s3-20210327
+17:06:53.393 > Build:Mar 27 2021
+17:06:53.394 > rst:0x5 (DSLEEP),boot:0x2b (SPI_FAST_FLASH_BOOT)
+17:06:53.399 > pro cpu reset by JTAG
+17:06:53.399 > SPIWP:0xee
+17:06:53.402 > mode:DIO, clock div:1
+17:06:53.402 > load:0x3fce3808,len:0x4bc
+17:06:53.405 > load:0x403c9700,len:0xbd8
+17:06:53.407 > load:0x403cc700,len:0x2a0c
+17:06:53.410 > entry 0x403c98d0
+17:06:53.460 > **********************************************************
+17:06:53.464 > * ePaperBarograf V0.20 - 2025-02-03 
+17:06:53.470 > **********************************************************
+17:06:53.472 > [    84][E][Preferences.cpp:503] getBytesLength(): nvs_get_blob len fail: prefs NOT_FOUND
+17:06:53.488 > Read Preferences: pcorr: 0 pval: 0.0 Inv: 0 measInt:225 TRange:18 Graph: 7
+17:06:53.494 > Read Preferences: bytes: 0 startCounter: 8 dischgCnt 8 prevVoltage 0.000, prevMicrovolt 0 
+17:06:53.504 > before initDisplay()
+17:06:53.609 > Testing panel
+17:06:56.615 > +++++++ Full window clearing
+17:06:56.760 > -- Weather Station Scenario --
+17:06:56.763 > forced mode, 1x temperature / 1x humidity / 1x pressure oversampling,
+17:06:56.768 > filter off
+17:06:56.768 > Wakeup caused by timer
+17:06:56.771 > DoWork. nowSec: 1804 nowUsec: 333943 measSec: 1579 measUsec:282032 lastSleepAftM: 220825000
+17:06:56.779 > DoWork. now: 1804.333943 lastMeas: 1579.282032 elapsed s:225 usec:225051911 ReadytoMeas: 1
+17:06:56.863 > Pressure: 1013.6 mBar Humidity: 40.1 % Temperature: 19.9 °C 
+17:06:56.866 > After Measurement. now: 1804.437111 lastMeas: 1579.282032 elapsedUsec 225155079
+17:06:56.874 > Timestamps before assignment.last: 1579.282032 last2: 1354.198220
+17:06:56.879 > Timestamps after assignment. last: 1804.447543 last2: 1579.282032
+17:06:56.885 > [  3498][E][esp32-hal-adc.c:158] __analogReadRaw(): Pin 35 is not ADC pin!
+17:06:56.894 >  readval: 0 Voltage: 0.00 Percent: 0.0
+17:06:56.897 > Voltage: 0.000 prevVoltage: 0.000 Percent: 0.0
+17:06:56.899 > target sleep time: 225000000 WData.mIS: 225, SEC: 1000000
+17:06:56.905 > Min/Max StorMeasedata: P: 994.0-1014.1 T:  18.0-22.0 H:  326-534
+17:06:56.910 > 3h:288 t:10800 Pold:994.00 Pnew:1013.61 3hC:19.607 Told:21.51, Tnew:19.90 3hC:-1.612 Hold:505.00 Hnew:401.00 3hC:-10.400
+17:06:56.922 > Pressure, Temperature and Humidity graphics. graphicsType: 7
+17:06:56.942 > PrepGraphParam: Min/Max: P: 994.0-1014.1 T:  18.0-22.0 H: 355-534
+17:06:56.948 > oldest: 64800 youngest: 0 timerange_sec: 64800 timerange_hours: 18
+17:06:56.954 > lowestTimeHours: -18 highestTimeHours: 0
+17:06:56.957 > time[0] -15: time[1] -12: time[2] -9: time[3] -6: time[4] -3: 
+17:06:56.962 > PressHistoryMax: 1014.1 pressHistoryMin: 994.0 displayRange:100.000000
+17:06:56.967 > cvTop: 87 cvHeight:200 lowestP: 950 displayRange:100.000000
+17:06:56.973 > i: 48 x0: 58 y0: 199 x1: 59 y1: 199 age: 64800 64575 p: 994.000000 994.000000
+17:06:56.978 > i: 49 x0: 59 y0: 199 x1: 60 y1: 199 age: 64575 64350 p: 994.000000 994.000000
+17:06:56.990 > i: 333 x0: 343 y0: 159 x1: 344 y1: 159 age: 450 225 p: 1013.783569 1013.691406
+17:06:56.995 > i: 334 x0: 344 y0: 159 x1: 345 y1: 159 age: 225 0 p: 1013.691406 1013.607056
+17:06:57.001 > tempHistoryMax: 21.999985 tempHistoryMin:18.000019
+17:06:57.006 > cvTop: 87 cvHeight:200 lowestT: 16 highestT: 24 displayRange:8.000000
+17:06:57.012 > i: 48 x0: 58 y0: 172 x1: 59 y1: 175 age: 64800 64575 p: 20.574957 20.478498
+17:06:57.021 > i: 49 x0: 59 y0: 175 x1: 60 y1: 177 age: 64575 64350 p: 20.478498 20.380846
+17:06:57.026 > i: 333 x0: 343 y0: 192 x1: 344 y1: 190 age: 450 225 p: 19.780001 19.870001
+17:06:57.032 > i: 334 x0: 344 y0: 190 x1: 345 y1: 189 age: 225 0 p: 19.870001 19.900000
+17:06:57.041 > humiHMax: 534 humiHMin:355 (‰) humidityRangePercent: 17.900000
+17:06:57.046 > cvTop: 87 cvHeight:200 lowestH[‰]: 200 highestH[‰]: 600 displayRange:40.000000
+17:06:57.052 > WData.lHP: 200 wData.hHP 600 wData.ydR: 40.000000
+17:06:57.057 > i: 48 x0: 58 y0: 203 x1: 59 y1: 207 h: 36.700001 35.900002 wData.lH%: 20.000000 promille: 200
+17:06:57.065 > i: 49 x0: 59 y0: 207 x1: 60 y1: 205 h: 35.900002 36.400002 wData.lH%: 20.000000 promille: 200
+17:06:57.074 > i: 333 x0: 343 y0: 185 x1: 344 y1: 187 h: 40.299999 40.000000 wData.lH%: 20.000000 promille: 200
+17:06:57.082 > i: 334 x0: 344 y0: 187 x1: 345 y1: 186 h: 40.000000 40.099998 wData.lH%: 20.000000 promille: 200
+17:06:58.435 > _Update_Full : 1220999
+17:06:59.773 > _Update_Full : 1221001
+17:06:59.888 > measurement and display done
+17:06:59.888 > simplified sleep calc. targetSlUSec: 225000000 startTM:73 measTM: 3395 actTM:6501 sleeptime: 218572000
+17:06:59.899 > Hibernating for target 225 sec: 218572000 usec (act millis: 6511 start millis: 73)
+17:10:38.347 > ESP-ROM:esp32s3-20210327
+17:10:38.352 > Build:Mar 27 2021
+17:10:38.352 > rst:0x5 (DSLEEP),boot:0x2b (SPI_FAST_FLASH_BOOT)
+17:10:38.356 > pro cpu reset by JTAG
+17:10:38.356 > SPIWP:0xee
+17:10:38.359 > mode:DIO, clock div:1
+17:10:38.359 > load:0x3fce3808,len:0x4bc
+17:10:38.362 > load:0x403c9700,len:0xbd8
+17:10:38.365 > load:0x403cc700,len:0x2a0c
+17:10:38.369 > entry 0x403c98d0
+17:10:38.419 > **********************************************************
+17:10:38.422 > * ePaperBarograf V0.20 - 2025-02-03 
+17:10:38.428 > **********************************************************
+17:10:38.430 > [    84][E][Preferences.cpp:503] getBytesLength(): nvs_get_blob len fail: prefs NOT_FOUND
+17:10:38.446 > Read Preferences: pcorr: 0 pval: 0.0 Inv: 0 measInt:225 TRange:18 Graph: 7
+17:10:38.452 > Read Preferences: bytes: 0 startCounter: 9 dischgCnt 9 prevVoltage 0.000, prevMicrovolt 0 
+17:10:38.461 > before initDisplay()
+17:10:38.567 > Testing panel
+17:10:41.572 > ------- Partial window clearing
+17:10:41.718 > -- Weather Station Scenario --
+17:10:41.721 > forced mode, 1x temperature / 1x humidity / 1x pressure oversampling,
+17:10:41.727 > filter off
+17:10:41.727 > Wakeup caused by timer
+17:10:41.729 > DoWork. nowSec: 2029 nowUsec: 417782 measSec: 1804 measUsec:447543 lastSleepAftM: 218572000
+17:10:41.738 > DoWork. now: 2029.417782 lastMeas: 1804.447543 elapsed s:225 usec:224970239 ReadytoMeas: 1
+17:10:41.821 > Pressure: 1013.7 mBar Humidity: 39.8 % Temperature: 19.9 °C 
+17:10:41.824 > After Measurement. now: 2029.520951 lastMeas: 1804.447543 elapsedUsec 225073408
+17:10:41.833 > Timestamps before assignment.last: 1804.447543 last2: 1579.282032
+17:10:41.838 > Timestamps after assignment. last: 2029.531383 last2: 1804.447543
+17:10:41.843 > [  3498][E][esp32-hal-adc.c:158] __analogReadRaw(): Pin 35 is not ADC pin!
+17:10:41.852 >  readval: 0 Voltage: 0.00 Percent: 0.0
+17:10:41.855 > Voltage: 0.000 prevVoltage: 0.000 Percent: 0.0
+17:10:41.857 > target sleep time: 225000000 WData.mIS: 225, SEC: 1000000
+17:10:41.862 > Min/Max StorMeasedata: P: 994.0-1014.1 T:  18.0-22.0 H:  326-534
+17:10:41.869 > 3h:288 t:10800 Pold:994.00 Pnew:1013.67 3hC:19.673 Told:21.44, Tnew:19.94 3hC:-1.505 Hold:502.00 Hnew:398.00 3hC:-10.400
+17:10:41.879 > Pressure, Temperature and Humidity graphics. graphicsType: 7
+17:10:41.900 > PrepGraphParam: Min/Max: P: 994.0-1014.1 T:  18.0-22.0 H: 355-534
+17:10:41.906 > oldest: 64800 youngest: 0 timerange_sec: 64800 timerange_hours: 18
+17:10:41.912 > lowestTimeHours: -18 highestTimeHours: 0
+17:10:41.914 > time[0] -15: time[1] -12: time[2] -9: time[3] -6: time[4] -3: 
+17:10:41.920 > PressHistoryMax: 1014.1 pressHistoryMin: 994.0 displayRange:100.000000
+17:10:41.926 > cvTop: 87 cvHeight:200 lowestP: 950 displayRange:100.000000
+17:10:41.931 > i: 48 x0: 58 y0: 199 x1: 59 y1: 199 age: 64800 64575 p: 994.000000 994.000000
+17:10:41.937 > i: 49 x0: 59 y0: 199 x1: 60 y1: 199 age: 64575 64350 p: 994.000000 994.000000
+17:10:41.948 > i: 333 x0: 343 y0: 159 x1: 344 y1: 159 age: 450 225 p: 1013.691406 1013.607056
+17:10:41.953 > i: 334 x0: 344 y0: 159 x1: 345 y1: 159 age: 225 0 p: 1013.607056 1013.672974
+17:10:41.959 > tempHistoryMax: 21.999985 tempHistoryMin:18.000019
+17:10:41.965 > cvTop: 87 cvHeight:200 lowestT: 16 highestT: 24 displayRange:8.000000
+17:10:41.971 > i: 48 x0: 58 y0: 175 x1: 59 y1: 177 age: 64800 64575 p: 20.478498 20.380846
+17:10:41.979 > i: 49 x0: 59 y0: 177 x1: 60 y1: 179 age: 64575 64350 p: 20.380846 20.282240
+17:10:41.985 > i: 333 x0: 343 y0: 190 x1: 344 y1: 189 age: 450 225 p: 19.870001 19.900000
+17:10:41.990 > i: 334 x0: 344 y0: 189 x1: 345 y1: 188 age: 225 0 p: 19.900000 19.940001
+17:10:41.998 > humiHMax: 534 humiHMin:355 (‰) humidityRangePercent: 17.900000
+17:10:42.003 > cvTop: 87 cvHeight:200 lowestH[‰]: 200 highestH[‰]: 600 displayRange:40.000000
+17:10:42.009 > WData.lHP: 200 wData.hHP 600 wData.ydR: 40.000000
+17:10:42.015 > i: 48 x0: 58 y0: 207 x1: 59 y1: 205 h: 35.900002 36.400002 wData.lH%: 20.000000 promille: 200
+17:10:42.023 > i: 49 x0: 59 y0: 205 x1: 60 y1: 209 h: 36.400002 35.500000 wData.lH%: 20.000000 promille: 200
+17:10:42.032 > i: 333 x0: 343 y0: 187 x1: 344 y1: 186 h: 40.000000 40.099998 wData.lH%: 20.000000 promille: 200
+17:10:42.041 > i: 334 x0: 344 y0: 186 x1: 345 y1: 188 h: 40.099998 39.799999 wData.lH%: 20.000000 promille: 200
+17:10:42.478 > _Update_Part : 358000
+17:10:42.593 > measurement and display done
+17:10:42.593 > simplified sleep calc. targetSlUSec: 225000000 startTM:73 measTM: 3395 actTM:4248 sleeptime: 220825000
+17:10:42.604 > Hibernating for target 225 sec: 220825000 usec (act millis: 4258 start millis: 73)
+17:10:42.685 > _PowerOff : 81000
+17:14:23.313 > ESP-ROM:esp32s3-20210327
+17:14:23.318 > Build:Mar 27 2021
+17:14:23.318 > rst:0x5 (DSLEEP),boot:0x2b (SPI_FAST_FLASH_BOOT)
+17:14:23.324 > pro cpu reset by JTAG
+17:14:23.324 > SPIWP:0xee
+17:14:23.326 > mode:DIO, clock div:1
+17:14:23.326 > load:0x3fce3808,len:0x4bc
+17:14:23.329 > load:0x403c9700,len:0xbd8
+17:14:23.332 > load:0x403cc700,len:0x2a0c
+17:14:23.334 > entry 0x403c98d0
+17:14:23.385 > **********************************************************
+17:14:23.388 > * ePaperBarograf V0.20 - 2025-02-03 
+17:14:23.393 > **********************************************************
+17:14:23.396 > [    84][E][Preferences.cpp:503] getBytesLength(): nvs_get_blob len fail: prefs NOT_FOUND
+17:14:23.412 > Read Preferences: pcorr: 0 pval: 0.0 Inv: 0 measInt:225 TRange:18 Graph: 7
+17:14:23.418 > Read Preferences: bytes: 0 startCounter: 10 dischgCnt 10 prevVoltage 0.000, prevMicrovolt 0 
+17:14:23.426 > before initDisplay()
+17:14:23.533 > Testing panel
+17:14:26.539 > +++++++ Full window clearing
+17:14:26.684 > -- Weather Station Scenario --
+17:14:26.687 > forced mode, 1x temperature / 1x humidity / 1x pressure oversampling,
+17:14:26.693 > filter off
+17:14:26.693 > Wakeup caused by timer
+17:14:26.695 > DoWork. nowSec: 2254 nowUsec: 583290 measSec: 2029 measUsec:531383 lastSleepAftM: 220825000
+17:14:26.704 > DoWork. now: 2254.583290 lastMeas: 2029.531383 elapsed s:225 usec:225051907 ReadytoMeas: 1
+17:14:26.787 > Pressure: 1013.6 mBar Humidity: 40.0 % Temperature: 19.9 °C 
+17:14:26.790 > After Measurement. now: 2254.686461 lastMeas: 2029.531383 elapsedUsec 225155078
+17:14:26.798 > Timestamps before assignment.last: 2029.531383 last2: 1804.447543
+17:14:26.804 > Timestamps after assignment. last: 2254.696888 last2: 2029.531383
+17:14:26.810 > [  3498][E][esp32-hal-adc.c:158] __analogReadRaw(): Pin 35 is not ADC pin!
+17:14:26.818 >  readval: 0 Voltage: 0.00 Percent: 0.0
+17:14:26.821 > Voltage: 0.000 prevVoltage: 0.000 Percent: 0.0
+17:14:26.824 > target sleep time: 225000000 WData.mIS: 225, SEC: 1000000
+17:14:26.828 > Min/Max StorMeasedata: P: 994.0-1014.1 T:  18.0-22.0 H:  326-534
+17:14:26.834 > 3h:288 t:10800 Pold:994.00 Pnew:1013.65 3hC:19.646 Told:21.37, Tnew:19.94 3hC:-1.434 Hold:502.00 Hnew:400.00 3hC:-10.200
+17:14:26.846 > Pressure, Temperature and Humidity graphics. graphicsType: 7
+17:14:26.867 > PrepGraphParam: Min/Max: P: 994.0-1014.1 T:  18.0-22.0 H: 355-534
+17:14:26.873 > oldest: 64800 youngest: 0 timerange_sec: 64800 timerange_hours: 18
+17:14:26.877 > lowestTimeHours: -18 highestTimeHours: 0
+17:14:26.880 > time[0] -15: time[1] -12: time[2] -9: time[3] -6: time[4] -3: 
+17:14:26.887 > PressHistoryMax: 1014.1 pressHistoryMin: 994.0 displayRange:100.000000
+17:14:26.891 > cvTop: 87 cvHeight:200 lowestP: 950 displayRange:100.000000
+17:14:26.897 > i: 48 x0: 58 y0: 199 x1: 59 y1: 199 age: 64800 64575 p: 994.000000 994.000000
+17:14:26.902 > i: 49 x0: 59 y0: 199 x1: 60 y1: 199 age: 64575 64350 p: 994.000000 994.000000
+17:14:26.914 > i: 333 x0: 343 y0: 159 x1: 344 y1: 159 age: 450 225 p: 1013.607056 1013.672974
+17:14:26.920 > i: 334 x0: 344 y0: 159 x1: 345 y1: 159 age: 225 0 p: 1013.672974 1013.646240
+17:14:26.926 > tempHistoryMax: 21.999985 tempHistoryMin:18.000019
+17:14:26.931 > cvTop: 87 cvHeight:200 lowestT: 16 highestT: 24 displayRange:8.000000
+17:14:26.936 > i: 48 x0: 58 y0: 177 x1: 59 y1: 179 age: 64800 64575 p: 20.380846 20.282240
+17:14:26.945 > i: 49 x0: 59 y0: 179 x1: 60 y1: 182 age: 64575 64350 p: 20.282240 20.182930
+17:14:26.950 > i: 333 x0: 343 y0: 189 x1: 344 y1: 188 age: 450 225 p: 19.900000 19.940001
+17:14:26.956 > i: 334 x0: 344 y0: 188 x1: 345 y1: 188 age: 225 0 p: 19.940001 19.940001
+17:14:26.965 > humiHMax: 534 humiHMin:355 (‰) humidityRangePercent: 17.900000
+17:14:26.970 > cvTop: 87 cvHeight:200 lowestH[‰]: 200 highestH[‰]: 600 displayRange:40.000000
+17:14:26.976 > WData.lHP: 200 wData.hHP 600 wData.ydR: 40.000000
+17:14:26.981 > i: 48 x0: 58 y0: 205 x1: 59 y1: 209 h: 36.400002 35.500000 wData.lH%: 20.000000 promille: 200
+17:14:26.989 > i: 49 x0: 59 y0: 209 x1: 60 y1: 203 h: 35.500000 36.700001 wData.lH%: 20.000000 promille: 200
+17:14:26.998 > i: 333 x0: 343 y0: 186 x1: 344 y1: 188 h: 40.099998 39.799999 wData.lH%: 20.000000 promille: 200
+17:14:27.006 > i: 334 x0: 344 y0: 188 x1: 345 y1: 187 h: 39.799999 40.000000 wData.lH%: 20.000000 promille: 200
+17:14:28.359 > _Update_Full : 1221000
+17:14:29.696 > _Update_Full : 1221000
+17:14:29.812 > measurement and display done
+17:14:29.812 > simplified sleep calc. targetSlUSec: 225000000 startTM:73 measTM: 3395 actTM:6501 sleeptime: 218572000
+17:14:29.824 > Hibernating for target 225 sec: 218572000 usec (act millis: 6511 start millis: 73)
+17:18:08.406 > ESP-ROM:esp32s3-20210327
+17:18:08.410 > Build:Mar 27 2021
+17:18:08.410 > rst:0x5 (DSLEEP),boot:0x2b (SPI_FAST_FLASH_BOOT)
+17:18:08.416 > pro cpu reset by JTAG
+17:18:08.416 > SPIWP:0xee
+17:18:08.419 > mode:DIO, clock div:1
+17:18:08.419 > load:0x3fce3808,len:0x4bc
+17:18:08.422 > load:0x403c9700,len:0xbd8
+17:18:08.425 > load:0x403cc700,len:0x2a0c
+17:18:08.427 > entry 0x403c98d0
+17:18:08.478 > **********************************************************
+17:18:08.481 > * ePaperBarograf V0.20 - 2025-02-03 
+17:18:08.486 > **********************************************************
+17:18:08.489 > [    84][E][Preferences.cpp:503] getBytesLength(): nvs_get_blob len fail: prefs NOT_FOUND
+17:18:08.505 > Read Preferences: pcorr: 0 pval: 0.0 Inv: 0 measInt:225 TRange:18 Graph: 7
+17:18:08.511 > Read Preferences: bytes: 0 startCounter: 11 dischgCnt 11 prevVoltage 0.000, prevMicrovolt 0 
+17:18:08.520 > before initDisplay()
+17:18:08.626 > Testing panel
+17:18:11.631 > ------- Partial window clearing
+17:18:11.777 > -- Weather Station Scenario --
+17:18:11.779 > forced mode, 1x temperature / 1x humidity / 1x pressure oversampling,
+17:18:11.785 > filter off
+17:18:11.785 > Wakeup caused by timer
+17:18:11.788 > DoWork. nowSec: 2479 nowUsec: 667125 measSec: 2254 measUsec:696888 lastSleepAftM: 218572000
+17:18:11.796 > DoWork. now: 2479.667125 lastMeas: 2254.696888 elapsed s:225 usec:224970237 ReadytoMeas: 1
+17:18:11.879 > Pressure: 1013.6 mBar Humidity: 39.9 % Temperature: 19.9 °C 
+17:18:11.883 > After Measurement. now: 2479.770293 lastMeas: 2254.696888 elapsedUsec 225073405
+17:18:11.891 > Timestamps before assignment.last: 2254.696888 last2: 2029.531383
+17:18:11.896 > Timestamps after assignment. last: 2479.780726 last2: 2254.696888
+17:18:11.902 > [  3498][E][esp32-hal-adc.c:158] __analogReadRaw(): Pin 35 is not ADC pin!
+17:18:11.910 >  readval: 0 Voltage: 0.00 Percent: 0.0
+17:18:11.913 > Voltage: 0.000 prevVoltage: 0.000 Percent: 0.0
+17:18:11.915 > target sleep time: 225000000 WData.mIS: 225, SEC: 1000000
+17:18:11.921 > Min/Max StorMeasedata: P: 994.0-1014.1 T:  18.0-22.0 H:  326-534
+17:18:11.928 > 3h:288 t:10800 Pold:994.00 Pnew:1013.60 3hC:19.597 Told:21.30, Tnew:19.91 3hC:-1.389 Hold:506.00 Hnew:399.00 3hC:-10.700
+17:18:11.938 > Pressure, Temperature and Humidity graphics. graphicsType: 7
+17:18:11.959 > PrepGraphParam: Min/Max: P: 994.0-1014.1 T:  18.0-22.0 H: 355-534
+17:18:11.965 > oldest: 64800 youngest: 0 timerange_sec: 64800 timerange_hours: 18
+17:18:11.970 > lowestTimeHours: -18 highestTimeHours: 0
+17:18:11.973 > time[0] -15: time[1] -12: time[2] -9: time[3] -6: time[4] -3: 
+17:18:11.979 > PressHistoryMax: 1014.1 pressHistoryMin: 994.0 displayRange:100.000000
+17:18:11.985 > cvTop: 87 cvHeight:200 lowestP: 950 displayRange:100.000000
+17:18:11.990 > i: 48 x0: 58 y0: 199 x1: 59 y1: 199 age: 64800 64575 p: 994.000000 994.000000
+17:18:11.995 > i: 49 x0: 59 y0: 199 x1: 60 y1: 199 age: 64575 64350 p: 994.000000 994.000000
+17:18:12.006 > i: 333 x0: 343 y0: 159 x1: 344 y1: 159 age: 450 225 p: 1013.672974 1013.646240
+17:18:12.013 > i: 334 x0: 344 y0: 159 x1: 345 y1: 159 age: 225 0 p: 1013.646240 1013.597046
+17:18:12.018 > tempHistoryMax: 21.999985 tempHistoryMin:18.000019
+17:18:12.024 > cvTop: 87 cvHeight:200 lowestT: 16 highestT: 24 displayRange:8.000000
+17:18:12.030 > i: 48 x0: 58 y0: 179 x1: 59 y1: 182 age: 64800 64575 p: 20.282240 20.182930
+17:18:12.038 > i: 49 x0: 59 y0: 182 x1: 60 y1: 184 age: 64575 64350 p: 20.182930 20.083162
+17:18:12.044 > i: 333 x0: 343 y0: 188 x1: 344 y1: 188 age: 450 225 p: 19.940001 19.940001
+17:18:12.048 > i: 334 x0: 344 y0: 188 x1: 345 y1: 189 age: 225 0 p: 19.940001 19.910000
+17:18:12.057 > humiHMax: 534 humiHMin:355 (‰) humidityRangePercent: 17.900000
+17:18:12.062 > cvTop: 87 cvHeight:200 lowestH[‰]: 200 highestH[‰]: 600 displayRange:40.000000
+17:18:12.068 > WData.lHP: 200 wData.hHP 600 wData.ydR: 40.000000
+17:18:12.073 > i: 48 x0: 58 y0: 209 x1: 59 y1: 203 h: 35.500000 36.700001 wData.lH%: 20.000000 promille: 200
+17:18:12.082 > i: 49 x0: 59 y0: 203 x1: 60 y1: 205 h: 36.700001 36.299999 wData.lH%: 20.000000 promille: 200
+17:18:12.090 > i: 333 x0: 343 y0: 188 x1: 344 y1: 187 h: 39.799999 40.000000 wData.lH%: 20.000000 promille: 200
+17:18:12.098 > i: 334 x0: 344 y0: 187 x1: 345 y1: 187 h: 40.000000 39.900002 wData.lH%: 20.000000 promille: 200
+17:18:12.536 > _Update_Part : 357999
+17:18:12.652 > measurement and display done
+17:18:12.652 > simplified sleep calc. targetSlUSec: 225000000 startTM:73 measTM: 3395 actTM:4248 sleeptime: 220825000
+17:18:12.663 > Hibernating for target 225 sec: 220825000 usec (act millis: 4258 start millis: 73)
+17:18:12.744 > _PowerOff : 81001
+17:21:53.496 > ESP-ROM:esp32s3-20210327
+17:21:53.500 > Build:Mar 27 2021
+17:21:53.500 > rst:0x5 (DSLEEP),boot:0x2b (SPI_FAST_FLASH_BOOT)
+17:21:53.506 > pro cpu reset by JTAG
+17:21:53.506 > SPIWP:0xee
+17:21:53.509 > mode:DIO, clock div:1
+17:21:53.509 > load:0x3fce3808,len:0x4bc
+17:21:53.512 > load:0x403c9700,len:0xbd8
+17:21:53.515 > load:0x403cc700,len:0x2a0c
+17:21:53.518 > entry 0x403c98d0
+17:21:53.569 > **********************************************************
+17:21:53.572 > * ePaperBarograf V0.20 - 2025-02-03 
+17:21:53.577 > **********************************************************
+17:21:53.580 > [    84][E][Preferences.cpp:503] getBytesLength(): nvs_get_blob len fail: prefs NOT_FOUND
+17:21:53.596 > Read Preferences: pcorr: 0 pval: 0.0 Inv: 0 measInt:225 TRange:18 Graph: 7
+17:21:53.602 > Read Preferences: bytes: 0 startCounter: 12 dischgCnt 12 prevVoltage 0.000, prevMicrovolt 0 
+17:21:53.609 > before initDisplay()
+17:21:53.716 > Testing panel
+17:21:56.722 > +++++++ Full window clearing
+17:21:56.867 > -- Weather Station Scenario --
+17:21:56.870 > forced mode, 1x temperature / 1x humidity / 1x pressure oversampling,
+17:21:56.875 > filter off
+17:21:56.875 > Wakeup caused by timer
+17:21:56.879 > DoWork. nowSec: 2704 nowUsec: 832615 measSec: 2479 measUsec:780726 lastSleepAftM: 220825000
+17:21:56.886 > DoWork. now: 2704.832615 lastMeas: 2479.780726 elapsed s:225 usec:225051889 ReadytoMeas: 1
+17:21:56.970 > Pressure: 1013.4 mBar Humidity: 39.9 % Temperature: 19.9 °C 
+17:21:56.973 > After Measurement. now: 2704.935783 lastMeas: 2479.780726 elapsedUsec 225155057
+17:21:56.981 > Timestamps before assignment.last: 2479.780726 last2: 2254.696888
+17:21:56.987 > Timestamps after assignment. last: 2704.946216 last2: 2479.780726
+17:21:56.992 > [  3498][E][esp32-hal-adc.c:158] __analogReadRaw(): Pin 35 is not ADC pin!
+17:21:57.001 >  readval: 0 Voltage: 0.00 Percent: 0.0
+17:21:57.004 > Voltage: 0.000 prevVoltage: 0.000 Percent: 0.0
+17:21:57.007 > target sleep time: 225000000 WData.mIS: 225, SEC: 1000000
+17:21:57.012 > Min/Max StorMeasedata: P: 994.0-1014.1 T:  18.0-22.0 H:  326-534
+17:21:57.018 > 3h:288 t:10800 Pold:994.00 Pnew:1013.43 3hC:19.432 Told:21.22, Tnew:19.88 3hC:-1.342 Hold:507.00 Hnew:399.00 3hC:-10.800
+17:21:57.029 > Pressure, Temperature and Humidity graphics. graphicsType: 7
+17:21:57.050 > PrepGraphParam: Min/Max: P: 994.0-1014.1 T:  18.0-22.0 H: 359-534
+17:21:57.056 > oldest: 64800 youngest: 0 timerange_sec: 64800 timerange_hours: 18
+17:21:57.061 > lowestTimeHours: -18 highestTimeHours: 0
+17:21:57.064 > time[0] -15: time[1] -12: time[2] -9: time[3] -6: time[4] -3: 
+17:21:57.069 > PressHistoryMax: 1014.1 pressHistoryMin: 994.0 displayRange:100.000000
+17:21:57.075 > cvTop: 87 cvHeight:200 lowestP: 950 displayRange:100.000000
+17:21:57.080 > i: 48 x0: 58 y0: 199 x1: 59 y1: 199 age: 64800 64575 p: 994.000000 994.000000
+17:21:57.086 > i: 49 x0: 59 y0: 199 x1: 60 y1: 199 age: 64575 64350 p: 994.000000 994.000000
+17:21:57.097 > i: 333 x0: 343 y0: 159 x1: 344 y1: 159 age: 450 225 p: 1013.646240 1013.597046
+17:21:57.103 > i: 334 x0: 344 y0: 159 x1: 345 y1: 160 age: 225 0 p: 1013.597046 1013.432373
+17:21:57.108 > tempHistoryMax: 21.999985 tempHistoryMin:18.000019
+17:21:57.114 > cvTop: 87 cvHeight:200 lowestT: 16 highestT: 24 displayRange:8.000000
+17:21:57.120 > i: 48 x0: 58 y0: 182 x1: 59 y1: 184 age: 64800 64575 p: 20.182930 20.083162
+17:21:57.129 > i: 49 x0: 59 y0: 184 x1: 60 y1: 187 age: 64575 64350 p: 20.083162 19.983185
+17:21:57.134 > i: 333 x0: 343 y0: 188 x1: 344 y1: 189 age: 450 225 p: 19.940001 19.910000
+17:21:57.140 > i: 334 x0: 344 y0: 189 x1: 345 y1: 190 age: 225 0 p: 19.910000 19.879999
+17:21:57.147 > humiHMax: 534 humiHMin:359 (‰) humidityRangePercent: 17.500000
+17:21:57.153 > cvTop: 87 cvHeight:200 lowestH[‰]: 200 highestH[‰]: 600 displayRange:40.000000
+17:21:57.158 > WData.lHP: 200 wData.hHP 600 wData.ydR: 40.000000
+17:21:57.164 > i: 48 x0: 58 y0: 203 x1: 59 y1: 205 h: 36.700001 36.299999 wData.lH%: 20.000000 promille: 200
+17:21:57.173 > i: 49 x0: 59 y0: 205 x1: 60 y1: 200 h: 36.299999 37.400002 wData.lH%: 20.000000 promille: 200
+17:21:57.181 > i: 333 x0: 343 y0: 187 x1: 344 y1: 187 h: 40.000000 39.900002 wData.lH%: 20.000000 promille: 200
+17:21:57.190 > i: 334 x0: 344 y0: 187 x1: 345 y1: 187 h: 39.900002 39.900002 wData.lH%: 20.000000 promille: 200
+17:21:58.542 > _Update_Full : 1220999
+17:21:59.879 > _Update_Full : 1221001
+17:21:59.995 > measurement and display done
+17:21:59.995 > simplified sleep calc. targetSlUSec: 225000000 startTM:73 measTM: 3395 actTM:6501 sleeptime: 218572000
+17:22:00.006 > Hibernating for target 225 sec: 218572000 usec (act millis: 6511 start millis: 73)
+17:25:38.504 > ESP-ROM:esp32s3-20210327
+17:25:38.508 > Build:Mar 27 2021
+17:25:38.509 > rst:0x5 (DSLEEP),boot:0x2b (SPI_FAST_FLASH_BOOT)
+17:25:38.514 > pro cpu reset by JTAG
+17:25:38.514 > SPIWP:0xee
+17:25:38.517 > mode:DIO, clock div:1
+17:25:38.517 > load:0x3fce3808,len:0x4bc
+17:25:38.520 > load:0x403c9700,len:0xbd8
+17:25:38.522 > load:0x403cc700,len:0x2a0c
+17:25:38.525 > entry 0x403c98d0
+17:25:38.576 > **********************************************************
+17:25:38.579 > * ePaperBarograf V0.20 - 2025-02-03 
+17:25:38.584 > **********************************************************
+17:25:38.587 > [    84][E][Preferences.cpp:503] getBytesLength(): nvs_get_blob len fail: prefs NOT_FOUND
+17:25:38.603 > Read Preferences: pcorr: 0 pval: 0.0 Inv: 0 measInt:225 TRange:18 Graph: 7
+17:25:38.609 > Read Preferences: bytes: 0 startCounter: 13 dischgCnt 13 prevVoltage 0.000, prevMicrovolt 0 
+17:25:38.618 > before initDisplay()
+17:25:38.724 > Testing panel
+17:25:41.729 > ------- Partial window clearing
+17:25:41.875 > -- Weather Station Scenario --
+17:25:41.878 > forced mode, 1x temperature / 1x humidity / 1x pressure oversampling,
+17:25:41.884 > filter off
+17:25:41.884 > Wakeup caused by timer
+17:25:41.886 > DoWork. nowSec: 2929 nowUsec: 916461 measSec: 2704 measUsec:946216 lastSleepAftM: 218572000
+17:25:41.895 > DoWork. now: 2929.916461 lastMeas: 2704.946216 elapsed s:225 usec:224970245 ReadytoMeas: 1
+17:25:41.978 > Pressure: 1013.4 mBar Humidity: 40.0 % Temperature: 19.8 °C 
+17:25:41.981 > After Measurement. now: 2930.019627 lastMeas: 2704.946216 elapsedUsec 225073411
+17:25:41.989 > Timestamps before assignment.last: 2704.946216 last2: 2479.780726
+17:25:41.995 > Timestamps after assignment. last: 2930.030056 last2: 2704.946216
+17:25:42.000 > [  3498][E][esp32-hal-adc.c:158] __analogReadRaw(): Pin 35 is not ADC pin!
+17:25:42.008 >  readval: 0 Voltage: 0.00 Percent: 0.0
+17:25:42.012 > Voltage: 0.000 prevVoltage: 0.000 Percent: 0.0
+17:25:42.014 > target sleep time: 225000000 WData.mIS: 225, SEC: 1000000
+17:25:42.020 > Min/Max StorMeasedata: P: 994.0-1014.1 T:  18.0-22.0 H:  326-534
+17:25:42.024 > 3h:288 t:10800 Pold:994.00 Pnew:1013.43 3hC:19.430 Told:21.14, Tnew:19.83 3hC:-1.311 Hold:511.00 Hnew:400.00 3hC:-11.100
+17:25:42.036 > Pressure, Temperature and Humidity graphics. graphicsType: 7
+17:25:42.057 > PrepGraphParam: Min/Max: P: 994.0-1014.1 T:  18.0-22.0 H: 359-534
+17:25:42.063 > oldest: 64800 youngest: 0 timerange_sec: 64800 timerange_hours: 18
+17:25:42.069 > lowestTimeHours: -18 highestTimeHours: 0
+17:25:42.071 > time[0] -15: time[1] -12: time[2] -9: time[3] -6: time[4] -3: 
+17:25:42.077 > PressHistoryMax: 1014.1 pressHistoryMin: 994.0 displayRange:100.000000
+17:25:42.083 > cvTop: 87 cvHeight:200 lowestP: 950 displayRange:100.000000
+17:25:42.087 > i: 48 x0: 58 y0: 199 x1: 59 y1: 199 age: 64800 64575 p: 994.000000 994.000000
+17:25:42.093 > i: 49 x0: 59 y0: 199 x1: 60 y1: 199 age: 64575 64350 p: 994.000000 994.000000
+17:25:42.105 > i: 333 x0: 343 y0: 159 x1: 344 y1: 160 age: 450 225 p: 1013.597046 1013.432373
+17:25:42.111 > i: 334 x0: 344 y0: 160 x1: 345 y1: 160 age: 225 0 p: 1013.432373 1013.430176
+17:25:42.116 > tempHistoryMax: 21.999985 tempHistoryMin:18.000019
+17:25:42.122 > cvTop: 87 cvHeight:200 lowestT: 16 highestT: 24 displayRange:8.000000
+17:25:42.127 > i: 48 x0: 58 y0: 184 x1: 59 y1: 187 age: 64800 64575 p: 20.083162 19.983185
+17:25:42.136 > i: 49 x0: 59 y0: 187 x1: 60 y1: 189 age: 64575 64350 p: 19.983185 19.883251
+17:25:42.141 > i: 333 x0: 343 y0: 189 x1: 344 y1: 190 age: 450 225 p: 19.910000 19.879999
+17:25:42.147 > i: 334 x0: 344 y0: 190 x1: 345 y1: 191 age: 225 0 p: 19.879999 19.830000
+17:25:42.155 > humiHMax: 534 humiHMin:359 (‰) humidityRangePercent: 17.500000
+17:25:42.160 > cvTop: 87 cvHeight:200 lowestH[‰]: 200 highestH[‰]: 600 displayRange:40.000000
+17:25:42.166 > WData.lHP: 200 wData.hHP 600 wData.ydR: 40.000000
+17:25:42.172 > i: 48 x0: 58 y0: 205 x1: 59 y1: 200 h: 36.299999 37.400002 wData.lH%: 20.000000 promille: 200
+17:25:42.180 > i: 49 x0: 59 y0: 200 x1: 60 y1: 207 h: 37.400002 35.900002 wData.lH%: 20.000000 promille: 200
+17:25:42.188 > i: 333 x0: 343 y0: 187 x1: 344 y1: 187 h: 39.900002 39.900002 wData.lH%: 20.000000 promille: 200
+17:25:42.196 > i: 334 x0: 344 y0: 187 x1: 345 y1: 187 h: 39.900002 40.000000 wData.lH%: 20.000000 promille: 200
+17:25:42.634 > _Update_Part : 357999
+17:25:42.750 > measurement and display done
+17:25:42.750 > simplified sleep calc. targetSlUSec: 225000000 startTM:73 measTM: 3395 actTM:4248 sleeptime: 220825000
+17:25:42.761 > Hibernating for target 225 sec: 220825000 usec (act millis: 4258 start millis: 73)
+17:25:42.842 > _PowerOff : 81000
+17:29:23.566 > ESP-ROM:esp32s3-20210327
+17:29:23.571 > Build:Mar 27 2021
+17:29:23.571 > rst:0x5 (DSLEEP),boot:0x2b (SPI_FAST_FLASH_BOOT)
+17:29:23.577 > pro cpu reset by JTAG
+17:29:23.577 > SPIWP:0xee
+17:29:23.580 > mode:DIO, clock div:1
+17:29:23.580 > load:0x3fce3808,len:0x4bc
+17:29:23.582 > load:0x403c9700,len:0xbd8
+17:29:23.585 > load:0x403cc700,len:0x2a0c
+17:29:23.587 > entry 0x403c98d0
+17:29:23.639 > **********************************************************
+17:29:23.642 > * ePaperBarograf V0.20 - 2025-02-03 
+17:29:23.647 > **********************************************************
+17:29:23.650 > [    84][E][Preferences.cpp:503] getBytesLength(): nvs_get_blob len fail: prefs NOT_FOUND
+17:29:23.665 > Read Preferences: pcorr: 0 pval: 0.0 Inv: 0 measInt:225 TRange:18 Graph: 7
+17:29:23.672 > Read Preferences: bytes: 0 startCounter: 14 dischgCnt 14 prevVoltage 0.000, prevMicrovolt 0 
+17:29:23.680 > before initDisplay()
+17:29:23.787 > Testing panel
+17:29:26.792 > +++++++ Full window clearing
+17:29:26.936 > -- Weather Station Scenario --
+17:29:26.940 > forced mode, 1x temperature / 1x humidity / 1x pressure oversampling,
+17:29:26.946 > filter off
+17:29:26.946 > Wakeup caused by timer
+17:29:26.949 > DoWork. nowSec: 3155 nowUsec: 81904 measSec: 2930 measUsec:30056 lastSleepAftM: 220825000
+17:29:26.956 > DoWork. now: 3155.081904 lastMeas: 2930.030056 elapsed s:225 usec:225051848 ReadytoMeas: 1
+17:29:27.041 > Pressure: 1013.5 mBar Humidity: 34.9 % Temperature: 22.4 °C 
+17:29:27.044 > After Measurement. now: 3155.186072 lastMeas: 2930.030056 elapsedUsec 225156016
+17:29:27.052 > Timestamps before assignment.last: 2930.030056 last2: 2704.946216
+17:29:27.058 > Timestamps after assignment. last: 3155.196505 last2: 2930.030056
+17:29:27.064 > [  3499][E][esp32-hal-adc.c:158] __analogReadRaw(): Pin 35 is not ADC pin!
+17:29:27.072 >  readval: 0 Voltage: 0.00 Percent: 0.0
+17:29:27.074 > Voltage: 0.000 prevVoltage: 0.000 Percent: 0.0
+17:29:27.077 > target sleep time: 225000000 WData.mIS: 225, SEC: 1000000
+17:29:27.083 > Min/Max StorMeasedata: P: 994.0-1014.1 T:  18.0-22.4 H:  326-534
+17:29:27.088 > 3h:288 t:10800 Pold:994.00 Pnew:1013.47 3hC:19.466 Told:21.06, Tnew:22.40 3hC:1.342 Hold:510.00 Hnew:349.00 3hC:-16.100
+17:29:27.099 > Pressure, Temperature and Humidity graphics. graphicsType: 7
+17:29:27.121 > PrepGraphParam: Min/Max: P: 994.0-1014.1 T:  18.0-22.4 H: 349-534
+17:29:27.126 > oldest: 64800 youngest: 0 timerange_sec: 64800 timerange_hours: 18
+17:29:27.132 > lowestTimeHours: -18 highestTimeHours: 0
+17:29:27.135 > time[0] -15: time[1] -12: time[2] -9: time[3] -6: time[4] -3: 
+17:29:27.140 > PressHistoryMax: 1014.1 pressHistoryMin: 994.0 displayRange:100.000000
+17:29:27.146 > cvTop: 87 cvHeight:200 lowestP: 950 displayRange:100.000000
+17:29:27.152 > i: 48 x0: 58 y0: 199 x1: 59 y1: 199 age: 64800 64575 p: 994.000000 994.000000
+17:29:27.157 > i: 49 x0: 59 y0: 199 x1: 60 y1: 199 age: 64575 64350 p: 994.000000 994.000000
+17:29:27.168 > i: 333 x0: 343 y0: 160 x1: 344 y1: 160 age: 450 225 p: 1013.432373 1013.430176
+17:29:27.174 > i: 334 x0: 344 y0: 160 x1: 345 y1: 160 age: 225 0 p: 1013.430176 1013.466431
+17:29:27.180 > tempHistoryMax: 22.400000 tempHistoryMin:18.000019
+17:29:27.186 > cvTop: 87 cvHeight:200 lowestT: 16 highestT: 24 displayRange:8.000000
+17:29:27.190 > i: 48 x0: 58 y0: 187 x1: 59 y1: 189 age: 64800 64575 p: 19.983185 19.883251
+17:29:27.199 > i: 49 x0: 59 y0: 189 x1: 60 y1: 192 age: 64575 64350 p: 19.883251 19.783609
+17:29:27.205 > i: 333 x0: 343 y0: 190 x1: 344 y1: 191 age: 450 225 p: 19.879999 19.830000
+17:29:27.210 > i: 334 x0: 344 y0: 191 x1: 345 y1: 127 age: 225 0 p: 19.830000 22.400000
+17:29:27.222 > humiHMax: 534 humiHMin:349 (‰) humidityRangePercent: 18.500000
+17:29:27.224 > cvTop: 87 cvHeight:200 lowestH[‰]: 200 highestH[‰]: 600 displayRange:40.000000
+17:29:27.229 > WData.lHP: 200 wData.hHP 600 wData.ydR: 40.000000
+17:29:27.238 > i: 48 x0: 58 y0: 200 x1: 59 y1: 207 h: 37.400002 35.900002 wData.lH%: 20.000000 promille: 200
+17:29:27.243 > i: 49 x0: 59 y0: 207 x1: 60 y1: 200 h: 35.900002 37.400002 wData.lH%: 20.000000 promille: 200
+17:29:27.254 > i: 333 x0: 343 y0: 187 x1: 344 y1: 187 h: 39.900002 40.000000 wData.lH%: 20.000000 promille: 200
+17:29:27.260 > i: 334 x0: 344 y0: 187 x1: 345 y1: 212 h: 40.000000 34.900002 wData.lH%: 20.000000 promille: 200
+17:29:28.612 > _Update_Full : 1220999
+17:29:29.951 > _Update_Full : 1221000
+17:29:30.066 > measurement and display done
+17:29:30.066 > simplified sleep calc. targetSlUSec: 225000000 startTM:73 measTM: 3395 actTM:6502 sleeptime: 218571000
+17:29:30.078 > Hibernating for target 225 sec: 218571000 usec (act millis: 6512 start millis: 73)
+17:33:08.778 > ESP-ROM:esp32s3-20210327
+17:33:08.782 > Build:Mar 27 2021
+17:33:08.783 > rst:0x5 (DSLEEP),boot:0x2b (SPI_FAST_FLASH_BOOT)
+17:33:08.788 > pro cpu reset by JTAG
+17:33:08.788 > SPIWP:0xee
+17:33:08.791 > mode:DIO, clock div:1
+17:33:08.791 > load:0x3fce3808,len:0x4bc
+17:33:08.794 > load:0x403c9700,len:0xbd8
+17:33:08.797 > load:0x403cc700,len:0x2a0c
+17:33:08.799 > entry 0x403c98d0
+17:33:08.850 > **********************************************************
+17:33:08.853 > * ePaperBarograf V0.20 - 2025-02-03 
+17:33:08.859 > **********************************************************
+17:33:08.862 > [    84][E][Preferences.cpp:503] getBytesLength(): nvs_get_blob len fail: prefs NOT_FOUND
+17:33:08.878 > Read Preferences: pcorr: 0 pval: 0.0 Inv: 0 measInt:225 TRange:18 Graph: 7
+17:33:08.884 > Read Preferences: bytes: 0 startCounter: 15 dischgCnt 15 prevVoltage 0.000, prevMicrovolt 0 
+17:33:08.892 > before initDisplay()
+17:33:08.998 > Testing panel
+17:33:12.003 > ------- Partial window clearing
+17:33:12.148 > -- Weather Station Scenario --
+17:33:12.151 > forced mode, 1x temperature / 1x humidity / 1x pressure oversampling,
+17:33:12.158 > filter off
+17:33:12.158 > Wakeup caused by timer
+17:33:12.160 > DoWork. nowSec: 3380 nowUsec: 165662 measSec: 3155 measUsec:196505 lastSleepAftM: 218571000
+17:33:12.169 > DoWork. now: 3380.165662 lastMeas: 3155.196505 elapsed s:225 usec:224969157 ReadytoMeas: 1
+17:33:12.253 > Pressure: 1013.6 mBar Humidity: 34.4 % Temperature: 22.7 °C 
+17:33:12.258 > After Measurement. now: 3380.269829 lastMeas: 3155.196505 elapsedUsec 225073324
+17:33:12.272 > Timestamps before assignment.last: 3155.196505 last2: 2930.030056
+17:33:12.272 > Timestamps after assignment. last: 3380.280261 last2: 3155.196505
+17:33:12.275 > [  3499][E][esp32-hal-adc.c:158] __analogReadRaw(): Pin 35 is not ADC pin!
+17:33:12.284 >  readval: 0 Voltage: 0.00 Percent: 0.0
+17:33:12.286 > Voltage: 0.000 prevVoltage: 0.000 Percent: 0.0
+17:33:12.289 > target sleep time: 225000000 WData.mIS: 225, SEC: 1000000
+17:33:12.295 > Min/Max StorMeasedata: P: 994.0-1014.1 T:  18.0-22.7 H:  335-534
+17:33:12.300 > 3h:288 t:10800 Pold:994.00 Pnew:1013.62 3hC:19.618 Told:20.97, Tnew:22.71 3hC:1.738 Hold:514.00 Hnew:344.00 3hC:-17.000
+17:33:12.312 > Pressure, Temperature and Humidity graphics. graphicsType: 7
+17:33:12.333 > PrepGraphParam: Min/Max: P: 994.0-1014.1 T:  18.0-22.7 H: 344-534
+17:33:12.339 > oldest: 64800 youngest: 0 timerange_sec: 64800 timerange_hours: 18
+17:33:12.344 > lowestTimeHours: -18 highestTimeHours: 0
+17:33:12.348 > time[0] -15: time[1] -12: time[2] -9: time[3] -6: time[4] -3: 
+17:33:12.352 > PressHistoryMax: 1014.1 pressHistoryMin: 994.0 displayRange:100.000000
+17:33:12.358 > cvTop: 87 cvHeight:200 lowestP: 950 displayRange:100.000000
+17:33:12.364 > i: 48 x0: 58 y0: 199 x1: 59 y1: 199 age: 64800 64575 p: 994.000000 994.000000
+17:33:12.369 > i: 49 x0: 59 y0: 199 x1: 60 y1: 199 age: 64575 64350 p: 994.000000 994.000000
+17:33:12.380 > i: 333 x0: 343 y0: 160 x1: 344 y1: 160 age: 450 225 p: 1013.430176 1013.466431
+17:33:12.387 > i: 334 x0: 344 y0: 160 x1: 345 y1: 159 age: 225 0 p: 1013.466431 1013.618286
+17:33:12.392 > tempHistoryMax: 22.709999 tempHistoryMin:18.000019
+17:33:12.399 > cvTop: 87 cvHeight:200 lowestT: 16 highestT: 24 displayRange:8.000000
+17:33:12.404 > i: 48 x0: 58 y0: 189 x1: 59 y1: 192 age: 64800 64575 p: 19.883251 19.783609
+17:33:12.412 > i: 49 x0: 59 y0: 192 x1: 60 y1: 194 age: 64575 64350 p: 19.783609 19.684509
+17:33:12.417 > i: 333 x0: 343 y0: 191 x1: 344 y1: 127 age: 450 225 p: 19.830000 22.400000
+17:33:12.423 > i: 334 x0: 344 y0: 127 x1: 345 y1: 119 age: 225 0 p: 22.400000 22.709999
+17:33:12.435 > humiHMax: 534 humiHMin:344 (‰) humidityRangePercent: 19.000000
+17:33:12.437 > cvTop: 87 cvHeight:200 lowestH[‰]: 200 highestH[‰]: 600 displayRange:40.000000
+17:33:12.442 > WData.lHP: 200 wData.hHP 600 wData.ydR: 40.000000
+17:33:12.448 > i: 48 x0: 58 y0: 207 x1: 59 y1: 200 h: 35.900002 37.400002 wData.lH%: 20.000000 promille: 200
+17:33:12.456 > i: 49 x0: 59 y0: 200 x1: 60 y1: 207 h: 37.400002 36.000000 wData.lH%: 20.000000 promille: 200
+17:33:12.463 > i: 333 x0: 343 y0: 187 x1: 344 y1: 212 h: 40.000000 34.900002 wData.lH%: 20.000000 promille: 200
+17:33:12.472 > i: 334 x0: 344 y0: 212 x1: 345 y1: 214 h: 34.900002 34.400002 wData.lH%: 20.000000 promille: 200
+17:33:12.909 > _Update_Part : 357999
+17:33:13.025 > measurement and display done
+17:33:13.044 > simplified sleep calc. targetSlUSec: 225000000 startTM:73 measTM: 3395 actTM:4249 sleeptime: 220824000
+17:33:13.044 > Hibernating for target 225 sec: 220824000 usec (act millis: 4259 start millis: 73)
+17:33:13.117 > _PowerOff : 81001
