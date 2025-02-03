@@ -24,5 +24,8 @@ The project presently supports two devices:
 1. Lolin32 Lite ESP32 module with 4.2" WeAct Display, BME 280 sensor module, 1800 mAh LiPo battery and 3d printed housing. A PCB board is also available.
 2. [Elecrow CrowPanel](https://www.elecrow.com/wiki/CrowPanel_ESP32_E-paper_4.2-inch_HMI_Display.html?srsltid=AfmBOopLg2lyLTtVUnrafO5OQ8krdLfANDyudeDwoHQay9rsuxcy4Twv) with 4.2" ePaper display and BME280 sensor connected to the exposed GPIO pins
 
-##PCB
-The PCB for the project:
+## Schematics and PCB
+I have created a PCB for the project, when using the Lolin32 Lite module. It permits to connect the Lolin32 Lite module, ePaper, BME280 and battery connectors. It is also possible to add up to 2 DS18B20 temperature sensors and a piezo beeper - both not presently supported by the software. GPIO pins that are not directly used are exposed on a separate connector.
+Gerber files are included in this project.
+![PCB](https://github.com/88markus88/ESP32_ePaper_Barograph/blob/main/PCB/ePaperBarograf_schematic_V0.1.jpg)
+![PCB](https://github.com/88markus88/ESP32_ePaper_Barograph/blob/main/PCB/ePaperBarograf_PCB_V0.1.jpg)
