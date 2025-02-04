@@ -49,7 +49,13 @@ This handy device can be used as is, with these addtions:
 - BME280 (3.3V version) has to be connected via the connector on top to 3.3V, GND and SDA (GPIO15)/ SCL (GPIO19)
 - LiPo battery can be connected via "Battery" connector on the left side of the housing. This is optional, without battery you need to keep the system permanently connected to power via USB - with every power loss the history data, which are kept in "RTC memory" are lost. 
 
-## Building the Software
+## Software
+### Software Structure
+The software consists of 3 main components, which are located in three .cpp files
+1. Control (ePaperBarograf.cpp): Timing, preferences storage, measurement, data storage & recalculations, hibernation
+2. Graphics (ePaperGraphics.cpp): Graphics functions for ePaper display
+3. Bluetooth configuration (ePaperBluetooth.cpp): Serial Bluetooth functions for adjustment of settings
+### Building the Software
 The software is written in C++, platform is Arduino and development environment is Platformio with VSCode. 
 platformio.ini contains two development environments:
 - env:Lolin32Lite_ePaper - this is the environment used for the Lolin32 Lite with separate 4.2" ePaper and battery. 
