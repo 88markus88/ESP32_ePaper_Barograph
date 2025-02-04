@@ -30,6 +30,9 @@ With 4.2" WeAct Display, BME 280 sensor module, 1800 mAh LiPo battery and 3d pri
    - JST PH 2.0 ( male & female) connectors. Connectors alsready configured with cables can be used.
    - [4.2" ePaper display module by WeAct](https://de.aliexpress.com/w/wholesale-Weact-studio-ePaper-4.2.html?spm=a2g0o.detail.search.0) 
    - [Elecrow CrowPanel](https://www.elecrow.com/wiki/CrowPanel_ESP32_E-paper_4.2-inch_HMI_Display.html?srsltid=AfmBOopLg2lyLTtVUnrafO5OQ8krdLfANDyudeDwoHQay9rsuxcy4Twv) with 4.2" ePaper display and BME280 sensor connected to the exposed GPIO pins.
+   - 2 Resistors 200KOhm
+   - 1 Pushbutton d=7mm
+DS18B20, buzzer, transistor are presently not supported and not needed
 ### Elecrow CrowPanel 4.2" ePaper
   - [Elecrow CrowPanel 2.2" e-paper HMI display](https://m.elecrow.com/pages/shop/product/details?id=207653&srsltid=AfmBOoq9SIdzb9AhMf4R4YTJ9BLrYichk5EBjKeTe6YT30B_DNrccfvo)
   - [BME 280 Module 3.3V](https://www.amazon.de/s?k=bme280&ref=404_search) Make sure that you get a module with 4 pins (6 pins would also work, but not fit into the housing), and from a reliable supplier. Beware: there are many cheap boards on Ebay that in reality do not contain a BME280 (square chip housing), but a BMP280 (rectangular chip housing)
