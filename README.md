@@ -23,8 +23,8 @@ Some pictures of the housing and the screen:
 The project presently supports two devices:
 1. Lolin32 Lite ESP32 module with 4.2" WeAct Display, BME 280 sensor module, 1800 mAh LiPo battery and 3d printed housing. A PCB board is also available.
    The following parts are needed:
-   - [Lolin32 Lite RSP32 module]
-   - [BME 280 Module 3.3V[(https://www.amazon.de/AZDelivery-GY-BME280-Barometrischer-Temperatur-Luftfeuchtigkeit)
+   - [Lolin32 Lite RSP32 module]()
+   - [BME 280 Module 3.3V](https://www.amazon.de/s?k=bme280&ref=404_search) Make sure that you get a module with 4 pins, and from a reliable supplier. There are many cheap boards on Ebay that in reality do not contain a BME280 (square chip housing), but a BMP280 (rectangular chip housing)
    -
    -
 3. [Elecrow CrowPanel](https://www.elecrow.com/wiki/CrowPanel_ESP32_E-paper_4.2-inch_HMI_Display.html?srsltid=AfmBOopLg2lyLTtVUnrafO5OQ8krdLfANDyudeDwoHQay9rsuxcy4Twv) with 4.2" ePaper display and BME280 sensor connected to the exposed GPIO pins
