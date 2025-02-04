@@ -54,10 +54,19 @@ This handy device can be used as is, with these addtions:
 The software consists of 3 main components, which are located in three .cpp files
 1. Control (ePaperBarograf.cpp): Timing, preferences storage, measurement, data storage & recalculations, hibernation
 2. Graphics (ePaperGraphics.cpp): Graphics functions for ePaper display
-3. Bluetooth configuration (ePaperBluetooth.cpp): Serial Bluetooth functions for adjustment of settings
+3. Bluetooth configuration (ePaperBluetooth.cpp): Serial Bluetooth functions for adjustment of settings. Serial Bluetooth can only be used with the Lolin32 Lite - the CrowPanel has an ESP32S3 which only supports Bluetooth Low Energy (BLE).
+### Libraries
+- Wire
+- Arduino Unified Sensor
+- Arduino BME280
+- GxEPD2
 ### Building the Software
 The software is written in C++, platform is Arduino and development environment is Platformio with VSCode. 
 platformio.ini contains two development environments:
 - env:Lolin32Lite_ePaper - this is the environment used for the Lolin32 Lite with separate 4.2" ePaper and battery. 
 - env:CrowPanel_42 - this is the environment used for the Elecrow CrowPanel 4.2" ePaper.
 Just connect your ESP32 to the computer via USB, select the env for the system you are building for and start the build. Platformio will automatically load the libraries that are needed and upload the firmware via USB Port. 
+
+## Open topics
+- BLE functionality to allow setting of parameters for CrowPanel
+- Bluetooth setting for Lolin32 Lite is presently only possible via Bluetooth terminal on a mobile device. Create App or BLE web page to allow easier configuration
