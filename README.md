@@ -23,10 +23,10 @@ Some pictures of the housing and the screen:
 The project presently supports two devices:
 1. Lolin32 Lite ESP32 module with 4.2" WeAct Display, BME 280 sensor module, 1800 mAh LiPo battery and 3d printed housing. A PCB board is also available.
    The following parts are needed:
-   - [Lolin32 Lite RSP32 module]()
-   - [BME 280 Module 3.3V](https://www.amazon.de/s?k=bme280&ref=404_search) Make sure that you get a module with 4 pins, and from a reliable supplier. There are many cheap boards on Ebay that in reality do not contain a BME280 (square chip housing), but a BMP280 (rectangular chip housing)
-   -
-   -
+   - [Lolin32 Lite RSP32 module](https://www.amazon.de/AZDelivery-LOLIN32-Bluetooth-kompatibel-Arduino/dp/B086V8X2RM/ref=sr_1_1_pp?__mk_de_DE=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=2Y27I7AEYM9WX&dib=eyJ2IjoiMSJ9.oNJbRfCZ-fu_vozIfxLCtf3HXLp9I-uPyWlu2nvjfPpeDhkVGGNlZxv5Sz1wx8w9KMfxJls-1ZDVz42O4GHf5jZGgGVwZPdvzvrQdXk0kT_A6RewTc9YMkqjQ3iQTPgM0uivrl79juA1taJghOAjpS3Fwa6kLbrBI_IJpl4o2-8MCH1yzFgi4ckKFVAqtziA.9GUBbFdNLPXHgTDpc1SDFziCLFOkvI_fY1c62FEOx04&dib_tag=se&keywords=Lolin32%2BLite&qid=1738659974&sprefix=lolin32%2Blite%2Caps%2C199&sr=8-1&th=1)
+   - [BME 280 Module 3.3V](https://www.amazon.de/s?k=bme280&ref=404_search) Make sure that you get a module with 4 pins (6 pins would also work, but not fit into the housing), and from a reliable supplier. Beware: there are many cheap boards on Ebay that in reality do not contain a BME280 (square chip housing), but a BMP280 (rectangular chip housing)
+   - 1800 mAh LiPo Battery 
+   - 4.2" ePaper display module by WeAct 
 3. [Elecrow CrowPanel](https://www.elecrow.com/wiki/CrowPanel_ESP32_E-paper_4.2-inch_HMI_Display.html?srsltid=AfmBOopLg2lyLTtVUnrafO5OQ8krdLfANDyudeDwoHQay9rsuxcy4Twv) with 4.2" ePaper display and BME280 sensor connected to the exposed GPIO pins
 
 ## Schematics and PCB
