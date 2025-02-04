@@ -56,10 +56,12 @@ The software consists of 3 main components, which are located in three .cpp file
 2. Graphics (ePaperGraphics.cpp): Graphics functions for ePaper display
 3. Bluetooth configuration (ePaperBluetooth.cpp): Serial Bluetooth functions for adjustment of settings. Serial Bluetooth can only be used with the Lolin32 Lite - the CrowPanel has an ESP32S3 which only supports Bluetooth Low Energy (BLE).
 ### Libraries
-- Wire
-- Arduino Unified Sensor
-- Arduino BME280
-- GxEPD2
+- OneWire                  : needed for BME280
+- Arduino Unified Sensor   : needed for BME280
+- Arduino BME280           : needed for BME280
+- GxEPD2                   : ePaper Graphics
+- Dallas Temperature       : DS18B20 temperature sensor
+- u8g2 for Adafruit        : Fonts
 ### Building the Software
 The software is written in C++, platform is Arduino and development environment is Platformio with VSCode. 
 platformio.ini contains two development environments:
