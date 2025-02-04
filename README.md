@@ -2,7 +2,7 @@
 This project is an ESP32 based device that records and displays atmospheric pressure, temperature and humidity using a BME280 sensor and displays them as curves on an 4.2" B/W ePaper display. It operates from a LiPo battery which should be good for 3-6 month on one charge, and can be recharged via USB.
 Basic features:
 - 4.2" ePaper Display (I am using the display from WeAct, but others with 400x300 resolution are also possible)
-- ESP32 Lolin32 Lite module for battery operation, with 1800 mAh LiPo battery intended for 3-6 months operation (not yet tested), chraging via USB
+- ESP32 Lolin32 Lite module for battery operation, with 1800 mAh LiPo battery intended for 3-6 months operation (not yet tested), charging via USB
 - BME280 high quality sensor for pressure, temperature and humidity
 - Curves for pressure, temperature, humidity in all combinations
 - automatic adjustement of display with independent scales for all 3 measured paramters 
@@ -27,8 +27,12 @@ The project presently supports two devices:
    - [BME 280 Module 3.3V](https://www.amazon.de/s?k=bme280&ref=404_search) Make sure that you get a module with 4 pins (6 pins would also work, but not fit into the housing), and from a reliable supplier. Beware: there are many cheap boards on Ebay that in reality do not contain a BME280 (square chip housing), but a BMP280 (rectangular chip housing)
    - [1800 mAh LiPo Battery 52x34x10 mm with JST-PH 2.0 connector](https://www.ebay.de/itm/255510046348?mkcid=16&mkevt=1&mkrid=707-127634-2357-0&ssspo=yTbngviFSJu&sssrc=4429486&ssuid=nJMJusrNRZS&var=555706977194&widget_ver=artemis&media=COPY) Other LiPo batteries will also work, but likely not fit into the housing. **ATTENTION** for whatever reason the +/- on the board are not identical to the polarity of most available batteries. **Do not use as delivered, you will likely fry the board!** With a small pin you can unlatch the pins in the JST connector, pull out the pins and insert them again in reverse order.
    - JST PH 2.0 ( male & female) connectors. Connectors alsready configured with cables can be used.
-   - 4.2" ePaper display module by WeAct 
-   - [Elecrow CrowPanel](https://www.elecrow.com/wiki/CrowPanel_ESP32_E-paper_4.2-inch_HMI_Display.html?srsltid=AfmBOopLg2lyLTtVUnrafO5OQ8krdLfANDyudeDwoHQay9rsuxcy4Twv) with 4.2" ePaper display and BME280 sensor connected to the exposed GPIO pins
+   - [4.2" ePaper display module by WeAct](https://de.aliexpress.com/w/wholesale-Weact-studio-ePaper-4.2.html?spm=a2g0o.detail.search.0) 
+   - [Elecrow CrowPanel](https://www.elecrow.com/wiki/CrowPanel_ESP32_E-paper_4.2-inch_HMI_Display.html?srsltid=AfmBOopLg2lyLTtVUnrafO5OQ8krdLfANDyudeDwoHQay9rsuxcy4Twv) with 4.2" ePaper display and BME280 sensor connected to the exposed GPIO pins.
+2. Elecrow CrowPanel 4.2" ePaper
+  - [Elecrow CrowPanel 2.2" e-paper HMI display](https://m.elecrow.com/pages/shop/product/details?id=207653&srsltid=AfmBOoq9SIdzb9AhMf4R4YTJ9BLrYichk5EBjKeTe6YT30B_DNrccfvo)
+  - [BME 280 Module 3.3V](https://www.amazon.de/s?k=bme280&ref=404_search) Make sure that you get a module with 4 pins (6 pins would also work, but not fit into the housing), and from a reliable supplier. Beware: there are many cheap boards on Ebay that in reality do not contain a BME280 (square chip housing), but a BMP280 (rectangular chip housing)
+   - [1800 mAh LiPo Battery 52x34x10 mm with JST-PH 2.0 connector](https://www.ebay.de/itm/255510046348?mkcid=16&mkevt=1&mkrid=707-127634-2357-0&ssspo=yTbngviFSJu&sssrc=4429486&ssuid=nJMJusrNRZS&var=555706977194&widget_ver=artemis&media=COPY) Other LiPo batteries will also work, but likely not fit into the housing. **ATTENTION** for whatever reason the +/- on the board are not identical to the polarity of most available batteries. **Do not use as delivered, you will likely fry the board!** With a small pin you can unlatch the pins in the JST connector, pull out the pins and insert them again in reverse order.
 
 ## Schematics and PCB
 ### Lolin32 Lite
