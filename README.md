@@ -25,7 +25,19 @@ The project presently supports two devices:
 2. [Elecrow CrowPanel](https://www.elecrow.com/wiki/CrowPanel_ESP32_E-paper_4.2-inch_HMI_Display.html?srsltid=AfmBOopLg2lyLTtVUnrafO5OQ8krdLfANDyudeDwoHQay9rsuxcy4Twv) with 4.2" ePaper display and BME280 sensor connected to the exposed GPIO pins
 
 ## Schematics and PCB
+### Lolin32 Lite
 I have created a PCB for the project, when using the Lolin32 Lite module. It permits to connect the Lolin32 Lite module, ePaper, BME280 and battery connectors. It is also possible to add up to 2 DS18B20 temperature sensors and a piezo beeper - both not presently supported by the software. GPIO pins that are not directly used are exposed on a separate connector.
 Gerber files are included in this project.
 ![PCB](https://github.com/88markus88/ESP32_ePaper_Barograph/blob/main/PCB/ePaperBarograf_schematic_V0.1.jpg)
 ![PCB](https://github.com/88markus88/ESP32_ePaper_Barograph/blob/main/PCB/ePaperBarograf_PCB_V0.1.jpg)
+### Elecrow CrowPanel 4.2" ePaper
+This handy device can be used as is, with these addtions:
+- BME280 (3.3V version) has to be connected via the connector on top to 3.3V, GND and SDA (GPIO15)/ SCL (GPIO19)
+- LiPo battery can be connected via "Battery" connector on the left side of the housing. This is optional, without battery you need to keep the system permanently connected to power via USB - with every power loss the history data, which are kept in "RTC memory" are lost. 
+
+## Building the Software
+The software is written in C++, platform is Arduino and development environment is Platformio with VSCode. 
+platformio.ini contains two development environments:
+- env:Lolin32Lite_ePaper - this is the environment used for the Lolin32 Lite with separate 4.2" ePaper and battery. 
+- env:CrowPanel_42 - this is the environment used for the Elecrow CrowPanel 4.2" ePaper.
+Just connect your ESP32 to the computer via USB, select the env for the system you are building for and start the build. Platformio will automatically load the libraries that are needed and upload the firmware via USB Port. 
