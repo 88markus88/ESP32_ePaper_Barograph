@@ -31,6 +31,7 @@ static const uint8_t EPD_MOSI = 23; // to EPD DIN
 
 //**** use push buttons */
 #define isPushButtons 
+#undef isButtonInterrupts
 #undef showSimpleData // no simple data display, but full graphics
 
 //*** define for voltage threshhold: recognition of chage/discharge if voltage increases/ drops more than this

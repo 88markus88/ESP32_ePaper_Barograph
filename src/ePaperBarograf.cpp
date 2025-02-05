@@ -40,7 +40,7 @@ struct Button {
 
 #ifdef isPushButtons
   #ifdef LOLIN32_LITE
-    #define BUTTON1 GPIO_NUM_2   // upper black button
+    #define BUTTON1 GPIO_NUM_12   // upper black button
     #define BUTTON2 GPIO_NUM_14  // middle red button
     #define BUTTON3 GPIO_NUM_13  // lower red  button
   #endif
@@ -73,7 +73,7 @@ uint32_t multiplier = MULTIPLIER_FULL;  // slepp time multiplier (standard is 1 
 //uint32_t targetSleepSec;                // target sleep time in seconds
 uint32_t targetSleepUSec;               // target sleep time in microseconds
 
-char outstring[160];                     // for serial and other output
+char outstring[maxLOG_STRING_LEN];      // for serial and other debug output
 
 Adafruit_BME280 bme;                    // BME280 sensor I2C
 float temperature = 0;                  // data read by BME280
@@ -96,12 +96,29 @@ RTC_DATA_ATTR measurementData wData;
 RTC_DATA_ATTR uint32_t fgndColor;
 RTC_DATA_ATTR uint32_t bgndColor;
 
+// determine after how many partial updates a full update of the epaper is to be done
+// 1: always full update
 #ifdef LOLIN32_LITE
   #define FULL_UPDATE_INTERVAL  10
 #endif
 #ifdef CROW_PANEL
-  #define FULL_UPDATE_INTERVAL  2
+  #define FULL_UPDATE_INTERVAL  1
 #endif
+
+/**************************************************!
+   @brief    logOut()
+   @details  Function create log output
+   @return   void
+***************************************************/
+void logOut(int logLevel, char* str)
+{
+  // for safety: ensure zero termination
+  str[maxLOG_STRING_LEN-1]=0;
+
+  if(logLevel <= logLEVEL){
+    Serial.println(str);
+  }
+}
 
 /**************************************************!
    @brief    Function to read the BME280 data 
@@ -115,11 +132,14 @@ void getBME280SensorData()
   bme.takeForcedMeasurement(); // has no effect in normal mode
 
   pressure = bme.readPressure()/100;
-  Serial.printf("Pressure: %3.1f mBar ", pressure);
+  sprintf(outstring,"Pressure: %3.1f mBar ", pressure);
+  logOut(2, outstring);
   humidity = bme.readHumidity();
-  Serial.printf("Humidity: %3.1f %% ", humidity);
+  sprintf(outstring,"Humidity: %3.1f %% ", humidity);
+  logOut(2, outstring);
   temperature = bme.readTemperature();
-  Serial.printf("Temperature: %3.1f °C \n", temperature);
+  sprintf(outstring,"Temperature: %3.1f °C \n", temperature);
+  logOut(2, outstring);
 }  // of method "getSensorData()"
 
 
@@ -144,7 +164,7 @@ int readBatteryVoltage(float* percent, float* volt)
   else if (*volt <= 3.50) *percent = 0;
 
   sprintf(outstring," readval: %d Voltage: %3.2f Percent: %3.1f\n",readval, *volt,*percent);
-  Serial.print(outstring);
+  logOut(2,outstring);
   return(true);
 }
 
@@ -158,7 +178,7 @@ void fillTestData()
   float randomspread = 2.0;
   float cosrange = 5.0;
 
-  Serial.println("Filling test data");
+  logOut(2,(char*)"Filling test data");
 
   wData.pressHistoryMax= - 1000000;
   wData.pressHistoryMin=   1000000;
@@ -167,10 +187,12 @@ void fillTestData()
   wData.humiHistoryMax=   0;      // unsigned integer
   wData.humiHistoryMin=   10000;
 
-  // TEST - remove next 3 lines for working version. Overwrites preferences every time!
+  // TEST - remove next 3 lines for working version. Overwrites preferences every time when recompiled!
   wData.targetMeasurementIntervalSec = d_measIntervalSec;
   wData.graphTimeRangeHours = d_timeRangeHours;
   wData.preferencesChanged = true;
+  wData.indexFirstPointToDraw = offsetData72hGraph;
+  wData.graphicsType = d_graphicsType;
   //if(wData.applyPressureCorrection) 
   //  wData.applyPressureCorrection = true;
   //  wData.pressureCorrValue = 15.0;
@@ -182,7 +204,7 @@ void fillTestData()
   delay(500);                                // this brings us beyond the 5 sec threshold in doWork()
 
   sprintf(outstring,"************** fill test data %d ********************\n", wData.dataPresent);
-  Serial.print(outstring);
+  logOut(2,outstring);
   for(i=0;i<noDataPoints;i++)
   {
     wData.ageOfDatapoint[i] = (noDataPoints-i) * wData.targetMeasurementIntervalSec; // default spacing: 15 min = 900 sec
@@ -210,10 +232,10 @@ void fillTestData()
   sprintf(outstring,"Min/Max Tstdata: P: %3.1f-%3.1f T:  %3.1f-%3.1f H: %d-%d", 
         wData.pressHistoryMin, wData.pressHistoryMax,  wData.tempHistoryMin,  wData.tempHistoryMax,
         wData.humiHistoryMin, wData.humiHistoryMax);
-  Serial.println(outstring);  
+  logOut(2,outstring);  
   sprintf(outstring,"Tstdata: Time: %ld.%06ld sec", 
         wData.lastMeasurementTimestamp.tv_sec, wData.lastMeasurementTimestamp.tv_usec);
-  Serial.println(outstring);  
+  logOut(2,outstring);  
 
   // 3 hour pressure change value: minus 3h = 12 data points at 15 min per point
   wData.pressure3hChange = wData.pressHistory[noDataPoints-1]-wData.pressHistory[noDataPoints-1-12];
@@ -273,12 +295,12 @@ void calc3HourChanges()
 
   //previous simplified method, on point and assuming 900 sec per data point
   //wData.pressure3hChange = wData.pressHistory[noDataPoints-1]-wData.pressHistory[noDataPoints-1-12];
-  sprintf(outstring, "3h:%d t:%d Pold:%3.2f Pnew:%3.2f 3hC:%3.3f Told:%3.2f, Tnew:%3.2f 3hC:%3.3f Hold:%3.2f Hnew:%3.2f 3hC:%3.3f\n",
+  sprintf(outstring, "3h:%d t:%ld Pold:%3.2f Pnew:%3.2f 3hC:%3.3f Told:%3.2f, Tnew:%3.2f 3hC:%3.3f Hold:%3.2f Hnew:%3.2f 3hC:%3.3f\n",
       marker, wData.ageOfDatapoint[marker], 
       oldP, newP, wData.pressure3hChange, 
       oldT, newT, wData.temperature3hChange,
       oldH, newH, wData.humidity3hChange);
-  Serial.print(outstring);    
+  logOut(2,outstring);    
 }
 
 /**************************************************!
@@ -293,10 +315,11 @@ void outputStoredData(uint16_t l_idx, uint16_t u_idx)
 
   for(i=0;i<noDataPoints;i++){
     if(i <= l_idx || i >= u_idx){
-      sprintf(outstring,"i: %d, age %ld time_sec: %ld P: %3.1f T: %3.1f H: %3.1f",
-        i, wData.ageOfDatapoint[i], wData.timestampSecondsOfDataPoint[i],
+      //sprintf(outstring,"i: %d, age %ld time_sec: %ld P: %3.1f T: %3.1f H: %3.1f",
+      sprintf(outstring,"i: %d, age %ld P: %3.1f H: %d H: %3.1f",
+        i, wData.ageOfDatapoint[i], //wData.timestampSecondsOfDataPoint[i],
         wData.pressHistory[i], wData.humiHistory[i], wData.tempHistory[i]);
-      Serial.println(outstring)  ;
+      logOut(2,outstring)  ;
     }  
   }
 
@@ -314,7 +337,7 @@ void quarterMeasurementScale()
   uint32_t interv;
 
   sprintf(outstring,"Before quarterMScale: wData.targetMeasurementIntervalSec: %ld",  wData.targetMeasurementIntervalSec);
-  Serial.println(outstring);
+  logOut(2,outstring);
 
   //outputStoredData(5, noDataPoints-5); // limited ouput
   outputStoredData(noDataPoints, 0);   // output all 
@@ -333,28 +356,28 @@ void quarterMeasurementScale()
       sprintf(outstring, "idx: %d i: %d age[idx, i] %ld %ld: P[idx, i]: %3.1f %3.1f", 
         idx, i, wData.ageOfDatapoint[idx], wData.ageOfDatapoint[i],
         wData.pressHistory[idx], wData.pressHistory[i]);
-      Serial.println(outstring);
+      logOut(2,outstring);
     }  
     wData.ageOfDatapoint[idx]             = wData.ageOfDatapoint[i];
-    wData.timestampSecondsOfDataPoint[idx]= wData.timestampSecondsOfDataPoint[i];
+    //wData.timestampSecondsOfDataPoint[idx]= wData.timestampSecondsOfDataPoint[i];
     wData.pressHistory[idx]               = wData.pressHistory[i];
     wData.humiHistory[idx]                = wData.humiHistory[i];
     wData.tempHistory[idx]                = wData.tempHistory[i];
     idx++;
     wData.ageOfDatapoint[idx]             = wData.ageOfDatapoint[i] + interv;
-    wData.timestampSecondsOfDataPoint[idx]= wData.timestampSecondsOfDataPoint[i];
+    //wData.timestampSecondsOfDataPoint[idx]= wData.timestampSecondsOfDataPoint[i];
     wData.pressHistory[idx]               = wData.pressHistory[i];
     wData.humiHistory[idx]                = wData.humiHistory[i];
     wData.tempHistory[idx]                = wData.tempHistory[i];
     idx++;
     wData.ageOfDatapoint[idx]             = wData.ageOfDatapoint[i] + 2 * interv; 
-    wData.timestampSecondsOfDataPoint[idx]= wData.timestampSecondsOfDataPoint[i];
+    //wData.timestampSecondsOfDataPoint[idx]= wData.timestampSecondsOfDataPoint[i];
     wData.pressHistory[idx]               = wData.pressHistory[i];
     wData.humiHistory[idx]                = wData.humiHistory[i];
     wData.tempHistory[idx]                = wData.tempHistory[i];
     idx++;
     wData.ageOfDatapoint[idx]           = wData.ageOfDatapoint[i] + 3 * interv;
-    wData.timestampSecondsOfDataPoint[idx]= wData.timestampSecondsOfDataPoint[i];
+    //wData.timestampSecondsOfDataPoint[idx]= wData.timestampSecondsOfDataPoint[i];
     wData.pressHistory[idx]               = wData.pressHistory[i];
     wData.humiHistory[idx]                = wData.humiHistory[i];
     wData.tempHistory[idx]                = wData.tempHistory[i];
@@ -367,11 +390,11 @@ void quarterMeasurementScale()
      wData.ageOfDatapoint[i] = idx * wData.targetMeasurementIntervalSec;
      idx++;
      //sprintf(outstring,"i: %d idx: %d", i, idx);
-     //Serial.println(outstring);
+     //logOut(2,outstring);
   } 
 
   sprintf(outstring,"After quarterMScale: wData.targetMeasurementIntervalSec: %ld",  wData.targetMeasurementIntervalSec);
-  Serial.println(outstring);
+  logOut(2,outstring);
   //outputStoredData(5, noDataPoints-5); // limited ouput
   outputStoredData(noDataPoints, 0);   // output all 
 }
@@ -388,7 +411,7 @@ void halfMeasurementScale()
   uint32_t interv;
 
   sprintf(outstring,"Before halfMScale: wData.targetMeasurementIntervalSec: %ld",  wData.targetMeasurementIntervalSec);
-  Serial.println(outstring);
+  logOut(2,outstring);
   //outputStoredData(5, noDataPoints-5); // limited ouput
   outputStoredData(noDataPoints, 0);   // output all 
 
@@ -406,16 +429,16 @@ void halfMeasurementScale()
       sprintf(outstring, "idx: %d i: %d age[idx, i] %ld %ld: P[idx, i]: %3.1f %3.1f", 
         idx, i, wData.ageOfDatapoint[idx], wData.ageOfDatapoint[i],
         wData.pressHistory[idx], wData.pressHistory[i]);
-      Serial.println(outstring);
+      logOut(2,outstring);
     }  
     wData.ageOfDatapoint[idx]             = wData.ageOfDatapoint[i];
-    wData.timestampSecondsOfDataPoint[idx]= wData.timestampSecondsOfDataPoint[i];
+    //wData.timestampSecondsOfDataPoint[idx]= wData.timestampSecondsOfDataPoint[i];
     wData.pressHistory[idx]               = wData.pressHistory[i];
     wData.humiHistory[idx]                = wData.humiHistory[i];
     wData.tempHistory[idx]                = wData.tempHistory[i];
     idx++;
     wData.ageOfDatapoint[idx]             = wData.ageOfDatapoint[i] + interv;
-    wData.timestampSecondsOfDataPoint[idx]= wData.timestampSecondsOfDataPoint[i];
+    //wData.timestampSecondsOfDataPoint[idx]= wData.timestampSecondsOfDataPoint[i];
     wData.pressHistory[idx]               = wData.pressHistory[i];
     wData.humiHistory[idx]                = wData.humiHistory[i];
     wData.tempHistory[idx]                = wData.tempHistory[i];
@@ -430,7 +453,7 @@ void halfMeasurementScale()
   } 
 
   sprintf(outstring,"After halfMScale: wData.targetMeasurementIntervalSec: %ld",  wData.targetMeasurementIntervalSec);
-  Serial.println(outstring);
+  logOut(2,outstring);
   //outputStoredData(5, noDataPoints-5); // limited ouput
   outputStoredData(noDataPoints, 0);   // output all 
 }
@@ -447,7 +470,7 @@ void quadrupleMeasurementScale()
   uint32_t interv;
 
   sprintf(outstring,"Before quadrupleMScale: wData.targetMeasurementIntervalSec: %ld",  wData.targetMeasurementIntervalSec);
-  Serial.println(outstring);
+  logOut(2,outstring);
   //outputStoredData(5, noDataPoints-5); // limited ouput
   outputStoredData(noDataPoints, 0);   // output all 
 
@@ -465,10 +488,10 @@ void quadrupleMeasurementScale()
       sprintf(outstring, "idx: %d i: %d age[idx, i] %ld %ld: P[idx, i]: %3.1f %3.1f", 
         idx, i, wData.ageOfDatapoint[idx], wData.ageOfDatapoint[i],
         wData.pressHistory[idx], wData.pressHistory[i]);
-      Serial.println(outstring);
+      logOut(2,outstring);
     }  
     wData.ageOfDatapoint[idx]             = (wData.ageOfDatapoint[i]              +wData.ageOfDatapoint[i-1]              +wData.ageOfDatapoint[i-2]              +wData.ageOfDatapoint[i-3])/4;
-    wData.timestampSecondsOfDataPoint[idx]= (wData.timestampSecondsOfDataPoint[i] +wData.timestampSecondsOfDataPoint[i-1] +wData.timestampSecondsOfDataPoint[i-2] +wData.timestampSecondsOfDataPoint[i-3])/4;
+    //wData.timestampSecondsOfDataPoint[idx]= (wData.timestampSecondsOfDataPoint[i] +wData.timestampSecondsOfDataPoint[i-1] +wData.timestampSecondsOfDataPoint[i-2] +wData.timestampSecondsOfDataPoint[i-3])/4;
     wData.pressHistory[idx]               = (wData.pressHistory[i]                +wData.pressHistory[i-1]                +wData.pressHistory[i-2]                +wData.pressHistory[i-3])/4;
     wData.humiHistory[idx]                = (wData.humiHistory[i]                 +wData.humiHistory[i-1]                 +wData.humiHistory[i-2]                 +wData.humiHistory[i-3])/4;
     wData.tempHistory[idx]                = (wData.tempHistory[i]                 +wData.tempHistory[i-1]                 +wData.tempHistory[i-2]                 +wData.tempHistory[i-3])/4;
@@ -511,7 +534,7 @@ void quadrupleMeasurementScale()
   } 
 
   sprintf(outstring,"After quadrupleMScale: wData.targetMeasurementIntervalSec: %ld",  wData.targetMeasurementIntervalSec);
-  Serial.println(outstring);
+  logOut(2,outstring);
   //outputStoredData(5, noDataPoints-5); // limited ouput
   outputStoredData(noDataPoints, 0);   // output all 
 }
@@ -528,7 +551,7 @@ void doubleMeasurementScale()
   uint32_t interv;
 
   sprintf(outstring,"Before doubleMScale: wData.targetMeasurementIntervalSec: %ld",  wData.targetMeasurementIntervalSec);
-  Serial.println(outstring);
+  logOut(2,outstring);
   //outputStoredData(5, noDataPoints-5); // limited ouput
   outputStoredData(noDataPoints, 0);   // output all 
 
@@ -546,10 +569,10 @@ void doubleMeasurementScale()
       sprintf(outstring, "idx: %d i: %d age[idx, i] %ld %ld: P[idx, i]: %3.1f %3.1f", 
         idx, i, wData.ageOfDatapoint[idx], wData.ageOfDatapoint[i],
         wData.pressHistory[idx], wData.pressHistory[i]);
-      Serial.println(outstring);
+      logOut(2,outstring);
     }  
     wData.ageOfDatapoint[idx]             = (wData.ageOfDatapoint[i]              +wData.ageOfDatapoint[i-1]              )/2;
-    wData.timestampSecondsOfDataPoint[idx]= (wData.timestampSecondsOfDataPoint[i] +wData.timestampSecondsOfDataPoint[i-1] )/2;
+    //wData.timestampSecondsOfDataPoint[idx]= (wData.timestampSecondsOfDataPoint[i] +wData.timestampSecondsOfDataPoint[i-1] )/2;
     wData.pressHistory[idx]               = (wData.pressHistory[i]                +wData.pressHistory[i-1]                )/2;
     wData.humiHistory[idx]                = (wData.humiHistory[i]                 +wData.humiHistory[i-1]                 )/2;
     wData.tempHistory[idx]                = (wData.tempHistory[i]                 +wData.tempHistory[i-1]                 )/2;
@@ -590,7 +613,7 @@ void doubleMeasurementScale()
   }  
 
   sprintf(outstring,"After doubleMScale: wData.targetMeasurementIntervalSec: %ld",  wData.targetMeasurementIntervalSec);
-  Serial.println(outstring);
+  logOut(2,outstring);
   //outputStoredData(5, noDataPoints-5); // limited ouput
   outputStoredData(noDataPoints, 0);   // output all 
 }
@@ -691,7 +714,7 @@ void storeMeasurementData()
   sprintf(outstring,"Min/Max StorMeasedata: P: %3.1f-%3.1f T:  %3.1f-%3.1f H:  %d-%d", 
         wData.pressHistoryMin, wData.pressHistoryMax,  wData.tempHistoryMin,  wData.tempHistoryMax,
         wData.humiHistoryMin, wData.humiHistoryMax);
-  Serial.println(outstring);      
+  logOut(2,outstring);      
 
   // don't forget to write the target sleeptime in sec last - needed next time!
   wData.lastTargetSleeptime = wData.targetMeasurementIntervalSec;
@@ -715,17 +738,19 @@ uint32_t print_wakeup_reason()
   wakeup_reason = esp_sleep_get_wakeup_cause();
 
   switch (wakeup_reason) {
-    case ESP_SLEEP_WAKEUP_EXT0:     Serial.println("Wakeup caused by external signal using RTC_IO"); break;
-    case ESP_SLEEP_WAKEUP_EXT1:     Serial.println("Wakeup caused by external signal using RTC_CNTL"); break;
-    case ESP_SLEEP_WAKEUP_TIMER:    Serial.println("Wakeup caused by timer"); break;
-    case ESP_SLEEP_WAKEUP_TOUCHPAD: Serial.println("Wakeup caused by touchpad"); break;
-    case ESP_SLEEP_WAKEUP_ULP:      Serial.println("Wakeup caused by ULP program"); break;
-    default:                        Serial.printf("Wakeup was not caused by deep sleep: %d\n", wakeup_reason); break;
+    case ESP_SLEEP_WAKEUP_EXT0:     logOut(2,(char*)"Wakeup caused by external signal using RTC_IO"); break;
+    case ESP_SLEEP_WAKEUP_EXT1:     logOut(2,(char*)"Wakeup caused by external signal using RTC_CNTL"); break;
+    case ESP_SLEEP_WAKEUP_TIMER:    logOut(2,(char*)"Wakeup caused by timer"); break;
+    case ESP_SLEEP_WAKEUP_TOUCHPAD: logOut(2,(char*)"Wakeup caused by touchpad"); break;
+    case ESP_SLEEP_WAKEUP_ULP:      logOut(2,(char*)"Wakeup caused by ULP program"); break;
+    default:                        sprintf(outstring,"Wakeup was not caused by deep sleep: %d\n", wakeup_reason); break;
+                                    logOut(2, outstring);
   }
   return(wakeup_reason);
 }
 
 #ifdef isPushButtons
+  #ifdef isButtonInterrupts
   /*****************************************************************************! 
     @brief  push button interrupt routines
     @details 
@@ -737,7 +762,7 @@ uint32_t print_wakeup_reason()
       button1.numberKeyPresses += 1;
     button1.pressed = true;
     //sprintf(outstring, "Button 1 pressed %d\n", button1.numberKeyPresses);
-    //Serial.print(outstring);
+    //logOut(2,outstring);
   }
 
   void ARDUINO_ISR_ATTR button2Handler()
@@ -750,7 +775,7 @@ uint32_t print_wakeup_reason()
     }  
     button2.pressed = true;
     //printf(outstring, "Button 2 pressed %d\n", button2.numberKeyPresses);
-    //Serial.print(outstring);
+    //logOut(2,outstring);
   }
 
   void ARDUINO_ISR_ATTR button3Handler()
@@ -763,10 +788,11 @@ uint32_t print_wakeup_reason()
 
       //sprintf(outstring, "Button 3 pressed %d PressurecCorrection toggled to %d\n", 
       //        button3.numberKeyPresses, wData.applyPressureCorrection);
-      //Serial.print(outstring);
+      //logOut(2,outstring);
     }  
     button3.pressed = true;
    }
+   #endif // isButtonInterrupts
 #endif // isPushButtons
 
 /*****************************************************************************! 
@@ -843,13 +869,13 @@ void readPreferences()
     //if(startCounter > 9999999) startCounter = 0; // rollover
     //if(dischgCnt > 9999999) dischgCnt = 0; // rollover
 
-    sprintf(outstring,"Read Preferences: pcorr: %d pval: %3.1f Inv: %d measInt:%d TRange:%d Graph: %d", 
+    sprintf(outstring,"Read Preferences: pcorr: %d pval: %3.1f Inv: %d measInt:%ld TRange:%ld Graph: %ld", 
                 wData.applyPressureCorrection, wData.pressureCorrValue, wData.applyInversion,
                 wData.targetMeasurementIntervalSec, wData.graphTimeRangeHours, wData.graphicsType);
-    Serial.println(outstring);  
-    sprintf(outstring,"Read Preferences: bytes: %d startCounter: %d dischgCnt %d prevVoltage %3.3f, prevMicrovolt %d ", 
+    logOut(2,outstring);  
+    sprintf(outstring,"Read Preferences: bytes: %d startCounter: %ld dischgCnt %ld prevVoltage %3.3f, prevMicrovolt %ld ", 
                 bytes, startCounter, dischgCnt, prevVoltage, prevMicrovolt);
-    Serial.println(outstring); 
+    logOut(2,outstring); 
 }
 
 /*****************************************************************************! 
@@ -868,9 +894,9 @@ void writePreferences()
     prefs[2] = prevMicrovolt;
     prefs[3] = 0;
     ret1 = preferences.putBytes(prefIDENT, prefs, sizeof(prefs));
-    sprintf(outstring,"Wrote Counter Preferences: ret: %d ctrM:%d ctrD:%d prevMV:%d [3]:%d",
+    sprintf(outstring,"Wrote Counter Preferences: ret: %d ctrM:%ld ctrD:%ld prevMV:%ld [3]:%3.1f",
       ret1, startCounter, dischgCnt, prevMicrovolt, prefs[3]);
-    Serial.println(outstring); 
+    logOut(3,outstring); 
 
     //----- pressure correction
     ret2 = preferences.putBool("applyPCorr", wData.applyPressureCorrection);
@@ -895,13 +921,13 @@ void writePreferences()
     //preferences.clear();  // clear the namespace completely
     preferences.end(); // close the namespace
 
-    sprintf(outstring,"Wrote Preferences: pcorr: %d pval: %3.1f Inv: %d measInt:%d TRange:%d", 
+    sprintf(outstring,"Wrote Preferences: pcorr: %d pval: %3.1f Inv: %d measInt:%ld TRange:%ld", 
                 wData.applyPressureCorrection, wData.pressureCorrValue, wData.applyInversion,
                 wData.targetMeasurementIntervalSec, wData.graphTimeRangeHours);
-    Serial.println(outstring);  
+    logOut(3,outstring);  
     sprintf(outstring,"Wrote Preferences: ret values: %d %d %d %d %d %d\n", 
                 ret1, ret2, ret3, ret4, ret5, ret6);
-    Serial.println(outstring); 
+    logOut(3,outstring); 
 }
 
 
@@ -916,13 +942,13 @@ void gotoDeepSleep(gpio_num_t button, uint64_t deepSleepTime)
   //**********  TEST override
   // sleeptime = 60 * SECONDS - 1000*(millis()-startTimeMillis);
   uint32_t am = millis();
-  sprintf(outstring,"Hibernating for target %ld sec: %lld usec (act millis: %ld start millis: %ld)", 
+  sprintf(outstring,"Hibernating for target %ld sec: %lld usec (act millis: %ld start millis: %ld)    ", 
           wData.targetMeasurementIntervalSec, deepSleepTime, am, startTimeMillis);  
-  Serial.println(outstring);
+  logOut(2,outstring);
   if(deepSleepTime > maxSleeptimeSafetyLimit){
-    sprintf(outstring,"Hibernating time %lld usec above safety limit. Reducing to %ld usec", 
+    sprintf(outstring,"Hibernating time %lld usec above safety limit. Reducing to %ld usec    ", 
           deepSleepTime, maxSleeptimeSafetyLimit);  
-    Serial.println(outstring);
+    logOut(2,outstring);
   }
 
   // shut down display
@@ -957,9 +983,9 @@ void writeCounterPreferences()
   int ret;
   bool writing_counter_prefs = false;
   writing_counter_prefs = true;
-  sprintf(outstring,"Store to preferences: startCounter %d dischgCnt %d prevVoltage %f prevMicrovolt %d\n", 
+  sprintf(outstring,"Store to preferences: startCounter %ld dischgCnt %ld prevVoltage %f prevMicrovolt %ld\n", 
      startCounter, dischgCnt, prevVoltage, prevMicrovolt),
-  Serial.println(outstring);
+  logOut(2,outstring);
   // open preferences namespace in rw mode mode and write preferences infos.
   preferences.begin(prefIDENT, false);
   prefs[0] = startCounter;
@@ -969,7 +995,7 @@ void writeCounterPreferences()
   ret = preferences.putBytes(prefIDENT, prefs, sizeof(prefs));
   preferences.end(); // close the namespace
   sprintf(outstring,"Write Counter preferenes ret: %d \n", ret);
-  Serial.println(outstring);        
+  logOut(2,outstring);        
 }
 
 /*****************************************************************************! 
@@ -984,7 +1010,11 @@ void handleExt0Wakeup()
 
     // if woken up by button1 long press: goto bluetooth configuration routine
     #ifdef LOLIN32_LITE
-    bluetoothConfigMain(); 
+      bluetoothConfigMain(); 
+    #endif
+    // if CrowPanel: try Web Bluetooth BLE 
+    #ifdef CROW_PANEL
+      bleConfigMain();
     #endif
 }
 
@@ -1001,18 +1031,18 @@ void setup()
   char* cp;
   Serial.begin(115200);   // set speed for serial monitor
 
-  Serial.println("**********************************************************");
+  logOut(2,(char*)"**********************************************************");
   sprintf(outstring,"* %s %s - %s ",PROGNAME, VERSION, BUILD_DATE);
-  Serial.println(outstring);
-  Serial.println("**********************************************************");
+  logOut(2,outstring);
+  logOut(2,(char*)"**********************************************************");
 
   #ifdef READ_PREFERENCES
     // get data from EEPROM using preferences library in readonly mode
     readPreferences();
   #else
-    sprintf(outstring,"Values from RTC memory: %d startCounter: %d dischgCnt %d prevVoltage %3.3f, prevMicrovolt %d ", 
+    sprintf(outstring,"Values from RTC memory: startCounter: %ld dischgCnt %ld prevVoltage %3.3f, prevMicrovolt %ld ", 
                 startCounter, dischgCnt, prevVoltage, prevMicrovolt);
-    Serial.println(outstring);   
+    logOut(2,outstring);   
   #endif // READ_PREFERENCES        
 
   // create test data if required
@@ -1025,7 +1055,7 @@ void setup()
   #endif
 
   // initialize the display
-  Serial.println("before initDisplay()");
+  logOut(2,(char*)"before initDisplay()");
   initDisplay(startCounter, FULL_UPDATE_INTERVAL); 
 
   // BME280 initialization. First set the pins I2C, not available in standard for Lolin32 Lite.
@@ -1033,14 +1063,14 @@ void setup()
   Wire.setPins(I2C_SDA_PIN, I2C_SCL_PIN);
   // Init BME280 I2C address depends on sensor 0x76 or 0x77.
   if (!bme.begin(0x76, &Wire)){
-    Serial.println("Could not find a valid BME280 sensor, check wiring!");
+    logOut(2,(char*)"Could not find a valid BME280 sensor, check wiring!");
     //delay(2000);
   }  
  
   // recommended settings for weather monitoring
-  Serial.println("-- Weather Station Scenario --");
-  Serial.println("forced mode, 1x temperature / 1x humidity / 1x pressure oversampling,");
-  Serial.println("filter off");
+  logOut(2,(char*)"-- Weather Station Scenario --");
+  logOut(2,(char*)"forced mode, 1x temperature / 1x humidity / 1x pressure oversampling,");
+  logOut(2,(char*)"filter off");
   bme.setSampling(Adafruit_BME280::MODE_FORCED,
                   Adafruit_BME280::SAMPLING_X1, // temperature
                   Adafruit_BME280::SAMPLING_X1, // pressure
@@ -1050,13 +1080,23 @@ void setup()
   // PushButton setup
   #ifdef isPushButtons
     // pinMode(PushButton, RISING);
+    
     pinMode(button1.PIN, INPUT_PULLDOWN);
-    attachInterrupt(digitalPinToInterrupt(button1.PIN),button1Handler, FALLING); 
     pinMode(button2.PIN, INPUT_PULLDOWN);
-    attachInterrupt(digitalPinToInterrupt(button2.PIN),button2Handler, FALLING); 
-    pinMode(button3.PIN, INPUT_PULLDOWN);
-    attachInterrupt(digitalPinToInterrupt(button3.PIN),button3Handler, FALLING); 
-  #endif                  
+    pinMode(button3.PIN, INPUT_PULLDOWN);    
+    #ifdef isButtonInterrupts
+      attachInterrupt(digitalPinToInterrupt(button1.PIN),button1Handler, FALLING); 
+      attachInterrupt(digitalPinToInterrupt(button2.PIN),button2Handler, FALLING); 
+      attachInterrupt(digitalPinToInterrupt(button3.PIN),button3Handler, FALLING); 
+    #endif
+  #endif // isPushButtons    
+
+  sprintf(outstring,"Heap Size: %ld FreeHp: %ld Max Block Alloc: %ld    ",
+      ESP.getHeapSize(),ESP.getFreeHeap(), ESP.getMaxAllocHeap());
+  logOut(2, outstring);    
+  sprintf(outstring,"Total PSRAM: %ld Free PSRAM: %ld    \n",
+      ESP.getPsramSize(),ESP.getFreePsram());    
+  logOut(2, outstring);    
 }  
 
 /************************** doWork - main worker routine ****************************/
@@ -1083,7 +1123,7 @@ void doWork()
   gettimeofday(&nowTime, NULL);                         // get time struct
   nowSec= nowTime.tv_sec; nowUsec = nowTime.tv_usec;
   measSec = wData.lastMeasurementTimestamp.tv_sec; measUsec = wData.lastMeasurementTimestamp.tv_usec;
-  sprintf(outstring,"doWork: nowSec: %ld nowUsec: %ld measSec: %ld measUsec: %ld",
+  sprintf(outstring,"doWork: nowSec: %ld nowUsec: %ld measSec: %ld measUsec: %ld    ",
     nowSec,  nowUsec, measSec, measUsec);
   elapsedSec = (long)nowTime.tv_sec - (long)wData.lastMeasurementTimestamp.tv_sec;
   elapsedUsec= (long)nowTime.tv_usec - (long)wData.lastMeasurementTimestamp.tv_usec; // can be negative, therefore singed type!
@@ -1095,16 +1135,16 @@ void doWork()
   else  
     readyToMeasure = false;  
 
-  sprintf(outstring,"DoWork. nowSec: %ld nowUsec: %ld measSec: %ld measUsec:%ld lastSleepAftM: %lld",
+  sprintf(outstring,"DoWork. nowSec: %ld nowUsec: %ld measSec: %ld measUsec:%ld lastSleepAftM: %lld    ",
           nowSec, nowUsec, measSec, measUsec, wData.lastActualSleeptimeAfterMeasUsec);
-  Serial.println(outstring);  
+  logOut(2,outstring);  
 
-  sprintf(outstring,"DoWork. now: %ld.%06ld lastMeas: %ld.%06ld elapsed s:%ld usec:%ld ReadytoMeas: %d",
+  sprintf(outstring,"DoWork. now: %ld.%06ld lastMeas: %ld.%06ld elapsed s:%ld usec:%ld ReadytoMeas: %d    ",
           nowTime.tv_sec,nowTime.tv_usec, 
           wData.lastMeasurementTimestamp.tv_sec, wData.lastMeasurementTimestamp.tv_usec,
           elapsedSec, elapsedUsec,
           readyToMeasure);
-    Serial.println(outstring);  
+    logOut(2,outstring);  
 
   if(!readyToMeasure){  // if time not reached: calculate new sleeptime and go to sleep
     drawMainGraphics(wData.graphicsType);
@@ -1129,7 +1169,7 @@ void doWork()
           wData.lastMeasurementTimestamp.tv_sec, wData.lastMeasurementTimestamp.tv_usec,
           elapsedUsec,
           wData.lastTargetSleeptime, sleeptime);
-    Serial.println(outstring);
+    logOut(2,outstring);
     // one more safety: when we have a measurement due to initialization, the sleep time becomes larger than the 
     // target sleep time. We have to subtract the targetSleeptimeUsec again. 3 sec tolerance added in comparison.
     if(sleeptime > targetSleepUSec + 10000000)
@@ -1152,42 +1192,44 @@ void doWork()
     elapsedSec = nowTime.tv_sec - wData.lastMeasurementTimestamp.tv_sec;
     elapsedUsec= nowTime.tv_usec - wData.lastMeasurementTimestamp.tv_usec; // can be negative, therefore singed type!
     elapsedUsec+= 1000000*elapsedSec;            
-    sprintf(outstring,"After Measurement. now: %ld.%06ld lastMeas: %ld.%06ld elapsedUsec %ld",
+    sprintf(outstring,"After Measurement. now: %ld.%06ld lastMeas: %ld.%06ld elapsedUsec %ld    ",
           nowTime.tv_sec,nowTime.tv_usec, 
           wData.lastMeasurementTimestamp.tv_sec, wData.lastMeasurementTimestamp.tv_usec,
           elapsedUsec);
-    Serial.println(outstring);
+    logOut(2,outstring);
 
-    sprintf(outstring,"Timestamps before assignment.last: %ld.%06ld last2: %lD.%06ld",
+    sprintf(outstring,"Timestamps before assignment.last: %ld.%06ld last2: %lD.%06ld    ",
         wData.lastMeasurementTimestamp.tv_sec, wData.lastMeasurementTimestamp.tv_usec,
         wData.last2MeasurementTimestamp.tv_sec, wData.last2MeasurementTimestamp.tv_usec);
-    Serial.println(outstring);
+    logOut(2,outstring);
     // remember the previous measurement timestamp
     wData.last2MeasurementTimestamp = wData.lastMeasurementTimestamp; 
     // store actual time as measurement time.
     gettimeofday(&wData.lastMeasurementTimestamp, NULL);         
-    sprintf(outstring,"Timestamps after assignment. last: %ld.%06ld last2: %lD.%06ld",
+    sprintf(outstring,"Timestamps after assignment. last: %ld.%06ld last2: %lD.%06ld    ",
         wData.lastMeasurementTimestamp.tv_sec, wData.lastMeasurementTimestamp.tv_usec,
         wData.last2MeasurementTimestamp.tv_sec, wData.last2MeasurementTimestamp.tv_usec);
-    Serial.println(outstring);
+    logOut(2,outstring);
 
-    readBatteryVoltage(&percent, &volt);                  // Auslesen der Batteriespannung
-    sprintf(outstring,"Voltage: %4.3f prevVoltage: %4.3f Percent: %3.1f\n", volt, prevVoltage, percent);
-    Serial.print(outstring);
+    #ifdef LOLIN32_LITE
+      readBatteryVoltage(&percent, &volt);                  // Auslesen der Batteriespannung
+    #endif  
+    sprintf(outstring,"Voltage: %4.3f prevVoltage: %4.3f Percent: %3.1f    \n", volt, prevVoltage, percent);
+    logOut(2,outstring);
 
     // recognize start of a discharge: voltage has decreased significantly, of a charge: voltage has increased significantly
     if((volt - prevVoltage > CHARGE_THRESHOLD)||(volt - prevVoltage < -DISCHARGE_THRESHOLD)){
       dischgCnt = 0;
-      sprintf(outstring,"Reset dischgCnt to: %d volt: %3.2f prevVoltage: %f Percent: %3.1f\n", 
+      sprintf(outstring,"Reset dischgCnt to: %ld volt: %3.2f prevVoltage: %f Percent: %3.1f    \n", 
             dischgCnt, volt, prevVoltage, percent);
-      Serial.print(outstring);
+      logOut(2,outstring);
     }  
     prevVoltage = volt;  
 
     // set sleep time. 
     targetSleepUSec= wData.targetMeasurementIntervalSec * SECONDS;
-    sprintf(outstring,"target sleep time: %ld WData.mIS: %ld, SEC: %ld", targetSleepUSec, wData.targetMeasurementIntervalSec, SECONDS);
-    Serial.println(outstring);
+    sprintf(outstring,"target sleep time: %ld WData.mIS: %ld, SEC: %ld    ", targetSleepUSec, wData.targetMeasurementIntervalSec, SECONDS);
+    logOut(2,outstring);
 
     // store data to main measurement data structure
     storeMeasurementData();
@@ -1199,7 +1241,7 @@ void doWork()
       drawMainGraphics(wData.graphicsType);
     #endif    
 
-    Serial.println("measurement and display done");
+    logOut(2,(char*)"measurement and display done");
     // increment counter and write it to permanent storage
     startCounter++;
     dischgCnt++;
@@ -1223,9 +1265,9 @@ void doWork()
 
     #ifdef USESLEEP
       if(button1.pressed || button2.pressed || button3.pressed){
-          sprintf(outstring,"Button pressed: %d %d %d",
+          sprintf(outstring,"Button pressed: %ld %ld %ld",
             button1.numberKeyPresses,button2.numberKeyPresses,button3.numberKeyPresses);
-          Serial.println(outstring);
+          logOut(2,outstring);
           button1.pressed = false;
           button2.pressed = false;
           button3.pressed = false;
@@ -1241,7 +1283,7 @@ void doWork()
       sprintf(outstring,"Timestamps before sleep. now: %ld.%06ld last2: %lD.%06ld",
         nowTime.tv_sec, nowTime.tv_usec,
         wData.last2MeasurementTimestamp.tv_sec, wData.last2MeasurementTimestamp.tv_usec);
-      Serial.println(outstring);
+      logOut(2,outstring);
       elapsedSec = nowTime.tv_sec - wData.last2MeasurementTimestamp.tv_sec; // compare with the remembered meas. time before
       elapsedUsec= nowTime.tv_usec- wData.last2MeasurementTimestamp.tv_usec; // can be negative, therefore singed type!
       elapsedUsec+= 1000000*elapsedSec;     // now we have the actually elapsed usec since last measurement
@@ -1251,7 +1293,7 @@ void doWork()
       long corr = corr1 * dampingFactor;
       sprintf(outstring,"sleeptime factors: elsapsedUsec:%ld targetMeasIntv: %ld %ld corr1: %ld corr: %ld",
          elapsedUsec, wData.targetMeasurementIntervalSec, targetSleepUSec, corr1, corr);
-      Serial.println(outstring);
+      logOut(2,outstring);
       
       if(elapsedSec < 2 * wData.targetMeasurementIntervalSec) // correct sleeptime, with damping to allow drift towards center 
         sleeptime = targetSleepUSec + corr; // instead of 230/220/230/220 sec now: 230/221/228/222/227/223/226/224...
@@ -1279,11 +1321,11 @@ void doWork()
       }
 
       wData.lastActualSleeptimeAfterMeasUsec = sleeptime;
-      sprintf(outstring,"Before sleep elapsedUs: %ld sleeptime: %lld, now: %ld.%06ld last: %lD.%06ld",
+      sprintf(outstring,"Before sleep elapsedUs: %ld sleeptime: %lld, now: %ld.%06ld last: %lD.%06ld    ",
         elapsedUsec, sleeptime, 
         nowTime.tv_sec, nowTime.tv_usec,
         wData.last2MeasurementTimestamp.tv_sec, wData.last2MeasurementTimestamp.tv_usec);
-      Serial.println(outstring);  
+      logOut(2,outstring);  
       end of trial 2*/ 
 
       /* trial 3 - simplified */
@@ -1292,19 +1334,19 @@ void doWork()
       //sleeptime = targetSleepUSec - 1000*(am-measTimeMillis);
       wData.lastActualSleeptimeAfterMeasUsec = sleeptime;
       wData.justInitialized = false;
-      sprintf(outstring, "simplified sleep calc. targetSlUSec: %ld startTM:%ld measTM: %ld actTM:%ld sleeptime: %lld",
+      sprintf(outstring, "simplified sleep calc. targetSlUSec: %ld startTM:%ld measTM: %ld actTM:%ld sleeptime: %lld      ",
           targetSleepUSec, startTimeMillis, measTimeMillis, am, sleeptime);
-      Serial.println(outstring);    
+      logOut(2,outstring);    
       gotoDeepSleep(BUTTON1, sleeptime); // go to deep sleep. parameters: sleeptime in us, button to wakeup from
     #else
-      Serial.println("Sleep has been disabled");
+      logOut(2,(char*)"Sleep has been disabled");
 
       // test for buttons only in loop
       for(i=0; i<50; i++){
         if(button1.pressed || button2.pressed || button3.pressed){
           sprintf(outstring,"Button presed: %d %d %d",
             button1.numberKeyPresses,button2.numberKeyPresses,button3.numberKeyPresses);
-          Serial.println(outstring);
+          logOut(2,outstring);
           button1.pressed = false;
           button2.pressed = false;
           button3.pressed = false;

@@ -15,6 +15,9 @@
 #include <GxEPD2_3C.h>
 
 #ifdef CROW_PANEL
+  // limit display buffer, in case of memory problems  
+  #define MAX_DISPLAY_BUFFER_SIZE 32768ul 
+
   // Connections for Crowpanel with 4,2" display
   static const uint8_t EPD_PWR  = 7;   // to EPD BUSY
   static const uint8_t EPD_BUSY = 48;  // to EPD BUSY
@@ -41,6 +44,9 @@
   #define I2C_SCL 19
 
   // Display-Objekt
+  // 1/4 of screen buffer size, requires paged drawing
+  // GxEPD2_BW<GxEPD2_420_GYE042A87, GxEPD2_420_GYE042A87::HEIGHT/4> display(GxEPD2_420_GYE042A87(CS, DC, RES, BUSY));
+  // full buffer size, does not require paged drawing
   GxEPD2_BW<GxEPD2_420_GYE042A87, GxEPD2_420_GYE042A87::HEIGHT> display(GxEPD2_420_GYE042A87(CS, DC, RES, BUSY));
 #endif // CROW_PANEL
 
@@ -90,6 +96,26 @@ U8G2_FOR_ADAFRUIT_GFX u8g2Fonts;  // Select u8g2 font from here: https://github.
 //****************** file global variables ********************************/
 
 
+//*************************** inspect a c-string for debug purposes **********/
+void inspectCString(char* str)
+{
+  int i, cn;
+  size_t strl;
+  char cc;
+
+  strl = strlen(str);
+  // logOut(2,"-----------------------------------------------------------------");
+  sprintf(outstring,"Len: %d", strl);
+  logOut(1, outstring);
+  for (i=0; i<= strl;i++)
+  {
+    cn = (int)str[i];
+    cc = (char)str[i];
+    sprintf(outstring,"%d [%3d]%c ",i, cn, cc);
+    logOut(1, outstring);
+  }
+}
+
 //+++++++++++++++++++++++++++ clear screen using partial update ++++++++++++++
 void clearScreenPartialUpdate()
 {
@@ -111,6 +137,8 @@ void clearScreenFullUpdate()
 
 
 //************************** Display Data ****************************/
+
+#ifdef showSimpleData
 void displayTextData( uint32_t startCounter, uint32_t dischgCnt,
                       float temperature, float humidity, float pressure,
                       float percent, float volt, uint32_t multiplier)
@@ -121,7 +149,8 @@ void displayTextData( uint32_t startCounter, uint32_t dischgCnt,
   display.setTextColor(fgndColor);     // Schriftfarbe Schwarz
   display.setFont(&FreeMonoBold18pt7b);  // Schrift definieren
 
-  Serial.println("Start of displaySimpleData() ");
+  sprintf(outstring, "Start of displaySimpleData() ");
+  logOut(2,outstring);
 
   display.firstPage();
   do{
@@ -130,7 +159,7 @@ void displayTextData( uint32_t startCounter, uint32_t dischgCnt,
       //display.fillRect(0, 0, display.width(), display.height(), bgndColor); //Xpos,Ypos,box-w,box-h
       
       y=12;
-      Serial.print("2");
+      logOut(2, "2");
       // Titel schreiben
       display.setCursor(0, y);
       display.setFont(&FreeMonoBold9pt7b);
@@ -153,7 +182,7 @@ void displayTextData( uint32_t startCounter, uint32_t dischgCnt,
       display.setCursor(140, y);
       display.setFont(&FreeMonoBold12pt7b);
       display.print(" C");
-      Serial.print("3");
+      logOut(2,"3");
 
       // Da bei der Schrift kein Grad Zeichen vorhanden ist selber eins mit Kreisen erstellen
       display.fillCircle(150, 23+5, 4, fgndColor);  //Xpos,Ypos was 23,r,Farbe
@@ -170,7 +199,7 @@ void displayTextData( uint32_t startCounter, uint32_t dischgCnt,
       display.setCursor(140, y);
       display.setFont(&FreeMonoBold12pt7b);
       display.print(" %");
-      Serial.print("4");
+      logOut(2,"4");
 
       // Luftdruck schreiben
       y = 120; // 100
@@ -185,7 +214,7 @@ void displayTextData( uint32_t startCounter, uint32_t dischgCnt,
       display.setFont(&FreeMonoBold12pt7b);
       display.setCursor(140, y);
       display.print(" hPa");
-      Serial.print("5");
+      logOut(2,"5");
 
       // Batteriedaten und startCounter schreiben
       int x_offset=15; // X-Offset to take care of damaged display in grey unit
@@ -210,19 +239,22 @@ void displayTextData( uint32_t startCounter, uint32_t dischgCnt,
       display.print(startCounter);
       display.print(" ");
       display.print(dischgCnt);
-      Serial.print("7");
+      logOut(2,"7");
       /*
       display.print((float)lastTime/1000,1);
       display.print(" sec");
       */
 
   }while (display.nextPage());
-  Serial.println(" 8");
+  logOut(2," 8");
   // Teil refresh vom  Display
   // display.updateWindow(0, 0, display.width(), display.heigth(), false);
 }
+#endif // showSimpleData
 
+#undef TEST_CROW_PANEL
 #ifdef CROW_PANEL
+
 // power on for crow panel
 // https://www.segeln-forum.de/thread/93278-standalone-barograph-diy/?postID=2733566#post2733566
 // https://github.com/norbert-walter/esp32-nmea2000-obp60/tree/master
@@ -230,7 +262,7 @@ void epdPower(int state) {
   pinMode(EPD_PWR, OUTPUT);
   digitalWrite(EPD_PWR, state);
 }
-
+#ifdef TEST_CROW_PANEL
 void epdInit() {
   display.init(115200, true, 50, false);
   display.setRotation(0);
@@ -276,7 +308,7 @@ void epdTest()
   display.print(label);
   }
 }
-
+#endif // TEST_CROW_PANEL
 #endif // CROW_PANEL
 
 
@@ -286,10 +318,9 @@ void initDisplay(int startCounter, int fullInterval)
   #ifdef CROW_PANEL
     epdPower(HIGH);
 
-    #define TEST_CROW_PANEL
     #ifdef TEST_CROW_PANEL
       epdInit();
-      Serial.println("Testing panel");
+      logOut(2,"Testing panel");
       epdTest();
       delay(3000);
     #endif // TEST_CROW_PANEL  
@@ -297,12 +328,12 @@ void initDisplay(int startCounter, int fullInterval)
   // full refresh of epaper every fullInterval's time. 1: every time
   if (startCounter % fullInterval == 0)
   {
-    Serial.println("+++++++ Full window clearing");
+    logOut(2,(char*)"+++++++ Full window clearing");
     display.init(115200, true, 2, false); // initial = true  for first start
     display.setFullWindow();
   }
   else{
-    Serial.println("------- Partial window clearing");
+    logOut(2,(char*)"------- Partial window clearing");
     display.init(115200, false, 2, false); // initial = false for subsequent starts
     display.setPartialWindow(0, 0, display.width(), display.height());
   }
@@ -360,9 +391,15 @@ void prepareGraphicsParameters(uint16_t hours)
   if((hours != 72) && (hours != 84))
   {
     sprintf(outstring,"prepareGraphicsParameters: wrong time range %d", hours);
-    Serial.println(outstring);
+    logOut(2,outstring);
     return;
   }
+  #ifdef extendedDEBUG_OUTPUT
+  logOut(2,(char*)"prepareGraphicsParameters started");
+  sprintf(outstring,"Heap Size: %ld FreeHp: %ld Max Alloc: %ld",
+      ESP.getHeapSize(),ESP.getFreeHeap(), ESP.getMaxAllocHeap());
+  logOut(2,outstring);    
+  #endif    
 
   switch(hours){
     case 72:
@@ -396,10 +433,28 @@ void prepareGraphicsParameters(uint16_t hours)
       if(wData.humiHistory[i] < wData.humiHistoryMin)  wData.humiHistoryMin = wData.humiHistory[i];
     }
   }  
-  sprintf(outstring,"PrepGraphParam: Min/Max: P: %3.1f-%3.1f T:  %3.1f-%3.1f H: %d-%d", 
-        wData.pressHistoryMin, wData.pressHistoryMax,  wData.tempHistoryMin,  wData.tempHistoryMax,
+  #ifdef extendedDEBUG_OUTPUT
+  sprintf(outstring,"Heap Size: %ld FreeHp: %ld Max Alloc: %ld",
+      ESP.getHeapSize(),ESP.getFreeHeap(), ESP.getMaxAllocHeap());
+  logOut(2,outstring);    
+
+  sprintf(outstring,"PrepGraphParam: i: %d FirstPoint: %ld", 
+        i, wData.indexFirstPointToDraw);
+  logOut(2,outstring);    
+
+  sprintf(outstring,"Heap Size: %ld FreeHp: %ld Max Alloc: %ld",
+      ESP.getHeapSize(),ESP.getFreeHeap(), ESP.getMaxAllocHeap());
+  logOut(2,outstring);    
+
+  sprintf(outstring,"PrepGraphParam: Min/Max: P: %3.1f-%3.1f", 
+        wData.pressHistoryMin, wData.pressHistoryMax);
+  logOut(2,outstring);    
+
+  sprintf(outstring,"PrepGraphParam: T:  %3.1f-%3.1f H: %d-%d", 
+        wData.tempHistoryMin,  wData.tempHistoryMax,
         wData.humiHistoryMin, wData.humiHistoryMax);
-  Serial.println(outstring);    
+  logOut(2,outstring);    
+  #endif 
 }
 
 /**************************************************!
@@ -415,8 +470,8 @@ void drawYCoordinateBar(int xpos, int ypos,
   x0 = xpos; y0=ypos; width = intBW+1; height = canvasHeight+1;
   distanceTickmarks = (canvasHeight / (noTickmarks+1));
   display.drawRect(x0,y0,width,height, fgndColor);
-  //sprintf(outstring,"drawYCoordinateBar x0: %d, y0: %d, width: %d, height: %d\n", x0,y0,width,height);
-  //Serial.print(outstring);
+  //sprintf(outstring,"drawYCoordinateBar x0: %d, y0: %d, width: %d, height: %d", x0,y0,width,height);
+  //logOut(2,outstring);
 
   for(i=0; i<noTickmarks; i++)
   {
@@ -440,8 +495,8 @@ void drawXCoordinateBar(int xpos, int ypos, int noTickmarks, uint16_t width)
   //distanceTickmarks = (canvasWidth / (noTickmarks+1));
   distanceTickmarks = (width / (noTickmarks+1));
   display.drawRect(x0,y0,width,height, fgndColor);
-  //sprintf(outstring,"drawXCoordinateBar x0: %d, y0: %d, width: %d, height: %d\n", x0,y0,width,height);
-  //Serial.print(outstring);
+  //sprintf(outstring,"drawXCoordinateBar x0: %d, y0: %d, width: %d, height: %d", x0,y0,width,height);
+  //logOut(2,outstring);    
 
   for(i=0; i<noTickmarks; i++)
   {
@@ -499,7 +554,7 @@ void drawGraphFrame(uint16_t hours)
 
   if(hours != 84 && hours !=72){
     sprintf(outstring,"wrong graph time hours: %d", hours);
-    Serial.println(outstring);
+    logOut(2,outstring);
     return;
   }
 
@@ -507,14 +562,19 @@ void drawGraphFrame(uint16_t hours)
   //x,y, width, height, color
   x0=0; y0=0; width=SCREEN_WIDTH; height=SCREEN_HEIGHT;
   display.drawRect(x0,y0,width,height, fgndColor);
-  //sprintf(outstring,"drawRect1 x0: %d, y0: %d, width: %d, height: %d\n", x0,y0,width,height);
-  //Serial.print(outstring);
+  #ifdef extendedDEBUG_OUTPUT
+    sprintf(outstring,"drawRect1 x0: %d, y0: %d, width: %d, height: %d", x0,y0,width,height);
+    logOut(2,outstring);    
+  #endif
 
   x0=0+extBW; y0=0+extBW; width=SCREEN_WIDTH-2*extBW; height=SCREEN_HEIGHT-2*extBW; 
   display.drawRect(x0,y0,width,height, fgndColor);
     display.drawRect(x0,y0,width,height, fgndColor);
-  //sprintf(outstring,"drawRect2 x0: %d, y0: %d, width: %d, height: %d\n", x0,y0,width,height);
-  //Serial.print(outstring);
+  #ifdef extendedDEBUG_OUTPUT  
+    sprintf(outstring,"drawRect2 x0: %d, y0: %d, width: %d, height: %d", x0,y0,width,height);
+    logOut(2,outstring);    
+  #endif
+
   //display.drawRect(0+extBW, 0+extBW, SCREEN_WIDTH-2*extBW, SCREEN_HEIGHT-2*extBW, extBW+infoHeight, fgndColor);
   
   // lines in top section
@@ -525,35 +585,41 @@ void drawGraphFrame(uint16_t hours)
   //display.drawRect(extBW, extBW+prognameHeight, textLWidth, levelHeight, fgndColor);  // ALT box
   x0=extBW; y0=extBW+prognameHeight; width= textLWidth+1; height= levelHeight+1;
   display.drawRect(x0,y0,width,height, fgndColor);
-  //sprintf(outstring,"drawRect3 x0: %d, y0: %d, width: %d, height: %d\n", x0,y0,width,height);
-  //Serial.print(outstring);
+  #ifdef extendedDEBUG_OUTPUT
+    sprintf(outstring,"drawRect3 x0: %d, y0: %d, width: %d, height: %d", x0,y0,width,height);
+    logOut(2,outstring);    
+  #endif  
 
   // pressure, temperature, humidity boxes
   //display.drawRect(extBW+textLWidth, extBW, textMWidth, pressureHeight, fgndColor); // pressure box
   x0=extBW+textLWidth; y0= extBW; width= textMWidth+1; height= pressureHeight+1;
   display.drawRect(x0,y0,width,height, fgndColor);
-  //sprintf(outstring,"drawRect4 x0: %d, y0: %d, width: %d, height: %d\n", x0,y0,width,height);
-  //Serial.print(outstring);
+  #ifdef extendedDEBUG_OUTPUT
+    sprintf(outstring,"drawRect4 x0: %d, y0: %d, width: %d, height: %d", x0,y0,width,height);
+    logOut(2,outstring);    
+  #endif  
 
   //display.drawRect(extBW+textLWidth, extBW+pressureHeight, textMWidth/2, temperatureHeight, fgndColor); // temperature box
   x0=extBW+textLWidth; y0=extBW+pressureHeight; width= textMWidth/2+1; height= temperatureHeight+1;
   display.drawRect(x0,y0,width,height, fgndColor);
-  //sprintf(outstring,"drawRect5 x0: %d, y0: %d, width: %d, height: %d\n", x0,y0,width,height);
-  //Serial.print(outstring);
+  //sprintf(outstring,"drawRect5 x0: %d, y0: %d, width: %d, height: %d", x0,y0,width,height);
+  //logOut(2,outstring);    
 
   // battery box
   //display.drawRect(extBW+textLWidth+textMWidth, extBW, textR1Width, infoHeight, fgndColor); // tendency box
   x0=extBW+textLWidth+textMWidth; y0= extBW; width=textRWidth+1; height= batHeight+1;
   display.drawRect(x0,y0,width,height, fgndColor);
-  //sprintf(outstring,"drawRect battery box x0: %d, y0: %d, width: %d, height: %d\n", x0,y0,width,height);
-  //Serial.print(outstring);
+  //sprintf(outstring,"drawRect battery box x0: %d, y0: %d, width: %d, height: %d", x0,y0,width,height);
+  //logOut(2,outstring);    
 
   // interval box
   //display.drawRect(extBW+textLWidth+textMWidth, extBW, textR1Width, infoHeight, fgndColor); // tendency box
   x0=extBW+textLWidth+textMWidth; y0= extBW+batHeight; width=textRWidth+1; height= intervalHeight+1;
   display.drawRect(x0,y0,width,height, fgndColor);
-  //sprintf(outstring,"drawRect interval box x0: %d, y0: %d, width: %d, height: %d\n", x0,y0,width,height);
-  //Serial.print(outstring);
+  #ifdef extendedDEBUG_OUTPUT
+    sprintf(outstring,"drawRect interval box x0: %d, y0: %d, width: %d, height: %d", x0,y0,width,height);
+    logOut(2,outstring);    
+  #endif  
 
   // coordinate bars, bordering the drawing canvas
   if(hours == 84){
@@ -585,6 +651,9 @@ void drawGraphFrame(uint16_t hours)
     //drawIndicatorLines (int xpos, int ypos, int canvasW, int noXLines, int noYLines)
     drawIndicatorLines (canvasLeft+offsetPix72hGraph, canvasTop, canvasWidth-offsetPix72hGraph, canvasHeight, 5, 3);
   }
+  #ifdef extendedDEBUG_OUTPUT
+    logOut(2,(char*)"end of drawGraphFrame()");
+  #endif
 }
 
 /**************************************************!
@@ -671,6 +740,10 @@ void drawTextFields()
   int x, y, aw, al;
   float tendencyValue, limit1, limit2, limit3;
 
+  #ifdef extendedDEBUG_OUTPUT
+    logOut(2,(char*)"Start of drawTextFields");
+  #endif  
+
   // Pressure, pressure unit and tendency 
   u8g2Fonts.setFont(u8g2_font_helvB24_tf);
   x = extBW + textLWidth + textMWidth/20;
@@ -690,6 +763,9 @@ void drawTextFields()
   u8g2Fonts.setCursor(x,y);
   sprintf(outstring, "  %+3.1f", wData.pressure3hChange);
   u8g2Fonts.print(outstring);
+  #ifdef extendedDEBUG_OUTPUT
+    logOut(2,(char*)"dtTF1 ");
+  #endif  
 
   // pressure tendency graphics
   tendencyValue = wData.pressure3hChange;
@@ -702,7 +778,10 @@ void drawTextFields()
   y = extBW + pressureHeight/2;
   aw=10; al=14;
   drawTendency(x, y, aw, al, tendencyValue, limit1, limit2, limit3);
-  
+  #ifdef extendedDEBUG_OUTPUT
+    logOut(2,(char*)"dtTF2 ");
+  #endif  
+
   // Temperature
   //display.setFont(&FreeMonoBold12pt7b);  // Schrift definieren
   u8g2Fonts.setFont(u8g2_font_helvB18_tf);
@@ -723,7 +802,10 @@ void drawTextFields()
   u8g2Fonts.setCursor(x,y);
   sprintf(outstring, "%+3.1f", wData.temperature3hChange);
   u8g2Fonts.print(outstring);
-  
+  #ifdef extendedDEBUG_OUTPUT
+    logOut(2,(char*)"dtTF3 ");
+  #endif  
+
   // temperaure tendency graphics
   tendencyValue = wData.temperature3hChange;
   limit1 = 1.0;
@@ -733,6 +815,9 @@ void drawTextFields()
   y = extBW + pressureHeight + temperatureHeight/2;
   aw=9; al=13;
   drawTendency(x, y, aw, al, tendencyValue, limit1, limit2, limit3);
+  #ifdef extendedDEBUG_OUTPUT
+    logOut(2,(char*)"dtTF4 ");
+  #endif  
 
   // Humidity
   u8g2Fonts.setFont(u8g2_font_helvB18_tf);
@@ -753,7 +838,9 @@ void drawTextFields()
   u8g2Fonts.setCursor(x,y);
   sprintf(outstring, "%+3.1f", wData.humidity3hChange);
   u8g2Fonts.print(outstring);
-
+  #ifdef extendedDEBUG_OUTPUT
+    logOut(2,(char*)"dtTF4 ");
+  #endif  
   // humidity tendency graphics
   tendencyValue = wData.humidity3hChange;
   limit1 = 1.0;
@@ -763,6 +850,9 @@ void drawTextFields()
   y = extBW + pressureHeight + temperatureHeight/2;
   aw=9; al=13;
   drawTendency(x, y, aw, al, tendencyValue, limit1, limit2, limit3);
+  #ifdef extendedDEBUG_OUTPUT
+    logOut(2,(char*)"dtTF5 ");
+  #endif  
 
   // Battery voltage and percent
   u8g2Fonts.setFont(u8g2_font_helvR12_tf);
@@ -782,6 +872,9 @@ void drawTextFields()
   u8g2Fonts.setCursor(x,y);
   sprintf(outstring, "%3.3f V", wData.batteryVoltage);
   u8g2Fonts.print(outstring);  
+  #ifdef extendedDEBUG_OUTPUT
+    logOut(2,(char*)"dtTF6 ");
+  #endif
 
   // counter (for debugging)
   u8g2Fonts.setFont(u8g2_font_helvR08_tf);
@@ -790,7 +883,9 @@ void drawTextFields()
   u8g2Fonts.setCursor(x,y);
   sprintf(outstring, "%d", wData.startCounter);
   u8g2Fonts.print(outstring);  
-
+  #ifdef extendedDEBUG_OUTPUT
+    logOut(2,(char*)"dtTF7 ");
+  #endif  
   // pressure correction mode: on: SEA LEVEL, off: STATION
   u8g2Fonts.setFont(u8g2_font_helvR10_tf);
   x = extBW + 5*textLWidth/100;
@@ -801,7 +896,9 @@ void drawTextFields()
   else
     sprintf(outstring,    "Unkorrigiert");
   u8g2Fonts.print(outstring);    
-
+  #ifdef extendedDEBUG_OUTPUT
+    logOut(2,(char*)"dtTF8 ");
+  #endif  
   // data interval in sec
   u8g2Fonts.setFont(u8g2_font_helvR10_tf);
   x = extBW + textLWidth + textMWidth + 5 * textRWidth/100; 
@@ -812,7 +909,9 @@ void drawTextFields()
   // this is the actually elapsed interval
   sprintf(outstring, "Interval: %3.1f s", wData.actSecondsSinceLastMeasurement);
   u8g2Fonts.print(outstring);  
-
+  #ifdef extendedDEBUG_OUTPUT
+    logOut(2,(char*)"dtTF9 ");
+  #endif  
   // correction value
   u8g2Fonts.setFont(u8g2_font_helvR10_tf);
   x = extBW + 5*textLWidth/100;
@@ -823,7 +922,9 @@ void drawTextFields()
   sprintf(outstring," %s", wData.pressureUnit);
   u8g2Fonts.setFont(u8g2_font_helvR08_tf);
   u8g2Fonts.print(outstring);  
-
+  #ifdef extendedDEBUG_OUTPUT
+    logOut(2,(char*)"dtTF10 ");
+  #endif  
   // version info
   u8g2Fonts.setFont(u8g2_font_helvR10_tf);
   x= extBW + 5*textLWidth/100;
@@ -836,6 +937,9 @@ void drawTextFields()
   u8g2Fonts.setCursor(x, y);
   sprintf(outstring, "%s %s", VERSION, BUILD_DATE);
   u8g2Fonts.print(outstring);  
+  #ifdef extendedDEBUG_OUTPUT
+    logOut(2,(char*)"End of drawTextFields");
+  #endif  
 }
 
 /**************************************************!
@@ -888,12 +992,14 @@ void drawXAxisNumbers(int hours)
     highestTimeHours = timeRangeValues[4]+timerange_hours/6;  
   }    
 
-  sprintf(outstring,"oldest: %d youngest: %d timerange_sec: %d timerange_hours: %d\n",
+  #ifdef extendedDEBUG_OUTPUT
+    sprintf(outstring,"oldest: %ld youngest: %ld timerange_sec: %ld timerange_hours: %ld",
         oldest, youngest, timerange_sec, timerange_hours);
-  Serial.print(outstring);
-  sprintf(outstring,"lowestTimeHours: %d highestTimeHours: %d\n",
+    logOut(2,outstring);
+    sprintf(outstring,"lowestTimeHours: %d highestTimeHours: %d",
         lowestTimeHours, highestTimeHours);
-  Serial.print(outstring);
+    logOut(2,outstring);
+  #endif  
 
   // draw x-axis numbers
   display.setFont(&FreeMonoBold9pt7b);
@@ -904,8 +1010,10 @@ void drawXAxisNumbers(int hours)
       x = canvasLeft + (i+1)*canvasWidth/7 - canvasWidth/15;
       display.setCursor(x, y);
       display.print(timeRangeValues[i]);
-      sprintf(outstring, "time[%d] %d: ", i, timeRangeValues[i]);
-      Serial.print(outstring);
+      #ifdef extendedDEBUG_OUTPUT
+        sprintf(outstring, "time[%d] %d: ", i, timeRangeValues[i]);
+        logOut(2,outstring);
+      #endif  
     }
   }
   else{
@@ -914,11 +1022,12 @@ void drawXAxisNumbers(int hours)
       x = canvasLeft + offsetPix72hGraph + (i+1)*(canvasWidth-offsetPix72hGraph)/6 - canvasWidth/15;
       display.setCursor(x, y);
       display.print(timeRangeValues[i]);
-      sprintf(outstring, "time[%d] %d: ", i, timeRangeValues[i]);
-      Serial.print(outstring);
+      #ifdef extendedDEBUG_OUTPUT
+        sprintf(outstring, "time[%d] %d: ", i, timeRangeValues[i]);
+        logOut(2,outstring);
+      #endif  
     }    
   }
-  Serial.print("\n");
 }
 
 /**************************************************!
@@ -949,9 +1058,11 @@ void drawPressureYAxisNumbers(char* unit, char* graphName)
   if(pressureRange > drLimitUpper400) 
     displayRange = 1000;     
 
-  sprintf(outstring,"PressHistoryMax: %3.1f pressHistoryMin: %3.1f displayRange:%f\n",
+  #ifdef extendedDEBUG_OUTPUT
+    sprintf(outstring,"PressHistoryMax: %3.1f pressHistoryMin: %3.1f displayRange:%f",
       wData.pressHistoryMax, wData.pressHistoryMin, displayRange);
-  Serial.print(outstring);
+    logOut(2,outstring);
+  #endif  
 
   // calculate y axis numbers
   float pressHistsMinCorr = wData.pressHistoryMin;
@@ -961,7 +1072,8 @@ void drawPressureYAxisNumbers(char* unit, char* graphName)
   lowestPressureMbar = (displayRange/4) * (int)(pressHistsMinCorr / (displayRange/4));
   if (pressureRange < 0.4 * displayRange) 
       lowestPressureMbar -= displayRange/4; // lower the lower tickmark by 1/4 to avoid hugging of the x axis
-  else if((wData.pressHistoryMin-lowestPressureMbar) < displayRange/4)    
+  //else if((wData.pressHistoryMin-lowestPressureMbar) < displayRange/4)  
+  else if((wData.pressHistoryMin-lowestPressureMbar) < displayRange/8)    
       lowestPressureMbar -= displayRange/4; // lower the lower tickmark by 1/4 to avoid hugging of the x axis    
   highestPressureMbar = lowestPressureMbar + displayRange;
 
@@ -983,8 +1095,10 @@ void drawPressureYAxisNumbers(char* unit, char* graphName)
     u8g2Fonts.setCursor(x, y);
     u8g2Fonts.print(outstring);
   }
-  sprintf(outstring,"cvTop: %d cvHeight:%d lowestP: %d displayRange:%f\n",canvasTop, canvasHeight, lowestPressureMbar, displayRange);
-  Serial.print(outstring);
+  #ifdef extendedDEBUG_OUTPUT
+    sprintf(outstring,"cvTop: %d cvHeight:%d lowestP: %d displayRange:%f",canvasTop, canvasHeight, lowestPressureMbar, displayRange);
+    logOut(2,outstring);
+  #endif  
 
   // draw unit and graph name
   u8g2Fonts.setFont(u8g2_font_helvB10_tf);
@@ -1037,16 +1151,18 @@ void drawTemperatureYAxisNumbers(char* unit,  char* graphName, int position)
   if(temperatureRange > drLimitUpper400) 
     displayRange = 1000;    
 
-  sprintf(outstring,"tempHistoryMax: %f tempHistoryMin:%f\n", wData.tempHistoryMax, wData.tempHistoryMin);
-  Serial.print(outstring);
-
+  #ifdef extendedDEBUG_OUTPUT
+    sprintf(outstring,"tempHistoryMax: %f tempHistoryMin:%f", wData.tempHistoryMax, wData.tempHistoryMin);
+    logOut(2,outstring);
+  #endif
   // calculate y axis numbers
   float tempHistMin = wData.tempHistoryMin;
 
   lowestTemperatureC = (displayRange/4) * (int)(tempHistMin / (displayRange/4));
   if (temperatureRange < 0.4 * displayRange) 
       lowestTemperatureC -= displayRange/4; // lower the lower tickmark by 1/4 to avoid hugging of the x axis
-  else if((wData.tempHistoryMin-lowestTemperatureC) < displayRange/4)    
+  //else if((wData.tempHistoryMin-lowestTemperatureC) < displayRange/4)    
+  else if((wData.tempHistoryMin-lowestTemperatureC) < displayRange/8)  // /8 better than /4, otherwise data too high
       lowestTemperatureC -= displayRange/4; // lower the lower tickmark by 1/4 to avoid hugging of the x axis
   highestTemperatureC = lowestTemperatureC + displayRange;
 
@@ -1076,9 +1192,11 @@ void drawTemperatureYAxisNumbers(char* unit,  char* graphName, int position)
     u8g2Fonts.setCursor(x, y);
     u8g2Fonts.print(outstring);
   }
-  sprintf(outstring,"cvTop: %d cvHeight:%d lowestT: %d highestT: %d displayRange:%f\n",canvasTop, canvasHeight, 
-    lowestTemperatureC, highestTemperatureC, displayRange);
-  Serial.print(outstring);
+  #ifdef extendedDEBUG_OUTPUT
+    sprintf(outstring,"cvTop: %d cvHeight:%d lowestT: %d highestT: %d displayRange:%f",canvasTop, canvasHeight, 
+      lowestTemperatureC, highestTemperatureC, displayRange);
+    logOut(2,outstring);
+  #endif
 
   // draw unit and graph name
   u8g2Fonts.setFont(u8g2_font_helvB10_tf);
@@ -1142,9 +1260,11 @@ void drawHumidityYAxisNumbers(char* unit,  char* graphName, int position)
   if(humidityRangePercent > drLimitUpper400) 
     displayRange = 1000;     
 
-  sprintf(outstring,"humiHMax: %d humiHMin:%d (‰) humidityRangePercent: %f\n", 
-    wData.humiHistoryMax, wData.humiHistoryMin, humidityRangePercent);
-  Serial.print(outstring);
+  #ifdef extendedDEBUG_OUTPUT
+    sprintf(outstring,"humiHMax: %d humiHMin:%d (‰) humidityRangePercent: %f", 
+      wData.humiHistoryMax, wData.humiHistoryMin, humidityRangePercent);
+    logOut(2,outstring);
+  #endif  
 
   // calculate y axis numbers
   float humiHistMinPM = wData.humiHistoryMin; // promille
@@ -1152,7 +1272,8 @@ void drawHumidityYAxisNumbers(char* unit,  char* graphName, int position)
   lowestHumidityPM = 10*((displayRange/4) * (int)(humiHistMinPM/10 / (displayRange/4)));
   if (humidityRangePercent < 0.4 * displayRange) 
       lowestHumidityPM -= 10*displayRange/4; // lower the lower tickmark by 1/4 to avoid hugging of the x axis
-  else if((wData.humiHistoryMin-lowestHumidityPM) < 10*displayRange/4)    
+  // else if((wData.humiHistoryMin-lowestHumidityPM) < 10*displayRange/4)    
+  else if((wData.humiHistoryMin-lowestHumidityPM) < 10*displayRange/8)  
       lowestHumidityPM -= 10*displayRange/4; // lower the lower tickmark by 1/4 to avoid hugging of the x axis    
   highestHumidityPM = lowestHumidityPM + 10*displayRange;
 
@@ -1181,9 +1302,11 @@ void drawHumidityYAxisNumbers(char* unit,  char* graphName, int position)
     u8g2Fonts.setCursor(x, y);
     u8g2Fonts.print(outstring);
   }
-  sprintf(outstring,"cvTop: %d cvHeight:%d lowestH[‰]: %d highestH[‰]: %d displayRange:%f\n",canvasTop, canvasHeight, 
-    lowestHumidityPM, highestHumidityPM, displayRange);
-  Serial.print(outstring);
+  #ifdef extendedDEBUG_OUTPUT
+    sprintf(outstring,"cvTop: %d cvHeight:%d lowestH[‰]: %d highestH[‰]: %d displayRange:%f",canvasTop, canvasHeight, 
+      lowestHumidityPM, highestHumidityPM, displayRange);
+    logOut(2,outstring);
+  #endif  
 
   // draw unit and graphName
   u8g2Fonts.setFont(u8g2_font_helvB10_tf);
@@ -1268,9 +1391,9 @@ void drawPressureGraphics(int hours)
     }
     if((i<noPRINTLINESLOW+wData.indexFirstPointToDraw) || (i>=noDataPoints-noPRINTLINESHIGH-1))
     {
-      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d age: %d %d p: %f %f\n",
+      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d age: %ld %ld p: %f %f",
         i, x0, y0, x1, y1, age0, age1, p0, p1);
-      Serial.print(outstring);
+      logOut(3,outstring);
     }
   }
 }
@@ -1294,9 +1417,11 @@ void drawTemperatureGraphics(int hours)
 
   // draw temperature graph (simplified for fixed time distances)
   float wDLTC = wData.graphLowestTemperatureCelsius;
-  sprintf(outstring,"WData.lTC: %d wData.hTC %d wData.dR: %f\n",
+  #ifdef extendedDEBUG_OUTPUT
+    sprintf(outstring,"WData.lTC: %d wData.hTC %d wData.dR: %f",
         wData.graphLowestTemperatureCelsius,wData.graphHighestTemperatureCelsius, wData.graphYDisplayRange);
-  Serial.print(outstring); 
+    logOut(2,outstring); 
+  #endif  
   int i, x0, y0, x1, y1;
   float t0, t1, d0, d1, e0, e1;
   for(i=wData.indexFirstPointToDraw;i<noDataPoints-1; i++)
@@ -1321,9 +1446,9 @@ void drawTemperatureGraphics(int hours)
     }  
     if((i<noPRINTLINESLOW+wData.indexFirstPointToDraw) || (i>=noDataPoints-noPRINTLINESHIGH-1))
     {
-      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d t: %f %f d: %f %f e: %f %f wData.lTC: %d %f\n",
+      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d t: %f %f d: %f %f e: %f %f wData.lTC: %d %f",
         i, x0, y0, x1, y1, t0, t1, d0, d1, e0, e1, wData.graphLowestTemperatureCelsius, wDLTC);
-      Serial.print(outstring);
+      logOut(3,outstring);
     }
   }
 }
@@ -1347,9 +1472,11 @@ void drawHumidityGraphics(int hours)
 
   // draw humidity graph (simplified for fixed time distances)
   int wDLHP = wData.graphLowestHumidityPromille;
-  sprintf(outstring,"WData.lHP: %d wData.hHP %d wData.ydR: %f\n",
+  #ifdef extendedDEBUG_OUTPUT
+    sprintf(outstring,"WData.lHP: %d wData.hHP %d wData.ydR: %f",
         wData.graphLowestHumidityPromille,wData.graphHighestHumidityPromille, wData.graphYDisplayRange);
-  Serial.print(outstring); 
+    logOut(2,outstring); 
+  #endif  
   int i, x0, y0, x1, y1; 
   float h0, h1, lHPercent;
   for(i=wData.indexFirstPointToDraw;i<noDataPoints-1; i++)
@@ -1367,9 +1494,9 @@ void drawHumidityGraphics(int hours)
     }
     if((i<noPRINTLINESLOW+wData.indexFirstPointToDraw) || (i>=noDataPoints-noPRINTLINESHIGH-1))
     {
-      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d h: %f %f wData.lH%%: %f promille: %d\n",
+      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d h: %f %f wData.lH%%: %f promille: %d",
         i, x0, y0, x1, y1, h0, h1, lHPercent, wDLHP);
-      Serial.print(outstring);
+      logOut(3,outstring);
     }
   }
 }
@@ -1418,9 +1545,9 @@ void drawPressTempGraphics(int hours)
     }
     if((i<noPRINTLINESLOW+wData.indexFirstPointToDraw) || (i>=noDataPoints-noPRINTLINESHIGH-1))
     {
-      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d age: %d %d p: %f %f\n",
+      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d age: %ld %ld p: %f %f",
         i, x0, y0, x1, y1, age0, age1, p0, p1);
-      Serial.print(outstring);
+      logOut(3,outstring);
     }
   }
 
@@ -1444,9 +1571,9 @@ void drawPressTempGraphics(int hours)
     }  
     if((i<noPRINTLINESLOW+wData.indexFirstPointToDraw) || (i>=noDataPoints-noPRINTLINESHIGH-1))
     {
-      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d age: %d %d p: %f %f\n",
+      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d age: %ld l%d p: %f %f",
         i, x0, y0, x1, y1, age0, age1, p0, p1);
-      Serial.print(outstring);
+      logOut(3,outstring);
     }
   }
 }
@@ -1495,9 +1622,9 @@ void drawPressHumiGraphics(int hours)
     }  
     if((i<noPRINTLINESLOW+wData.indexFirstPointToDraw) || (i>=noDataPoints-noPRINTLINESHIGH-1))
     {
-      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d age: %d %d p: %f %f\n",
+      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d age: %ld %ld p: %f %f",
         i, x0, y0, x1, y1, age0, age1, p0, p1);
-      Serial.print(outstring);
+      logOut(3,outstring);
     }
   }
 
@@ -1507,9 +1634,11 @@ void drawPressHumiGraphics(int hours)
   drawHumidityYAxisNumbers(unit, name, 1); // calculates wDatagraphYDisplayRange, therefore directly before drawing
   
   int wDLHP = wData.graphLowestHumidityPromille;
-  sprintf(outstring,"WData.lHP: %d wData.hHP %d wData.ydR: %f\n",
+  #ifdef extendedDEBUG_OUTPUT
+    sprintf(outstring,"WData.lHP: %d wData.hHP %d wData.ydR: %f",
         wData.graphLowestHumidityPromille,wData.graphHighestHumidityPromille, wData.graphYDisplayRange);
-  Serial.print(outstring); 
+    logOut(2,outstring); 
+  #endif  
 
   float h0, h1, lHPercent;
   for(i=wData.indexFirstPointToDraw;i<noDataPoints-1; i++)
@@ -1529,9 +1658,9 @@ void drawPressHumiGraphics(int hours)
     }  
     if((i<noPRINTLINESLOW+wData.indexFirstPointToDraw) || (i>=noDataPoints-noPRINTLINESHIGH-1))
     {
-      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d h: %f %f wData.lH%%: %f promille: %d\n",
+      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d h: %f %f wData.lH%%: %f promille: %d",
         i, x0, y0, x1, y1, h0, h1, lHPercent, wDLHP);
-      Serial.print(outstring);
+      logOut(3,outstring);
     }
   }
   /*
@@ -1550,9 +1679,9 @@ void drawPressHumiGraphics(int hours)
     display.drawLine(x0, y0, x1, y1, fgndColor);
     if((i<10+wData.indexFirstPointToDraw) || (i>325))
     {
-      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d age: %d %d p: %f %f\n",
+      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d age: %ld %ld p: %f %f",
         i, x0, y0, x1, y1, age0, age1, p0, p1);
-      Serial.print(outstring);
+      logOut(3,outstring);
     }
   }
   */
@@ -1596,9 +1725,9 @@ void drawTempHumiGraphics(int hours)
     }  
     if((i<noPRINTLINESLOW+wData.indexFirstPointToDraw) || (i>=noDataPoints-noPRINTLINESHIGH-1))
     {
-      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d age: %d %d p: %f %f\n",
+      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d age: %ld %ld p: %f %f",
         i, x0, y0, x1, y1, age0, age1, p0, p1);
-      Serial.print(outstring);
+      logOut(3,outstring);
     }
   }
 
@@ -1609,9 +1738,11 @@ void drawTempHumiGraphics(int hours)
   drawHumidityYAxisNumbers(unit, name, 1); // calculates wData.graphYDisplayRange, therefore directly before drawing
   
   int wDLHP = wData.graphLowestHumidityPromille;
-  sprintf(outstring,"WData.lHP: %d wData.hHP %d wData.ydR: %f\n",
+  #ifdef extendedDEBUG_OUTPUT
+    sprintf(outstring,"WData.lHP: %d wData.hHP %d wData.ydR: %f",
         wData.graphLowestHumidityPromille,wData.graphHighestHumidityPromille, wData.graphYDisplayRange);
-  Serial.print(outstring); 
+    logOut(2,outstring); 
+  #endif  
 
   float h0, h1, lHPercent;
   for(i=wData.indexFirstPointToDraw;i<noDataPoints-1; i++)
@@ -1629,9 +1760,9 @@ void drawTempHumiGraphics(int hours)
     }
     if((i<noPRINTLINESLOW+wData.indexFirstPointToDraw) || (i>=noDataPoints-noPRINTLINESHIGH-1))
     {
-      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d h: %f %f wData.lH%%: %f promille: %d\n",
+      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d h: %f %f wData.lH%%: %f promille: %d",
         i, x0, y0, x1, y1, h0, h1, lHPercent, wDLHP);
-      Serial.print(outstring);
+      logOut(3,outstring);
     }
   }
   /*
@@ -1654,9 +1785,9 @@ void drawTempHumiGraphics(int hours)
     display.drawLine(x0, y0, x1, y1, fgndColor);
     if((i<10+wData.indexFirstPointToDraw) || (i>325))
     {
-      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d age: %d %d p: %f %f\n",
+      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d age: %ld %ld p: %f %f",
         i, x0, y0, x1, y1, age0, age1, p0, p1);
-      Serial.print(outstring);
+      logOut(3,outstring);
     }
   }
   */
@@ -1670,6 +1801,9 @@ void drawTempHumiGraphics(int hours)
 ***************************************************/
 void drawPressTempHumiGraphics(int hours)
 {
+  #ifdef extendedDEBUG_OUTPUT
+    logOut(2,(char*)"Start of drawPressTempHumiGraphics()");
+  #endif  
   // prepare graphics parameters incl. start index, min/max
   prepareGraphicsParameters(hours);
   // draw numbers for the axis
@@ -1706,9 +1840,10 @@ void drawPressTempHumiGraphics(int hours)
     }  
     if((i<noPRINTLINESLOW+wData.indexFirstPointToDraw) || (i>=noDataPoints-noPRINTLINESHIGH-1))
     {
-      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d age: %d %d p: %f %f\n",
+      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d age: %ld %ld p: %f %f",
         i, x0, y0, x1, y1, age0, age1, p0, p1);
-      Serial.print(outstring);
+      //inspectCString(outstring);  
+      logOut(3,outstring);
     }
   }
 
@@ -1733,9 +1868,9 @@ void drawPressTempHumiGraphics(int hours)
     }  
     if((i<noPRINTLINESLOW+wData.indexFirstPointToDraw) || (i>=noDataPoints-noPRINTLINESHIGH-1))
     {
-      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d age: %d %d p: %f %f\n",
+      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d age: %ld %ld p: %f %f",
         i, x0, y0, x1, y1, age0, age1, p0, p1);
-      Serial.print(outstring);
+      logOut(3,outstring);
     }
   }
 
@@ -1745,9 +1880,11 @@ void drawPressTempHumiGraphics(int hours)
   drawHumidityYAxisNumbers(unit, name, 2); // calculates wDatagraphYDisplayRange, therefore directly before drawing
   
   int wDLHP = wData.graphLowestHumidityPromille;
-  sprintf(outstring,"WData.lHP: %d wData.hHP %d wData.ydR: %f\n",
+  #ifdef extendedDEBUG_OUTPUT
+    sprintf(outstring,"WData.lHP: %d wData.hHP %d wData.ydR: %f",
         wData.graphLowestHumidityPromille,wData.graphHighestHumidityPromille, wData.graphYDisplayRange);
-  Serial.print(outstring); 
+    logOut(2,outstring); 
+  #endif  
 
   float h0, h1, lHPercent;
   for(i=wData.indexFirstPointToDraw;i<noDataPoints-1; i++)
@@ -1765,11 +1902,14 @@ void drawPressTempHumiGraphics(int hours)
     }  
     if((i<noPRINTLINESLOW+wData.indexFirstPointToDraw) || (i>=noDataPoints-noPRINTLINESHIGH-1))
     {
-      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d h: %f %f wData.lH%%: %f promille: %d\n",
+      sprintf(outstring,"i: %d x0: %d y0: %d x1: %d y1: %d h: %f %f wData.lH%%: %f promille: %d",
         i, x0, y0, x1, y1, h0, h1, lHPercent, wDLHP);
-      Serial.print(outstring);
+      logOut(3,outstring);
     }
   }
+  #ifdef extendedDEBUG_OUTPUT
+    logOut(2,(char*)"End of drawPressTempHumiGraphics()");
+  #endif  
 }
 
 
@@ -1802,50 +1942,51 @@ void drawMainGraphics(uint32_t graphicsType)
     {
       case 0:
       default:
-        sprintf(outstring,"Pressure graphics. graphicsType: %d",graphicsType);
-        Serial.println(outstring);
+        sprintf(outstring,"Pressure graphics. graphicsType: %ld",graphicsType);
+        logOut(2,outstring);
         drawGraphFrame(84);           // main line frame for 84 h graphics
         drawTextFields();             // text section
         drawPressureGraphics(84);  
         break;
       case 1:
-        sprintf(outstring,"Temperature graphics. graphicsType: %d",graphicsType);
-        Serial.println(outstring);
+        sprintf(outstring,"Temperature graphics. graphicsType: %ld",graphicsType);
+        logOut(2,outstring);
         drawGraphFrame(84);           // main line frame
         drawTextFields();             // text section
         drawTemperatureGraphics(84); 
         break;
       case 2:
-        sprintf(outstring,"Humidity graphics. graphicsType: %d",graphicsType);
-        Serial.println(outstring);
+        sprintf(outstring,"Humidity graphics. graphicsType: %ld",graphicsType);
+        logOut(2,outstring);
         drawGraphFrame(84);           // main line frame
         drawTextFields();             // text section
         drawHumidityGraphics(84); 
         break;
       case 4:
-        sprintf(outstring,"Pressure and temperature graphics. graphicsType: %d",graphicsType);
-        Serial.println(outstring);
+        sprintf(outstring,"Pressure and temperature graphics. graphicsType: %ld",graphicsType);
+        logOut(2,outstring);
         drawGraphFrame(72);           // main line frame for 72 h graphics
         drawTextFields();             // text section
         drawPressTempGraphics(72); 
         break; 
       case 5:
-        sprintf(outstring,"Pressure and humidity graphics. graphicsType: %d",graphicsType);
-        Serial.println(outstring);
+        sprintf(outstring,"Pressure and humidity graphics. graphicsType: %ld",graphicsType);
+        logOut(2,outstring);
         drawGraphFrame(72);           // main line frame for 72 h graphics
         drawTextFields();             // text section
         drawPressHumiGraphics(72); 
         break;    
       case 6:
-        sprintf(outstring,"Temperature and humidity graphics. graphicsType: %d",graphicsType);
-        Serial.println(outstring);
+        sprintf(outstring,"Temperature and humidity graphics. graphicsType: %ld",graphicsType);
+        logOut(2,outstring);
         drawGraphFrame(72);           // main line frame for 72 h graphics
         drawTextFields();             // text section
         drawTempHumiGraphics(72); 
         break;      
       case 7:
-        sprintf(outstring,"Pressure, Temperature and Humidity graphics. graphicsType: %d",graphicsType);
-        Serial.println(outstring);
+        sprintf(outstring,"Pressure, Temperature and Humidity graphics. graphicsType: %ld    ",graphicsType);
+        //inspectCString(outstring);
+        logOut(2,outstring);
         drawGraphFrame(72);           // main line frame for 72 h graphics
         drawTextFields();             // text section
         drawPressTempHumiGraphics(72); 
