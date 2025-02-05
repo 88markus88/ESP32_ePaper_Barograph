@@ -68,7 +68,7 @@ platformio.ini contains two development environments:
 - env:Lolin32Lite_ePaper - this is the environment used for the Lolin32 Lite with separate 4.2" ePaper and battery. 
 - env:CrowPanel_42 - this is the environment used for the Elecrow CrowPanel 4.2" ePaper.
 Just connect your ESP32 to the computer via USB, select the env for the system you are building for and start the build. Platformio will automatically load the libraries that are needed and upload the firmware via USB Port. 
-
+Switching of environments is done by clicking on the "env:..." entry in the lower status bar of VSCode, and then selecting the environment in the list that is displayed on top. Switching takes a few seconds
 ## Open topics
 - BLE functionality to allow setting of parameters for CrowPanel
 - Bluetooth setting for Lolin32 Lite is presently only possible via Bluetooth terminal on a mobile device. Create App or BLE web page to allow easier configuration
