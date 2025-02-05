@@ -1,4 +1,4 @@
-# ESP32 ePaper Barograph
+# ESP32 ePaper Barograph / Thermograph / Hydrograph
 This project is an ESP32 based device that records and displays atmospheric pressure, temperature and humidity using a BME280 sensor and displays them as curves on an 4.2" B/W ePaper display. It operates from a LiPo battery which should be good for 3-6 months on one charge, and can be recharged via USB.
 Basic features:
 - 4.2" ePaper Display (I am using the display from WeAct, but others with 400x300 resolution are also possible)
