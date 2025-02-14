@@ -8,6 +8,7 @@ Basic features:
 - automatic adjustment of display with independent scales for all 3 measured paramters 
 - Time scale can be switched "on the fly" between 21/36/72 hours, while retaining the data that fit into the newly selected time scale
 - Tendency display (symbols and numeric) for all 3 measured parameters
+- Buzzer can be added, to enable audible alert for large pressure changes and feedback when changing parameters via bluetooth
 - Offset for altitude of observation can be enabled and adjusted
 - Settings, after activation with button, via bluetooth
 - 3D printed housing
@@ -55,6 +56,7 @@ The software consists of 3 main components, which are located in three .cpp file
 1. Control (ePaperBarograf.cpp): Timing, preferences storage, measurement, data storage & recalculations, hibernation
 2. Graphics (ePaperGraphics.cpp): Graphics functions for ePaper display
 3. Bluetooth configuration (ePaperBluetooth.cpp): Serial Bluetooth functions for adjustment of settings. Serial Bluetooth can only be used with the Lolin32 Lite - the CrowPanel has an ESP32S3 which only supports Bluetooth Low Energy (BLE).
+4. BLE configuation - presently experimental and not yet functional
 ### Libraries
 - OneWire                  : needed for BME280
 - Arduino Unified Sensor   : needed for BME280
@@ -68,7 +70,8 @@ platformio.ini contains two development environments:
 - env:Lolin32Lite_ePaper - this is the environment used for the Lolin32 Lite with separate 4.2" ePaper and battery. 
 - env:CrowPanel_42 - this is the environment used for the Elecrow CrowPanel 4.2" ePaper.
 Just connect your ESP32 to the computer via USB, select the env for the system you are building for and start the build. Platformio will automatically load the libraries that are needed and upload the firmware via USB Port. 
-Switching of environments is done by clicking on the "env:..." entry in the lower status bar of VSCode, and then selecting the environment in the list that is displayed on top. Switching takes a few seconds
+Switching of environments is done by clicking on the "env:..." entry in the lower status bar of VSCode, and then selecting the environment in the list that is displayed on top. Switching takes a few seconds.
+Note that two versions of the hardware board are used, which have slightly different pinouts. Inparticular, in prototypes with hand mande board GPIO 35 is used for measurement of the battery voltage. In the newer printed circuit boards, GPIO 39 is used. This must be taken into account by setting either -D HANDMADE_BOARD or -D PCB_BOARD in [env] section within platformio.ini. Just comment out the part not needed.
 ## Open topics
 - BLE functionality to allow setting of parameters for CrowPanel
 - Bluetooth setting for Lolin32 Lite is presently only possible via Bluetooth terminal on a mobile device. Create App or BLE web page to allow easier configuration
