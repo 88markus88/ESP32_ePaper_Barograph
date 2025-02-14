@@ -7,22 +7,33 @@
 // ESP32 Web Bluetooth (BLE)
 // https://randomnerdtutorials.com/esp32-web-bluetooth/
 
-#include "ePaperBLE.h"
+
 #include <Arduino.h>
+/*
 #include <BLEDevice.h>
 #include <BLEServer.h>
 #include <BLEUtils.h>
 #include <BLE2902.h>
+*/
+// https://github.com/h2zero/NimBLE-Arduino/blob/master/docs/Migration_guide.md
+#include "NimBLEDevice.h"
+
+#include "global.h"
+#include "ePaperBLE.h"
 
 #define bleTEST
 #ifdef bleTEST
 
-BLEServer* pServer = NULL;
-BLECharacteristic* pSensorCharacteristic = NULL;
-BLECharacteristic* pLedCharacteristic = NULL;
+NimBLEServer* pServer = NULL;
+NimBLECharacteristic* pSensorCharacteristic = NULL;
+NimBLECharacteristic* pLedCharacteristic = NULL;
 bool deviceConnected = false;
 bool oldDeviceConnected = false;
 uint32_t value = 0;
+
+NimBLEService *pService;
+
+uint32_t actTime, startTime;  
 
 // See the following for generating UUIDs:
 // https://www.uuidgenerator.net/
@@ -30,18 +41,18 @@ uint32_t value = 0;
 #define SENSOR_CHARACTERISTIC_UUID "19b10001-e8f2-537e-4f6c-d104768a1214"
 #define LED_CHARACTERISTIC_UUID "19b10002-e8f2-537e-4f6c-d104768a1214"
 
-class MyServerCallbacks: public BLEServerCallbacks {
-  void onConnect(BLEServer* pServer) {
+class MyServerCallbacks: public NimBLEServerCallbacks {
+  void onConnect(NimBLEServer* pServer) {
     deviceConnected = true;
   };
 
-  void onDisconnect(BLEServer* pServer) {
+  void onDisconnect(NimBLEServer* pServer) {
     deviceConnected = false;
   }
 };
 
-class MyCharacteristicCallbacks : public BLECharacteristicCallbacks {
-  void onWrite(BLECharacteristic* pLedCharacteristic) {
+class MyCharacteristicCallbacks : public NimBLECharacteristicCallbacks {
+  void onWrite(NimBLECharacteristic* pLedCharacteristic) {
     //String value = pLedCharacteristic->getValue();
     std::string value = pLedCharacteristic->getValue();
     if (value.length() > 0) {
@@ -51,10 +62,12 @@ class MyCharacteristicCallbacks : public BLECharacteristicCallbacks {
       int receivedValue = static_cast<int>(value[0]);
       if (receivedValue == 1) {
         //digitalWrite(ledPin, HIGH);
-        Serial.println("LED on");
+        Serial.println("LED on, timer reset");
+        startTime = millis();
       } else {
         //digitalWrite(ledPin, LOW);
-        Serial.println("LED off");
+        Serial.println("LED off, timer reset");
+        startTime = millis();
       }
     }
   }
@@ -66,58 +79,101 @@ void bleSetup() {
 
   Serial.printf("bleSetup started\n");
   Serial.printf("Free Heap: %ld Max Alloc: %ld\n",ESP.getFreeHeap(), ESP.getMaxAllocHeap());
-  // Create the BLE Device
-  BLEDevice::init("ESP32-MP");
+  // Create the NimBLE Device
+  NimBLEDevice::init("ESP32");
 
-  // Create the BLE Server
-  pServer = BLEDevice::createServer();
+  // Create the NimBLE Server
+  pServer = NimBLEDevice::createServer();
   pServer->setCallbacks(new MyServerCallbacks());
 
-  // Create the BLE Service
-  BLEService *pService = pServer->createService(SERVICE_UUID);
+  // Create the NimBLE Service
+  //NimBLEService *pService = pServer->createService(SERVICE_UUID);
+  pService = pServer->createService(SERVICE_UUID);
 
-  // Create a BLE Characteristic
+  // Create a NimBLE Characteristic
+  pSensorCharacteristic = pService->createCharacteristic(
+          SENSOR_CHARACTERISTIC_UUID,
+          NIMBLE_PROPERTY::READ   |
+          NIMBLE_PROPERTY::WRITE  |
+          NIMBLE_PROPERTY::NOTIFY |
+          NIMBLE_PROPERTY::INDICATE
+  );
+  /*
   pSensorCharacteristic = pService->createCharacteristic(
                       SENSOR_CHARACTERISTIC_UUID,
-                      BLECharacteristic::PROPERTY_READ   |
-                      BLECharacteristic::PROPERTY_WRITE  |
-                      BLECharacteristic::PROPERTY_NOTIFY |
-                      BLECharacteristic::PROPERTY_INDICATE
+                      NimBLECharacteristic::PROPERTY_READ   |
+                      NimBLECharacteristic::PROPERTY_WRITE  |
+                      NimBLECharacteristic::PROPERTY_NOTIFY |
+                      NimBLECharacteristic::PROPERTY_INDICATE
                     );
-
+*/
   // Create the ON button Characteristic
+  /*
   pLedCharacteristic = pService->createCharacteristic(
                       LED_CHARACTERISTIC_UUID,
-                      BLECharacteristic::PROPERTY_WRITE
+                      NimBLECharacteristic::PROPERTY_WRITE
                     );
-
+  */
+  pLedCharacteristic = pService->createCharacteristic(
+                      LED_CHARACTERISTIC_UUID,
+                      NIMBLE_PROPERTY::WRITE
+);
   // Register the callback for the ON button characteristic
   pLedCharacteristic->setCallbacks(new MyCharacteristicCallbacks());
 
   // https://www.bluetooth.com/specifications/gatt/viewer?attributeXmlFile=org.bluetooth.descriptor.gatt.client_characteristic_configuration.xml
-  // Create a BLE Descriptor
-  pSensorCharacteristic->addDescriptor(new BLE2902());
-  pLedCharacteristic->addDescriptor(new BLE2902());
+  // Create a NimBLE Descriptor
+  // left out for nimBLE
+  //pSensorCharacteristic->addDescriptor(new BLE2902());
+  //pLedCharacteristic->addDescriptor(new BLE2902());
+  NimBLE2904* pSensorCharacteristic2904 = pSensorCharacteristic->create2904();
+  pSensorCharacteristic2904->setFormat(NimBLE2904::FORMAT_UTF8);
+  //pSensorCharacteristic2904->setCallbacks(&dscCallbacks);
+  NimBLE2904* pLedCharacteristic2904 = pLedCharacteristic->create2904();
+  pLedCharacteristic2904->setFormat(NimBLE2904::FORMAT_UTF8);
+  //pSensorCharacteristic2904->setCallbacks(&dscCallbacks);
 
   // Start the service
   pService->start();
 
   // Start advertising
-  BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
+  NimBLEAdvertising *pAdvertising = NimBLEDevice::getAdvertising();
+  pAdvertising->setName("ESP32");
   pAdvertising->addServiceUUID(SERVICE_UUID);
-  pAdvertising->setScanResponse(false);
-  pAdvertising->setMinPreferred(0x0);  // set value to 0x00 to not advertise this parameter
-  BLEDevice::startAdvertising();
+
+  // Changed for NimBLE
+  pAdvertising->enableScanResponse(true);
+  //pAdvertising->setScanResponse(false);
+
+  // disable for NimBLE
+  //pAdvertising->setMinPreferred(0x0);  // set value to 0x00 to not advertise this parameter
+
+  // new for NimBLE
+  pAdvertising->start();
+
+  // removed for NimBLE
+  //NimBLEDevice::startAdvertising();
   Serial.println("Waiting a client connection to notify...");
+}
+
+// experimental function to clean up NimBLE
+void bleCleanup() 
+{
+  pServer->removeService(pService); 
+  NimBLEDevice::deinit(true);
+  
 }
 
 #endif // bleTEST
 
 void bleConfigMain() 
 {
-  uint32_t actTime, startTime;  
+  bool stopBLE = false;
   startTime = millis();  
   Serial.printf("bleConfigMain started\n");
+  sprintf(outstring,"Heap Size: %ld FreeHp: %ld Max Block Alloc: %ld    ",
+      ESP.getHeapSize(),ESP.getFreeHeap(), ESP.getMaxAllocHeap());
+  logOut(2, outstring);  
   #ifdef bleTEST
   bleSetup();
   do{
@@ -132,7 +188,8 @@ void bleConfigMain()
     }
     // disconnecting
     if (!deviceConnected && oldDeviceConnected) {
-        Serial.println("Device disconnected.");
+        Serial.println("Device disconnected, exiting.");
+        stopBLE = true;
         delay(500); // give the bluetooth stack the chance to get things ready
         pServer->startAdvertising(); // restart advertising
         Serial.println("Start advertising");
@@ -142,13 +199,20 @@ void bleConfigMain()
     if (deviceConnected && !oldDeviceConnected) {
         // do stuff here on connecting
         oldDeviceConnected = deviceConnected;
-        Serial.println("Device Connected");
-
-        
+        Serial.println("Device Connected");      
     }
     actTime = millis();  
   }  
-  while(actTime < startTime + 60000);
+  while((actTime < startTime + 60000) && (!stopBLE));
+  Serial.println("Cleaning up in bleConfigMain()");
+  sprintf(outstring,"Heap Size: %ld FreeHp: %ld Max Block Alloc: %ld    ",
+      ESP.getHeapSize(),ESP.getFreeHeap(), ESP.getMaxAllocHeap());
+  logOut(2, outstring);  
+  void bleCleanup();
+  Serial.println("Leaving bleConfigMain()");
+  sprintf(outstring,"Heap Size: %ld FreeHp: %ld Max Block Alloc: %ld    ",
+      ESP.getHeapSize(),ESP.getFreeHeap(), ESP.getMaxAllocHeap());
+  logOut(2, outstring);  
   #endif // bleTEST
 }
 

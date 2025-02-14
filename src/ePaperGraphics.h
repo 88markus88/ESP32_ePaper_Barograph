@@ -3,6 +3,7 @@
 
 //*************** defines ******************************/
 // graph display range selection limits
+#define drLimitUpper4  2.5
 #define drLimitUpper8  5
 #define drLimitUpper12  7
 #define drLimitUpper20  10
@@ -10,6 +11,20 @@
 #define drLimitUpper100 55
 #define drLimitUpper200 110
 #define drLimitUpper400 240
+
+// tendency graphics limits
+#define pressureTendencyLimit1 1.0
+#define pressureTendencyLimit2 2.0
+#define pressureTendencyLimit3 3.0
+
+#define humidityTendencyLimit1 2.0
+#define humidityTendencyLimit2 5.0
+#define humidityTendencyLimit3 10.0
+
+#define temperatureTendencyLimit1 0.5
+#define temperatureTendencyLimit2 1.0
+#define temperatureTendencyLimit3 2.0
+
 
 // define how many of the data are printed while drawing
 #define noPRINTLINESLOW 2// noDataPoints/2 //2

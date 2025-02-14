@@ -769,15 +769,19 @@ void drawTextFields()
 
   // pressure tendency graphics
   tendencyValue = wData.pressure3hChange;
-  limit1 = 1.0;
-  limit2 = 2.0;
-  limit3 = 3.0;
+  limit1 = pressureTendencyLimit1;
+  limit2 = pressureTendencyLimit2;
+  limit3 = pressureTendencyLimit3;
   //x = extBW + textLWidth + textMWidth + textR1Width/2; 
   //y = extBW + infoHeight-infoHeight/2;
   x = extBW + textLWidth + 90*textMWidth/100; 
   y = extBW + pressureHeight/2;
   aw=10; al=14;
   drawTendency(x, y, aw, al, tendencyValue, limit1, limit2, limit3);
+
+  // crude alarm feature
+  if(abs(tendencyValue) >= pressureTendencyLimit3)
+    buzzer(5, 150, 75);
   #ifdef extendedDEBUG_OUTPUT
     logOut(2,(char*)"dtTF2 ");
   #endif  
@@ -808,9 +812,9 @@ void drawTextFields()
 
   // temperaure tendency graphics
   tendencyValue = wData.temperature3hChange;
-  limit1 = 1.0;
-  limit2 = 2.0;
-  limit3 = 3.0;
+  limit1 = temperatureTendencyLimit1;
+  limit2 = temperatureTendencyLimit2;
+  limit3 = temperatureTendencyLimit3;
   x = extBW + textLWidth + 90*(textMWidth/2)/100; 
   y = extBW + pressureHeight + temperatureHeight/2;
   aw=9; al=13;
@@ -843,9 +847,9 @@ void drawTextFields()
   #endif  
   // humidity tendency graphics
   tendencyValue = wData.humidity3hChange;
-  limit1 = 1.0;
-  limit2 = 2.0;
-  limit3 = 3.0;
+  limit1 = humidityTendencyLimit1;
+  limit2 = humidityTendencyLimit2;
+  limit3 = humidityTendencyLimit3;
   x = extBW + textLWidth + textMWidth/2 + 90*(textMWidth/2)/100; 
   y = extBW + pressureHeight + temperatureHeight/2;
   aw=9; al=13;
@@ -1134,8 +1138,11 @@ void drawTemperatureYAxisNumbers(char* unit,  char* graphName, int position)
   float temperatureRange, displayRange;
   int lowestTemperatureC, highestTemperatureC;
   temperatureRange = wData.tempHistoryMax - wData.tempHistoryMin;
-  if(temperatureRange <= drLimitUpper8) 
-    displayRange = 8;
+
+  if(temperatureRange <= drLimitUpper4) 
+    displayRange = 4;
+  if(temperatureRange > drLimitUpper4  && temperatureRange <= drLimitUpper8) 
+    displayRange = 8;  
   if(temperatureRange > drLimitUpper8  && temperatureRange <= drLimitUpper12) 
     displayRange = 12;
   if(temperatureRange > drLimitUpper12  && temperatureRange <= drLimitUpper20) 

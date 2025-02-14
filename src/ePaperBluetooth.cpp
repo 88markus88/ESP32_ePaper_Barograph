@@ -361,6 +361,7 @@ void bluetoothConfigMain()
 
   Serial.println("Entering bluetoothConfigMain()");
   sprintf(outstring,"Ready for Bluetooth Configuration");
+  buzzer(3,200,100);
 
   bluetoothSetup();       // start BT, register callback
 
@@ -389,7 +390,9 @@ void bluetoothConfigMain()
                                                         //exitSelected, startMillis, actMillis);
   Serial.println(outstring);
   drawBluetoothInfo(outstring, 1);
-  delay(1000);
+
+  buzzer(1,500,800);
+  //delay(1000);
   //unnecessary
   //drawBluetoothInfo(outstring, 2); // mode2: clear display
 }

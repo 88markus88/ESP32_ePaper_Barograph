@@ -60,6 +60,17 @@ struct Button {
   void ARDUINO_ISR_ATTR button3Handler();
 #endif // isPushButtons
 
+// GPIO definition for battery voltage reading
+#ifdef HANDMADE_BOARD
+  #define VOLTAGE_PIN 35
+#endif 
+#ifdef PCB_BOARD
+  #define VOLTAGE_PIN 39
+#endif 
+
+// GPIO definition for buzzer
+#define BUZZER_PIN 2
+
 // 08.01.25: store these variables in RTC memory, which survives deep sleep. 
 RTC_DATA_ATTR uint32_t startCounter = 0;    // total counter for starts of ESP32
 RTC_DATA_ATTR uint32_t dischgCnt = 0;    // counter for starts of ESP32 since last charge
@@ -106,18 +117,46 @@ RTC_DATA_ATTR uint32_t bgndColor;
 #endif
 
 /**************************************************!
+   @brief    buzzer()
+   @details  Function to create a buzzer sound
+   @param    uint16_t number    : how many buzzes
+   @param    uint16_t duration : how long in ms for every buzz
+   @param    uint16_t interval : how long in ms between buzzes
+   @return   void
+***************************************************/
+void buzzer(uint16_t number, uint16_t duration, uint16_t interval)
+{
+  uint16_t i;
+  for(i=0; i<number; i++){
+    logOut(3, (char*)"Start Buzzer");
+    pinMode(BUZZER_PIN, OUTPUT);
+    digitalWrite(BUZZER_PIN, HIGH);
+    delay(duration);
+    digitalWrite(BUZZER_PIN, LOW);
+    delay(interval);
+    logOut(3, (char*)"End of Buzzer");
+  }  
+}    
+
+/**************************************************!
    @brief    logOut()
    @details  Function create log output
    @return   void
 ***************************************************/
 void logOut(int logLevel, char* str)
 {
-  // for safety: ensure zero termination
-  str[maxLOG_STRING_LEN-1]=0;
-
+  char safeStr[maxLOG_STRING_LEN+10];
+  static uint32_t logCnt = 0;
+  // for safety: ensure zero termination well before the end of the string
+  // crashes with static strings.
+  // str[maxLOG_STRING_LEN-1]=0;
   if(logLevel <= logLEVEL){
-    Serial.println(str);
+    strncat(safeStr, str, maxLOG_STRING_LEN-1); // copy limited number of characters only
+    sprintf(safeStr,"%ld %s",logCnt,str);
+    //Serial.println(str);
+    Serial.println(safeStr);
   }
+  logCnt++;
 }
 
 /**************************************************!
@@ -149,8 +188,8 @@ int readBatteryVoltage(float* percent, float* volt)
   uint16_t readval;
 
   *percent = 100;
-  pinMode(35, INPUT);
-  readval = analogRead(35);// / 4096.0 * 7.23;      // LOLIN D32 (no voltage divider need already fitted to board.or NODEMCU ESP32 with 100K+100K voltage divider
+  pinMode(VOLTAGE_PIN, INPUT);
+  readval = analogRead(VOLTAGE_PIN);// / 4096.0 * 7.23;      // LOLIN D32 (no voltage divider need already fitted to board.or NODEMCU ESP32 with 100K+100K voltage divider
   *volt= (float)readval / 4096.0 * 7.23;
   //float voltage = analogRead(39) / 4096.0 * 7.23;    // NODEMCU ESP32 with 100K+100K voltage divider added
   //float voltage = analogRead(A0) / 4096.0 * 4.24;    // Wemos / Lolin D1 Mini 100K series resistor added
@@ -1091,13 +1130,18 @@ void setup()
     #endif
   #endif // isPushButtons    
 
+  // buzzer test
+  /*
+  buzzer(1,1000,0);
+  */
+
   sprintf(outstring,"Heap Size: %ld FreeHp: %ld Max Block Alloc: %ld    ",
       ESP.getHeapSize(),ESP.getFreeHeap(), ESP.getMaxAllocHeap());
   logOut(2, outstring);    
   sprintf(outstring,"Total PSRAM: %ld Free PSRAM: %ld    \n",
       ESP.getPsramSize(),ESP.getFreePsram());    
   logOut(2, outstring);    
-}  
+}  // setup()
 
 /************************** doWork - main worker routine ****************************/
 void doWork()

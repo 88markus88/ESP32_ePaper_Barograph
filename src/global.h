@@ -67,9 +67,9 @@ struct measurementData
   float tempHistoryMin;
 
   // data
-  float actPressureRaw=0;   // pressure value as read by the sensor
-  float actPressureCorr=0;  // corrected pressure, pressureCorrValue applied
-  float actTemperature=0;   // temperature as read by the sensor
+  float actPressureRaw;   // pressure value as read by the sensor
+  float actPressureCorr;  // corrected pressure, pressureCorrValue applied
+  float actTemperature;   // temperature as read by the sensor
   int16_t actHumidity=0;      // humidity as read by the sensor. Stored in promille as integer!
   const char* pressureUnit = "hPa";
   const char* humidityUnit = "%";
@@ -115,5 +115,6 @@ void halfMeasurementScale();
 void quadrupleMeasurementScale();
 void doubleMeasurementScale();
 void logOut(int logLevel, char* str);
+void buzzer(uint16_t number, uint16_t duration, uint16_t interval);
 
 #endif // _global_H
