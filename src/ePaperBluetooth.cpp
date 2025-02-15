@@ -82,6 +82,7 @@ bool bluetoothInputHandler(String btReadStr)
   //-------------- parse string
   if(btReadStr.startsWith("AT")){ // string starts with "AT"
     c = btReadStr[2];             // get third character, this is the command
+    buzzer(1,100,0);
     switch(c){
       case 'I': // Invert screen, no parameter
         sprintf(outstring,"Command: %c - Changing screen inverted display",c);
@@ -267,6 +268,7 @@ bool bluetoothInputHandler(String btReadStr)
         SerialBT.println(outstring);
         drawBluetoothInfo(outstring, 1);
         initMessagetoBTClient();
+        buzzer(1,500,100);
         break;
     }
 
@@ -274,6 +276,7 @@ bool bluetoothInputHandler(String btReadStr)
   else{
     sprintf(outstring,"Not a valid command: _%s_", btReadStr);
     Serial.println(outstring);
+    buzzer(1,500,100);
   }  
 
   return(ret);
@@ -361,7 +364,7 @@ void bluetoothConfigMain()
 
   Serial.println("Entering bluetoothConfigMain()");
   sprintf(outstring,"Ready for Bluetooth Configuration");
-  buzzer(3,200,100);
+  buzzer(2,200,100);
 
   bluetoothSetup();       // start BT, register callback
 

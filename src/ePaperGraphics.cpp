@@ -780,11 +780,39 @@ void drawTextFields()
   drawTendency(x, y, aw, al, tendencyValue, limit1, limit2, limit3);
 
   // crude alarm feature
+  /*
   if(abs(tendencyValue) >= pressureTendencyLimit3)
     buzzer(5, 150, 75);
   #ifdef extendedDEBUG_OUTPUT
     logOut(2,(char*)"dtTF2 ");
   #endif  
+  */
+  // better alarm feature, with acknowledge via button
+  bool alertCondition = false;
+  if(abs(tendencyValue) >= pressureTendencyLimit3){
+    alertCondition = true;
+    logOut(2,(char*)"alertCondition true");
+  }  
+  if(alertCondition){         // is condition for alert met?
+    if(!wData.buttonPressed){ // and button not pressed?
+      buzzer(5, 150, 75);     // then audible alert
+      wData.alertON = true;   // remember that alert has been given
+      logOut(2,(char*)"alert beep sounded");
+      delay(50);
+    } else{                     // button has been pressed
+                                // no buzzer
+                                // do not reset the button pressed since alert condition still active
+      wData.alertON = false;    // remember that alert has NOT been given
+      logOut(2,(char*)"NO alert beep sounded since buttonPressed active");
+      delay(50);
+    }
+  } else {                      // else: no alertCondition
+                                // no buzzer
+    wData.buttonPressed = false;// reset the alert by resetting the button pressed condition
+    wData.alertON = false;      // and remember that no alert has been given
+    logOut(2,(char*)"no alert. reset buttonPressed, reset alertON");
+    delay(50);
+  }  
 
   // Temperature
   //display.setFont(&FreeMonoBold12pt7b);  // Schrift definieren

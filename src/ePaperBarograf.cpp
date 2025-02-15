@@ -155,8 +155,8 @@ void logOut(int logLevel, char* str)
     sprintf(safeStr,"%ld %s",logCnt,str);
     //Serial.println(str);
     Serial.println(safeStr);
+    logCnt++;
   }
-  logCnt++;
 }
 
 /**************************************************!
@@ -1047,14 +1047,20 @@ void handleExt0Wakeup()
     // if woken up by button 1 short press: toggle display
     // not yet implemented
 
+    // if woken up by button remember this, may be alert acknowledge
+    wData.buttonPressed = true;
+
     // if woken up by button1 long press: goto bluetooth configuration routine
-    #ifdef LOLIN32_LITE
-      bluetoothConfigMain(); 
-    #endif
-    // if CrowPanel: try Web Bluetooth BLE 
-    #ifdef CROW_PANEL
-      bleConfigMain();
-    #endif
+    // but not if an alert was on, then the button press is assumed to cancel the alert only
+    if(!wData.alertON){
+      #ifdef LOLIN32_LITE
+        bluetoothConfigMain(); 
+      #endif
+      // if CrowPanel: try Web Bluetooth BLE 
+      #ifdef CROW_PANEL
+        bleConfigMain();
+      #endif
+    } // !alertON
 }
 
 

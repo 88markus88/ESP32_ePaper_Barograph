@@ -69,6 +69,27 @@ platformio.ini contains two development environments:
 - env:CrowPanel_42 - this is the environment used for the Elecrow CrowPanel 4.2" ePaper.
 Just connect your ESP32 to the computer via USB, select the env for the system you are building for and start the build. Platformio will automatically load the libraries that are needed and upload the firmware via USB Port. 
 Switching of environments is done by clicking on the "env:..." entry in the lower status bar of VSCode, and then selecting the environment in the list that is displayed on top. Switching takes a few seconds
+### Starting the Barograph
+After final assembly and test of all parts the software needs to be flashed on the ESP32. This is done by connecting the device the deveopment computer via USB cable and using the "Build" feature of platformio.
+Once the software has been flashed, it will begin to operate directly:
+- Default parameters are written into the ESP32 preferences memory (flash), which survies power down and even flashing of a new sofware version
+- Test data are created, stored in RTC memory and displayed. They consist of artificial curves, which are easy to recognize and overwritten by real measured data as they are created. Complete overwrite of all test data takes 21 hours in default settings, up o 84 hours if the maximum time setting is used. 
+Note that RTC memory content survives the sleep period between two measurements, but not power down (battery disconnected) or flashing of new software
+- The barograf will then start routine operation- In default settings the measuring range is 18 hours, Pressure, Temperature and Humidiy are displayed. If more than 1 curve is shown, each has it's own scale. he further right a scale is on the screen, the thicker the corresponding curve If, e.g., Pm T and H are displayed, the pressure curve is 3 pixels, the temperature curve 2 pixels and the humidity curve one pixel.
+### Settings
+Settings are adjusted via Bluetooth connection. There is no special app for this, please use a bluetooth terminal on a mobile device with Bluetooth. A good tool for this is the [Serial Bluetooth Terminal by Kai Morich](https://play.google.com/store/apps/details?id=de.kai_morich.serial_bluetooth_terminal&hl=de)
+This is how it is done:
+- The Barograf is set into settings mode by presing the button. A corresponding message is shown on the screen
+- Connect the mobile device to the barograph using the bluetooth settings. This has to be done only once
+- Connect the Bluetooth terminal to the barograph, using the list of available devices in the "Hamburger" menu
+- The barograph will then send a list of available commands 
+- Enter the desired command. 
+Examples: 
+ATI to invert the display
+ATC,1 to enable pressure correction (add the correction value)
+ATX to leave the bluetooth settings and restart measurements
+- Exit bluetooth settings 
+If no command is given, the barograph will revert to measurement mode after 60 seconds
 ## Open topics
 - BLE functionality to allow setting of parameters for CrowPanel
 - Bluetooth setting for Lolin32 Lite is presently only possible via Bluetooth terminal on a mobile device. Create App or BLE web page to allow easier configuration

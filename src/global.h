@@ -42,6 +42,10 @@ struct measurementData
   bool preferencesChanged; // determines if preference values have been changed and must be saved
   bool applyPressureCorrection; // false: station mode, true: corrected to sea level
   bool applyInversion;   // if true, white on black. otherwise black on white
+
+  bool buttonPressed;    // remembers if button has been pressed to acknowledge an alert
+  bool alertON;          // remembers if an alert has been triggered
+
   int32_t targetMeasurementIntervalSec;    // sleep time target in seconds, controls the measurement
   int32_t lastTargetSleeptime;             // last target standard sleep time in seconds
   int64_t lastActualSleeptimeAfterMeasUsec;         // this is the number in usec actually used to set the sleep timer after last measurement
